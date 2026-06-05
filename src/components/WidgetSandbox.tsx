@@ -2,6 +2,7 @@ import React from "react";
 import { Smartphone, Sparkles, CheckSquare, Sparkle } from "lucide-react";
 import { Language } from "../types";
 import desktopWidgetImg from "../assets/images/yosa_desktop_widget.webp";
+import adWidget from "../assets/images/ad_04_widget.webp";
 import FadeInItem from "./FadeInItem";
 
 interface WidgetSandboxProps {
@@ -106,15 +107,24 @@ export default function WidgetSandbox({ lang }: WidgetSandboxProps) {
           </FadeInItem>
         </div>
 
-        {/* Right column: widget illustration screenshot */}
-        <FadeInItem className="lg:col-span-5 flex justify-center">
-          <div className="bg-gradient-to-tr from-pink-50/40 via-purple-100/20 to-indigo-50/40 p-4 rounded-[42px] border border-purple-100 shadow-inner group overflow-hidden">
+        {/* Right column: widget illustration screenshot + наложенный реальный кадр виджета */}
+        <FadeInItem variant="zoom" className="lg:col-span-5 flex justify-center">
+          <div className="relative bg-gradient-to-tr from-pink-50/40 via-purple-100/20 to-indigo-50/40 p-4 rounded-[42px] border border-purple-100 shadow-inner group">
             <img
               src={desktopWidgetImg}
               alt={t.imageAlt}
               referrerPolicy="no-referrer"
               className="rounded-[30px] shadow-2xl max-w-[280px] md:max-w-[310px] w-full transform group-hover:scale-105 duration-500 border border-white"
             />
+            {/* Реальный кадр виджета — приклеен в углу как «настоящий скрин» */}
+            <div className="absolute -bottom-6 -right-3 md:-right-6 w-24 md:w-28 bg-[#1E152A] p-1 rounded-[18px] shadow-2xl border border-white/15 rotate-6 transition-transform duration-500 group-hover:rotate-0">
+              <img
+                src={adWidget}
+                alt={lang === "ru" ? "Кадр виджета Йоси" : "Yosa widget screenshot"}
+                loading="lazy"
+                className="rounded-[13px] w-full object-cover object-top aspect-[9/19]"
+              />
+            </div>
           </div>
         </FadeInItem>
       </div>

@@ -8,6 +8,8 @@ import {
 } from "lucide-react";
 import { Language } from "../types";
 import goalsDashboardImg from "../assets/images/yosa_goals_dashboard.webp";
+import adSettings from "../assets/images/ad_02_settings.webp";
+import adGoals from "../assets/images/ad_06_goals.webp";
 import FadeInItem from "./FadeInItem";
 
 interface GoalsCalculatorProps {
@@ -59,15 +61,33 @@ export default function GoalsCalculator({ lang }: GoalsCalculatorProps) {
       <div className="absolute top-0 left-0 w-32 h-32 bg-purple-100/30 rounded-full blur-3xl opacity-50 -z-10"></div>
 
       <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-        {/* Left Column: Image mockup */}
-        <FadeInItem className="lg:col-span-5 flex justify-center order-last lg:order-first">
-          <div className="bg-gradient-to-br from-indigo-50 to-purple-50 p-4 rounded-[42px] border border-purple-100/60 shadow-inner group overflow-hidden">
+        {/* Left Column: Image mockup + два реальных кадра экранов настроек и целей */}
+        <FadeInItem variant="zoom" className="lg:col-span-5 flex justify-center order-last lg:order-first">
+          <div className="relative bg-gradient-to-br from-indigo-50 to-purple-50 p-4 rounded-[42px] border border-purple-100/60 shadow-inner group">
             <img
               src={goalsDashboardImg}
               alt={t.imageAlt}
               referrerPolicy="no-referrer"
               className="rounded-[30px] shadow-2xl max-w-[280px] md:max-w-[310px] w-full transform group-hover:scale-105 duration-500 border border-white"
             />
+            {/* Кадр «Настройки» — приклеен слева сверху */}
+            <div className="absolute -top-4 -left-3 md:-left-6 w-20 md:w-24 bg-[#1E152A] p-1 rounded-[16px] shadow-2xl border border-white/15 -rotate-6 transition-transform duration-500 group-hover:rotate-0">
+              <img
+                src={adSettings}
+                alt={lang === "ru" ? "Экран настроек целей" : "Goals settings screen"}
+                loading="lazy"
+                className="rounded-[12px] w-full object-cover object-top aspect-[9/19]"
+              />
+            </div>
+            {/* Кадр «Цели» — приклеен справа снизу */}
+            <div className="absolute -bottom-5 -right-3 md:-right-6 w-20 md:w-24 bg-[#1E152A] p-1 rounded-[16px] shadow-2xl border border-white/15 rotate-6 transition-transform duration-500 group-hover:rotate-0">
+              <img
+                src={adGoals}
+                alt={lang === "ru" ? "Экран персональных целей" : "Personal goals screen"}
+                loading="lazy"
+                className="rounded-[12px] w-full object-cover object-top aspect-[9/19]"
+              />
+            </div>
           </div>
         </FadeInItem>
 

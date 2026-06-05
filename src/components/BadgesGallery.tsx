@@ -2,6 +2,9 @@ import React from "react";
 import { Award, Flame, Star, Trophy, Sparkles } from "lucide-react";
 import { Language } from "../types";
 import rewardsBadgesImg from "../assets/images/yosa_rewards_badges.webp";
+import adStreak from "../assets/images/ad_01_streak.webp";
+import adBadges from "../assets/images/ad_03_badges.webp";
+import adStreakCalendar from "../assets/images/ad_07_streak_calendar.webp";
 import FadeInItem from "./FadeInItem";
 
 interface BadgesGalleryProps {
@@ -112,7 +115,7 @@ export default function BadgesGallery({ lang }: BadgesGalleryProps) {
         </div>
 
         {/* Right column: badges image demonstration mockup */}
-        <FadeInItem className="lg:col-span-5 flex justify-center">
+        <FadeInItem variant="zoom" className="lg:col-span-5 flex justify-center">
           <div className="bg-gradient-to-tr from-amber-50/30 to-purple-100/30 p-4 rounded-[42px] border border-purple-100 shadow-inner group overflow-hidden">
             <img
               src={rewardsBadgesImg}
@@ -122,6 +125,39 @@ export default function BadgesGallery({ lang }: BadgesGalleryProps) {
             />
           </div>
         </FadeInItem>
+      </div>
+
+      {/* Ряд реальных кадров приложения (стрик, бейджи, календарь) — раскиданы по сайту */}
+      <div className="relative z-10 mt-10 grid grid-cols-3 gap-3 md:gap-6 max-w-3xl mx-auto">
+        {[
+          { img: adStreak, ru: "Серия дней", en: "Daily streak", v: "left" as const },
+          { img: adBadges, ru: "Коллекция бейджей", en: "Badge collection", v: "up" as const },
+          {
+            img: adStreakCalendar,
+            ru: "Календарь прогресса",
+            en: "Progress calendar",
+            v: "right" as const,
+          },
+        ].map((shot, idx) => (
+          <FadeInItem
+            key={idx}
+            direction={shot.v}
+            variant="rotate"
+            className="flex flex-col items-center gap-2 group"
+          >
+            <div className="bg-[#1E152A] p-1.5 rounded-[22px] shadow-lg border border-white/10 transition-transform duration-500 group-hover:-translate-y-1.5">
+              <img
+                src={shot.img}
+                alt={lang === "ru" ? shot.ru : shot.en}
+                loading="lazy"
+                className="rounded-[16px] w-full object-cover object-top aspect-[9/19]"
+              />
+            </div>
+            <span className="text-[10px] md:text-xs font-semibold text-gray-400 text-center">
+              {lang === "ru" ? shot.ru : shot.en}
+            </span>
+          </FadeInItem>
+        ))}
       </div>
     </div>
   );

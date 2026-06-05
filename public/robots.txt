@@ -1,0 +1,12 @@
+User-agent: *
+Allow: /
+
+# Основные поисковики
+User-agent: Yandex
+Allow: /
+
+User-agent: Googlebot
+Allow: /
+
+Sitemap: https://yosa.app/sitemap.xml
+Host: https://yosa.app

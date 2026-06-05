@@ -31,7 +31,9 @@ import BadgesGallery from "./components/BadgesGallery";
 import HeroShowcase from "./components/HeroShowcase";
 import CreatorStory from "./components/CreatorStory";
 import ArtGallery from "./components/ArtGallery";
+import DownloadNudge from "./components/DownloadNudge";
 import dirtyCatArt from "./assets/images/art_dirty_cat.webp";
+import appIconArt from "./assets/images/app_icon.webp";
 
 // Interactive FAQ Content derived from the user request
 const FAQ_ITEMS: FAQItem[] = [
@@ -365,7 +367,7 @@ export default function App() {
               onClick={toggleLanguage}
               className="bg-brand-primary text-white font-semibold text-xs py-2 px-4 shadow rounded-xl hover:bg-brand-primary/95 transition-all shrink-0 cursor-pointer flex items-center gap-1.5"
             >
-              {lang === "ru" ? "ENGLISH" : "RUSSIAN"}
+              {lang === "ru" ? "АНГЛИЙСКИЙ" : "RUSSIAN"}
             </button>
           </div>
         </div>
@@ -377,6 +379,22 @@ export default function App() {
           <section className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             {/* Left Text / Download buttons layout */}
             <div className="lg:col-span-7 space-y-6 md:space-y-8">
+              {/* Бейдж-тег с настоящей арт-иконкой приложения */}
+              <motion.div
+                whileHover={{ scale: 1.03 }}
+                className="inline-flex items-center gap-2.5 bg-white/70 backdrop-blur-md border border-purple-100 pl-1.5 pr-4 py-1.5 rounded-full shadow-sm select-none"
+              >
+                <img
+                  src={appIconArt}
+                  alt={lang === "ru" ? "Иконка приложения Йося" : "Yosa app icon"}
+                  className="w-7 h-7 rounded-xl shadow"
+                  loading="eager"
+                />
+                <span className="text-xs font-bold text-brand-primary">
+                  {currentText.tag}
+                </span>
+              </motion.div>
+
               <h1 className="text-4xl md:text-6xl font-display font-semibold text-brand-charcoal tracking-tight leading-[1.1] mb-4">
                 <TextReveal text={currentText.heroTitle} delay={0.1} />
                 <span className="block text-transparent bg-clip-text bg-gradient-to-r from-brand-primary to-brand-secondary font-bold">
@@ -438,11 +456,11 @@ export default function App() {
               <div className="flex items-center gap-8 text-xs text-gray-400 font-semibold select-none pt-2">
                 <span className="flex items-center gap-1.5">
                   <ShieldCheck className="w-4 h-4 text-brand-primary" />
-                  Локальные данные
+                  {lang === "ru" ? "Локальные данные" : "On-device data"}
                 </span>
                 <span className="flex items-center gap-1.5">
                   <Heart className="w-4 h-4 text-brand-accent fill-brand-accent" />
-                  ИИ-счетчик будущего
+                  {lang === "ru" ? "ИИ-счётчик будущего" : "AI counter of the future"}
                 </span>
               </div>
             </div>
@@ -538,6 +556,11 @@ export default function App() {
         {/* ART UNIVERSE GALLERY — арты Йоси (банка, киви, фастфуд, космонавт) */}
         <FadeIn direction="up">
           <ArtGallery lang={lang} />
+        </FadeIn>
+
+        {/* «ТЫ ЕЩЁ НЕ СКАЧАЛ?» — игривая секция с реальными фото кота */}
+        <FadeIn direction="up">
+          <DownloadNudge lang={lang} />
         </FadeIn>
 
         {/* MEET THE CREATOR STORY SECTION — реальные фото кота, картинки в разнобой */}
