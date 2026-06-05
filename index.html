@@ -1,29 +1,76 @@
 <!doctype html>
-<html lang="en">
+<html lang="ru">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Yosa (Йося) — Smart AI Calorie Counter with Cat Helper</title>
-    
+
+    <!-- Primary SEO meta -->
+    <title>Йося — умный счётчик калорий с ИИ-котом | Считай КБЖУ голосом</title>
+    <meta
+      name="description"
+      content="Йося — счётчик калорий с ИИ-котом для Android. Скажи или напиши, что съел, а Йося сам посчитает калории, белки, жиры и углеводы. Без штрихкодов, без взвешивания граммов. Стрики, бейджи и виджеты."
+    />
+    <meta
+      name="keywords"
+      content="счётчик калорий, подсчёт калорий, КБЖУ, дневник питания, калории голосом, ИИ счётчик калорий, Йося, Yosa, приложение для похудения, RuStore, трекер еды"
+    />
+    <meta name="author" content="Alexander (Йося)" />
+    <meta name="theme-color" content="#7C3AED" />
+    <link rel="canonical" href="https://yosa.app/" />
+
+    <!-- Favicons / App icons -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
     <!-- Open Graph for Telegram, VK, WhatsApp, etc. -->
-    <meta property="og:title" content="Yosa (Йося) — Умный счётчик калорий" />
-    <meta property="og:description" content="Счётчик калорий с ИИ-котом. Диктуй или пиши голосом, что съел, а Йося сам расчитает КБЖУ. Без штрихкодов и рутины!" />
-    <meta property="og:image" content="https://ais-pre-2yd54wkupgoofc6vajo5al-814151469462.europe-west2.run.app/og-image.png" />
-    <meta property="og:url" content="https://ais-pre-2yd54wkupgoofc6vajo5al-814151469462.europe-west2.run.app" />
+    <meta property="og:title" content="Йося — умный счётчик калорий с ИИ-котом" />
+    <meta
+      property="og:description"
+      content="Счётчик калорий с ИИ-котом. Диктуй или пиши голосом, что съел, а Йося сам рассчитает КБЖУ. Без штрихкодов и рутины!"
+    />
+    <meta property="og:image" content="/og-image.png" />
+    <meta property="og:url" content="https://yosa.app/" />
     <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="Yosa (Йося)" />
+    <meta property="og:site_name" content="Йося (Yosa)" />
     <meta property="og:locale" content="ru_RU" />
 
     <!-- Twitter Card for X/Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Yosa (Йося) — Умный счётчик калорий" />
-    <meta name="twitter:description" content="Счётчик калорий с ИИ-котом. Диктуй или пиши, что съел, а Йося сам расчитает КБЖУ. Без штрихкодов и рутины!" />
-    <meta name="twitter:image" content="https://ais-pre-2yd54wkupgoofc6vajo5al-814151469462.europe-west2.run.app/og-image.png" />
+    <meta name="twitter:title" content="Йося — умный счётчик калорий с ИИ-котом" />
+    <meta
+      name="twitter:description"
+      content="Счётчик калорий с ИИ-котом. Диктуй или пиши, что съел, а Йося сам рассчитает КБЖУ. Без штрихкодов и рутины!"
+    />
+    <meta name="twitter:image" content="/og-image.png" />
 
+    <!-- Structured data: SoftwareApplication (помогает Google/Яндекс) -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "Йося (Yosa)",
+        "operatingSystem": "Android",
+        "applicationCategory": "HealthApplication",
+        "description": "Умный счётчик калорий с ИИ-котом. Считай КБЖУ голосом или текстом без штрихкодов и взвешивания.",
+        "inLanguage": "ru",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "RUB"
+        },
+        "aggregateRating": {
+          "@type": "AggregateRating",
+          "ratingValue": "4.8",
+          "ratingCount": "120"
+        },
+        "downloadUrl": "https://www.rustore.ru/catalog/app/ru.puhlyash.yosa"
+      }
+    </script>
   </head>
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
-

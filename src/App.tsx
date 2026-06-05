@@ -28,6 +28,10 @@ import CalorieEstimator from "./components/CalorieEstimator";
 import GoalsCalculator from "./components/GoalsCalculator";
 import WidgetSandbox from "./components/WidgetSandbox";
 import BadgesGallery from "./components/BadgesGallery";
+import HeroShowcase from "./components/HeroShowcase";
+import CreatorStory from "./components/CreatorStory";
+import ArtGallery from "./components/ArtGallery";
+import dirtyCatArt from "./assets/images/art_dirty_cat.webp";
 
 // Interactive FAQ Content derived from the user request
 const FAQ_ITEMS: FAQItem[] = [
@@ -443,45 +447,9 @@ export default function App() {
               </div>
             </div>
 
-            {/* Right Display: Video Placeholder Rather Than Phone Mockup */}
+            {/* Right Display: Live screenshot carousel of the real app */}
             <div className="lg:col-span-5 flex justify-center relative">
-              {/* Ambient visual glowing dots */}
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-brand-primary/10 rounded-full blur-3xl -z-10 animate-pulse"></div>
-
-              {/* Video Placeholder Container */}
-              <div className="bg-white border-4 border-white/50 rounded-[32px] shadow-[0_20px_50px_-12px_rgba(124,58,237,0.3)] relative w-full sm:w-[320px] aspect-[9/16] overflow-hidden group transform transition-all duration-700 hover:-translate-y-2 hover:shadow-[0_30px_60px_-15px_rgba(124,58,237,0.4)] cursor-pointer">
-                {/* Fake UI header */}
-                <div className="absolute top-0 inset-x-0 h-10 bg-gradient-to-b from-black/20 to-transparent z-10"></div>
-
-                <div className="w-full h-full bg-gradient-to-br from-purple-100 to-pink-50 flex flex-col items-center justify-center relative overflow-hidden">
-                  {/* Decorative background elements inside the placeholder */}
-                  <div className="absolute top-[-20%] right-[-20%] w-64 h-64 bg-white/40 blur-3xl rounded-full"></div>
-                  <div className="absolute bottom-[-10%] left-[-10%] w-48 h-48 bg-brand-primary/10 blur-2xl rounded-full"></div>
-
-                  {/* Play Button - Glassmorphism */}
-                  <div className="relative z-10 w-20 h-20 rounded-full bg-white/30 backdrop-blur-md border border-white/50 flex items-center justify-center shadow-xl group-hover:scale-110 transition-transform duration-500">
-                    <div className="absolute inset-0 rounded-full border border-brand-primary/30 animate-ping opacity-75"></div>
-                    <div className="w-14 h-14 rounded-full bg-brand-primary text-white flex items-center justify-center shadow-inner">
-                      <svg
-                        className="w-6 h-6 ml-1"
-                        fill="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path d="M8 5v14l11-7z" />
-                      </svg>
-                    </div>
-                  </div>
-
-                  <span className="mt-6 text-sm font-display font-bold text-brand-charcoal z-10 relative bg-white/50 px-3 py-1 rounded-full backdrop-blur-sm">
-                    {lang === "ru" ? "Заглушка для видео" : "Video Placeholder"}
-                  </span>
-                  <span className="text-[11px] text-gray-500 mt-2 px-6 text-center z-10 relative font-medium">
-                    {lang === "ru"
-                      ? "Тут будет красиво крутиться ваше демо-видео"
-                      : "Your beautiful promo video will loop right here"}
-                  </span>
-                </div>
-              </div>
+              <HeroShowcase lang={lang} />
             </div>
           </section>
         </FadeIn>
@@ -567,152 +535,29 @@ export default function App() {
           </section>
         </FadeIn>
 
-        {/* MEET THE CREATOR STORY SECTION inspired by Chris & cat Amy references on images 10 & 17 */}
-        <FadeIn direction="up" staggerChildren={0.15}>
-          <section
-            id="creator-story"
-            className="bg-purple-50/40 rounded-[40px] p-8 md:p-14 border border-purple-100/80 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center overflow-hidden relative shadow-lg"
-          >
-            <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-gradient-to-br from-brand-primary/5 to-pink-500/5 rounded-full blur-3xl -z-10 animate-pulse"></div>
-
-            <div className="lg:col-span-6 space-y-6">
-              <FadeInItem className="inline-flex items-center gap-2 bg-white px-3 py-1.5 rounded-full shadow-sm text-xs uppercase tracking-wider font-bold text-brand-primary">
-                <Sparkles className="w-3.5 h-3.5" />
-                {lang === "ru" ? "История Йоси" : "Behind the Paw"}
-              </FadeInItem>
-              <FadeInItem>
-                <h3 className="text-3xl md:text-5xl font-display font-medium text-brand-charcoal leading-tight tracking-tight">
-                  {currentText.creatorHeading}
-                </h3>
-              </FadeInItem>
-              <FadeInItem>
-                <p className="text-sm md:text-base text-gray-500 leading-relaxed max-w-lg">
-                  {currentText.creatorDesc}
-                </p>
-              </FadeInItem>
-              <FadeInItem className="flex flex-col sm:flex-row items-center gap-6 pt-4">
-                <div className="flex items-center gap-4">
-                  <div className="w-14 h-14 rounded-full border-4 border-white bg-gradient-to-tr from-brand-primary to-brand-secondary text-white flex items-center justify-center select-none shadow-md">
-                    <svg
-                      className="w-6 h-6"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-                      />
-                    </svg>
-                  </div>
-                  <div>
-                    <span className="text-sm font-display font-semibold block leading-none text-brand-charcoal">
-                      {lang === "ru" ? "Александр" : "Alexander"}
-                    </span>
-                    <span className="text-xs text-gray-400 mt-1 block font-medium">
-                      {lang === "ru" ? "Создатель проекта" : "Project Creator"}
-                    </span>
-                  </div>
-                </div>
-
-                <div className="h-10 w-px bg-purple-200 hidden sm:block"></div>
-
-                <div className="flex items-center gap-3">
-                  <a
-                    href="https://www.youtube.com/@xedanter"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="p-2.5 bg-white shadow-sm hover:shadow hover:bg-gray-50 rounded-xl text-[#FF0000] hover:scale-105 transition-all"
-                  >
-                    <svg
-                      className="w-5 h-5"
-                      fill="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
-                    </svg>
-                  </a>
-                  <a
-                    href="https://x.com/xedanter17151"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="p-2.5 bg-white shadow-sm hover:shadow hover:bg-gray-50 rounded-xl text-black hover:scale-105 transition-all"
-                  >
-                    <svg
-                      className="w-5 h-5"
-                      fill="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-                    </svg>
-                  </a>
-                  <a
-                    href="https://www.linkedin.com/in/alexander-halle/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="p-2.5 bg-white shadow-sm hover:shadow hover:bg-gray-50 rounded-xl text-[#0077B5] hover:scale-105 transition-all"
-                  >
-                    <svg
-                      className="w-5 h-5"
-                      fill="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.475-.9 1.637-1.85 3.37-1.85 3.605 0 4.267 2.372 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
-                    </svg>
-                  </a>
-                </div>
-              </FadeInItem>
-            </div>
-
-            <div className="lg:col-span-6 relative">
-              <div className="grid grid-cols-12 grid-rows-2 gap-4 h-[350px]">
-                {/* 1st Photo (Black cat portrait) */}
-                <div className="col-span-7 row-span-2 rounded-3xl overflow-hidden shadow-md group relative">
-                  <img
-                    src="https://images.unsplash.com/photo-1543852786-1cf6624b9987?auto=format&fit=crop&w=600&q=80"
-                    alt="Yosa the black cat portrait"
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
-                </div>
-
-                {/* 2nd Photo (Cat in bags/playful) */}
-                <div className="col-span-5 row-span-1 rounded-3xl overflow-hidden shadow-md group relative">
-                  <img
-                    src="https://images.unsplash.com/photo-1615332579037-3c44b3660b53?auto=format&fit=crop&w=400&q=80"
-                    alt="Playful black cat"
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                  />
-                </div>
-
-                {/* 3rd Photo (Resting black cat) */}
-                <div className="col-span-5 row-span-1 rounded-3xl overflow-hidden shadow-md group relative">
-                  <img
-                    src="https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&w=400&q=80"
-                    alt="Resting black cat"
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                  />
-                </div>
-              </div>
-
-              {/* Note for the creator to replace the images above easily */}
-              <div className="absolute -bottom-4 right-4 bg-white px-4 py-2 rounded-full shadow border border-gray-100 text-[10px] text-gray-400 font-medium">
-                {lang === "ru"
-                  ? "Замените ссылки на ваши реальные фото кота"
-                  : "Replace src links with raw paths to your real cat pictures"}
-              </div>
-            </div>
-          </section>
+        {/* ART UNIVERSE GALLERY — арты Йоси (банка, киви, фастфуд, космонавт) */}
+        <FadeIn direction="up">
+          <ArtGallery lang={lang} />
         </FadeIn>
+
+        {/* MEET THE CREATOR STORY SECTION — реальные фото кота, картинки в разнобой */}
+        <CreatorStory lang={lang} />
 
         {/* INDIVIDUAL FAQ ACCORDIONS */}
         <FadeIn direction="up" staggerChildren={0.1}>
           <section
             id="faq-container"
-            className="scroll-mt-24 space-y-8 max-w-3xl mx-auto"
+            className="scroll-mt-24 space-y-8 max-w-3xl mx-auto relative"
           >
+            {/* Декоративный арт «грязного кота» — слегка обрезан и приглушён как фон */}
+            <img
+              src={dirtyCatArt}
+              alt=""
+              aria-hidden="true"
+              loading="lazy"
+              className="hidden lg:block absolute -top-10 -right-32 w-52 h-52 object-cover rounded-3xl opacity-20 blur-[1px] rotate-6 -z-10 pointer-events-none select-none"
+            />
+
             <FadeInItem direction="up" className="text-center space-y-2">
               <h2 className="text-2xl md:text-4xl font-display font-semibold text-brand-charcoal tracking-tight">
                 {currentText.faqHeading}

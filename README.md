@@ -1,20 +1,50 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://ai.google.dev/static/site-assets/images/share-ais-513315318.png" />
-</div>
+# Йося (Yosa) — лендинг умного счётчика калорий с ИИ-котом
 
-# Run and deploy your AI Studio app
+## Обзор проекта
+- **Название**: Йося (Yosa)
+- **Цель**: Промо-лендинг мобильного приложения «Йося» — счётчика калорий с ИИ-котом, который считает КБЖУ по голосу/тексту.
+- **Стек**: React 19 + Vite + TailwindCSS v4 + Motion (Framer Motion) + Express (SSR-статик + API `/api/estimate` через Gemini).
 
-This contains everything you need to run your app locally.
+## Реализованные фичи
+- **Hero-карусель** из 7 реальных рекламных скриншотов приложения (автопрокрутка, точки-переключатели, паузa на hover).
+- **Интерактивный оценщик КБЖУ** (CalorieEstimator) — реальный скриншот трекера блюд.
+- **Сетка возможностей** (Features).
+- **Геймификация / бейджи** (BadgesGallery) — реальный скриншот наград.
+- **Калькулятор целей BMR/TDEE** (GoalsCalculator) — реальный скриншот настроек.
+- **Виджет на главном экране** (WidgetSandbox) — реальный скриншот виджета.
+- **Арт-вселенная Йоси** (ArtGallery) — банка Йося, киви, фастфуд + кинематографичный баннер с космонавтом и CTA.
+- **История Йоси** (CreatorStory) — реальные фото чёрного кота создателя, картинки в разнобой (право/лево/право), текст с акцентами, а не сплошным жирным.
+- **FAQ-аккордеон** с фоновым артом «грязного кота».
+- **Двуязычность** RU/EN, кастомный курсор-лапка, анимации появления.
+- **SEO**: title/description/keywords на русском, Open Graph, Twitter Card, favicon из иконки приложения, JSON-LD `SoftwareApplication`.
 
-View your app in AI Studio: https://ai.studio/apps/7413e81c-4612-4078-8a6a-9dafec628203
+## Функциональные точки (URI)
+- `GET /` — основной лендинг (SPA).
+- `GET /api/health` — health-check, возвращает `{ status, time }`.
+- `POST /api/estimate` — оценка КБЖУ по описанию блюда. Тело: `{ "food": string, "language": "ru"|"en" }`. Требует `GEMINI_API_KEY` (есть mock-фолбэк).
 
-## Run Locally
+## Изображения и ассеты
+- Все изображения сконвертированы в **WebP** для быстродействия (`src/assets/images/`).
+- 7 рекламных скриншотов: `ad_01..ad_07`.
+- Реальные фото кота: `cat_photo_1..5`.
+- Арты: `art_yosa_can`, `art_kiwi`, `art_rem_mcd`, `art_astronaut`, `art_dirty_cat`.
+- Иконка приложения → favicon/apple-touch-icon/og-image в `public/`.
 
-**Prerequisites:**  Node.js
+## Запуск локально
+```bash
+npm install
+# .env: GEMINI_API_KEY=...
+npm run dev          # dev (Vite middleware)
+npm run build        # прод-сборка (dist/ + dist/server.cjs)
+pm2 start ecosystem.config.cjs   # прод через PM2 на :3000
+```
 
+## Деплой
+- **Платформа**: Express SSR-статик (Node). Запуск: `node dist/server.cjs`.
+- **Статус**: ✅ Активен (PM2, порт 3000).
+- **Последнее обновление**: 2026-06-05.
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+## Дальнейшие шаги
+- Подключить реальное демо-видео в hero (опционально, как доп. слайд).
+- Добавить `sitemap.xml` и `robots.txt`, заменить canonical на боевой домен.
+- Перейти на реальный домен в OG-тегах и JSON-LD.
