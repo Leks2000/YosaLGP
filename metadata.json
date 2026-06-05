@@ -1,0 +1,6 @@
+{
+  "name": "Yosa - AI Calorie Counter Landing Page",
+  "description": "Premium landing page for Yosa / Йося, an intelligent AI-powered calorie tracking app with a cat assistant.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
