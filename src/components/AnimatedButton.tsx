@@ -1,6 +1,5 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { cn } from "../lib/utils"; // Assuming we might add one later, but let's just use template literals if we don't have it
 
 interface AnimatedButtonProps {
   children: React.ReactNode;

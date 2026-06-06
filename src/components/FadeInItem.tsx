@@ -2,6 +2,7 @@ import React from "react";
 import { motion } from "framer-motion";
 
 interface FadeInItemProps {
+  key?: React.Key;
   children: React.ReactNode;
   className?: string;
   direction?: "up" | "down" | "left" | "right" | "none";

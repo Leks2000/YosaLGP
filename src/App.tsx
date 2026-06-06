@@ -224,7 +224,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-brand-cream/40 bg-grid text-brand-charcoal font-sans text-sm md:text-base leading-relaxed antialiased selection:bg-brand-primary/10 select-none pb-12 custom-scrollbar relative">
+    <div className="min-h-screen bg-brand-cream/40 bg-grid text-brand-charcoal font-sans text-sm md:text-base leading-relaxed antialiased selection:bg-brand-primary/10 select-none custom-scrollbar relative">
       {/* Animated Background Blobs for kind magical vibe */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none z-[-1]">
         <motion.div
@@ -604,7 +604,7 @@ export default function App() {
       </main>
 
       {/* HIGHER PURPLE COLORED FOOTER MATCHING IMAGE 11 */}
-      <footer className="mt-28 md:mt-40 bg-[#7C3AED] text-white rounded-t-[40px] md:rounded-t-[60px] py-12 md:py-16 px-4 md:px-8 relative overflow-hidden">
+      <footer className="mt-28 md:mt-40 bg-[#7C3AED] text-white rounded-t-[40px] md:rounded-t-[60px] pt-12 md:pt-16 pb-10 md:pb-12 px-4 md:px-8 relative overflow-hidden">
         {/* Soft background decor */}
         <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full blur-3xl"></div>
         <div className="absolute bottom-0 left-0 w-48 h-48 bg-purple-600 rounded-full blur-2xl"></div>

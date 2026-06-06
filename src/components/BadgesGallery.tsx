@@ -6,6 +6,7 @@ import adStreak from "../assets/images/ad_01_streak.webp";
 import adBadges from "../assets/images/ad_03_badges.webp";
 import adStreakCalendar from "../assets/images/ad_07_streak_calendar.webp";
 import FadeInItem from "./FadeInItem";
+import LazyImage from "./LazyImage";
 
 interface BadgesGalleryProps {
   lang: Language;
@@ -113,20 +114,21 @@ export default function BadgesGallery({ lang }: BadgesGalleryProps) {
         {/* Right column: badges image demonstration mockup */}
         <FadeInItem variant="zoom" className="lg:col-span-5 flex justify-center">
           <div className="bg-gradient-to-tr from-amber-50/30 to-purple-100/30 p-4 rounded-[42px] border border-purple-100 shadow-inner group overflow-hidden">
-            <img
+            <LazyImage
               src={rewardsBadgesImg}
               alt={t.imageAlt}
               referrerPolicy="no-referrer"
               width="620"
               height="1100"
-              className="rounded-[30px] shadow-2xl max-w-[280px] md:max-w-[310px] w-full transform group-hover:scale-105 duration-500 border border-white"
+              wrapperClassName="rounded-[30px] max-w-[300px] md:max-w-[340px] w-full border border-white shadow-2xl"
+              className="w-full h-auto object-contain transform group-hover:scale-105 duration-500"
             />
           </div>
         </FadeInItem>
       </div>
 
       {/* Реальные кадры приложения раскиданы хаотично — разные размеры, наклоны и высоты */}
-      <div className="relative z-10 mt-12 h-[380px] md:h-[440px] max-w-3xl mx-auto hidden sm:block">
+      <div className="relative z-10 mt-12 h-[420px] md:h-[520px] max-w-3xl mx-auto hidden sm:block">
         {[
           {
             img: adStreak,
@@ -134,7 +136,7 @@ export default function BadgesGallery({ lang }: BadgesGalleryProps) {
             en: "Daily streak",
             v: "left" as const,
             rotate: -7,
-            pos: "left-0 top-6 md:top-10 w-32 md:w-40",
+            pos: "left-2 md:left-6 top-16 md:top-24 w-36 md:w-44",
           },
           {
             img: adBadges,
@@ -142,7 +144,7 @@ export default function BadgesGallery({ lang }: BadgesGalleryProps) {
             en: "Badge collection",
             v: "up" as const,
             rotate: 5,
-            pos: "left-1/2 -translate-x-1/2 top-0 w-36 md:w-48 z-20",
+            pos: "left-[40%] -translate-x-1/2 top-0 w-44 md:w-56 z-20",
           },
           {
             img: adStreakCalendar,
@@ -150,7 +152,7 @@ export default function BadgesGallery({ lang }: BadgesGalleryProps) {
             en: "Progress calendar",
             v: "right" as const,
             rotate: 8,
-            pos: "right-0 top-14 md:top-20 w-28 md:w-36",
+            pos: "right-2 md:right-10 top-28 md:top-36 w-36 md:w-48",
           },
         ].map((shot, idx) => (
           <FadeInItem
@@ -165,13 +167,14 @@ export default function BadgesGallery({ lang }: BadgesGalleryProps) {
               transition={{ type: "spring", stiffness: 200, damping: 16 }}
               className="bg-[#1E152A] p-1.5 rounded-[22px] shadow-2xl border border-white/10"
             >
-              <img
+              <LazyImage
                 src={shot.img}
                 alt={lang === "ru" ? shot.ru : shot.en}
                 loading="lazy"
-                width="200"
-                height="420"
-                className="rounded-[16px] w-full object-cover object-top aspect-[9/19]"
+                width="360"
+                height="640"
+                wrapperClassName="rounded-[16px] w-full aspect-[9/16]"
+                className="w-full h-full object-contain bg-white"
               />
             </motion.div>
           </FadeInItem>
@@ -185,13 +188,14 @@ export default function BadgesGallery({ lang }: BadgesGalleryProps) {
             key={idx}
             className="bg-[#1E152A] p-1 rounded-[18px] shadow-lg border border-white/10"
           >
-            <img
+            <LazyImage
               src={img}
-              alt={lang === "ru" ? t.imageAlt : t.imageAlt}
+              alt={t.imageAlt}
               loading="lazy"
-              width="120"
-              height="253"
-              className="rounded-[13px] w-full object-cover object-top aspect-[9/19]"
+              width="180"
+              height="320"
+              wrapperClassName="rounded-[13px] w-full aspect-[9/16]"
+              className="w-full h-full object-contain bg-white"
             />
           </div>
         ))}

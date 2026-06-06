@@ -3,6 +3,7 @@ import { Language } from "../types";
 import desktopWidgetImg from "../assets/images/yosa_desktop_widget.webp";
 import adWidget from "../assets/images/ad_04_widget.webp";
 import FadeInItem from "./FadeInItem";
+import LazyImage from "./LazyImage";
 
 interface WidgetSandboxProps {
   lang: Language;
@@ -104,19 +105,25 @@ export default function WidgetSandbox({ lang }: WidgetSandboxProps) {
         {/* Right column: виджет показан полностью (object-contain) и увеличен */}
         <FadeInItem variant="zoom" className="lg:col-span-6 flex justify-center">
           <div className="relative bg-gradient-to-tr from-pink-50/40 via-purple-100/20 to-indigo-50/40 p-5 md:p-7 rounded-[46px] border border-purple-100 shadow-inner group w-full max-w-[460px]">
-            <img
+            <LazyImage
               src={desktopWidgetImg}
               alt={t.imageAlt}
               referrerPolicy="no-referrer"
-              className="rounded-[30px] shadow-2xl w-full h-auto object-contain transform group-hover:scale-[1.03] duration-500 border border-white bg-white"
+              width="900"
+              height="520"
+              wrapperClassName="rounded-[30px] w-full border border-white shadow-2xl bg-white"
+              className="w-full h-auto object-contain transform group-hover:scale-[1.03] duration-500"
             />
             {/* Реальный кадр виджета – в углу, увеличен */}
             <div className="absolute -bottom-6 -right-3 md:-right-7 w-28 md:w-32 bg-[#1E152A] p-1 rounded-[18px] shadow-2xl border border-white/15 rotate-6 transition-transform duration-500 group-hover:rotate-0">
-              <img
+              <LazyImage
                 src={adWidget}
                 alt={lang === "ru" ? "Кадр виджета Йоси" : "Yosa widget screenshot"}
                 loading="lazy"
-                className="rounded-[13px] w-full object-cover object-top aspect-[9/19]"
+                width="180"
+                height="320"
+                wrapperClassName="rounded-[13px] w-full aspect-[9/16]"
+                className="w-full h-full object-contain bg-white"
               />
             </div>
           </div>

@@ -3,6 +3,7 @@ import { motion } from "motion/react";
 import { Language } from "../types";
 import FadeIn from "./FadeIn";
 import FadeInItem from "./FadeInItem";
+import LazyImage from "./LazyImage";
 
 // Реальные фото кота Йоси (прислал создатель проекта)
 import catBag from "../assets/images/cat_photo_1_bag.webp";
@@ -57,7 +58,7 @@ const STORY: StoryBlock[] = [
   },
   {
     id: "story-2",
-    img: catBag,
+    img: catBox,
     side: "left",
     titleRu: "Почему именно кот-нутрициолог?",
     titleEn: "Why a cat nutritionist?",
@@ -86,7 +87,7 @@ const STORY: StoryBlock[] = [
   },
   {
     id: "story-3",
-    img: catBox,
+    img: catSleep,
     side: "right",
     titleRu: "Каждый день, маленький шаг",
     titleEn: "Every day is a small step",
@@ -173,11 +174,14 @@ export default function CreatorStory({ lang }: CreatorStoryProps) {
                   initial={{ rotate: block.side === "right" ? -3 : 3 }}
                   className="relative rounded-[28px] overflow-hidden shadow-xl border-4 border-white max-w-[360px] w-full group"
                 >
-                  <img
+                  <LazyImage
                     src={block.img}
                     alt={lang === "ru" ? block.altRu : block.altEn}
                     loading="lazy"
-                    className="w-full h-full object-cover aspect-[4/3] transition-transform duration-700 group-hover:scale-105"
+                    width="720"
+                    height="540"
+                    wrapperClassName="w-full aspect-[4/3]"
+                    className="w-full h-full object-cover object-[62%_center] transition-transform duration-700 group-hover:scale-105"
                   />
                 </motion.div>
               </FadeInItem>
@@ -200,9 +204,15 @@ export default function CreatorStory({ lang }: CreatorStoryProps) {
       <FadeIn direction="up" staggerChildren={0.1}>
         <div className="mt-14 md:mt-20 pt-8 border-t border-purple-100 flex flex-col sm:flex-row items-center justify-center gap-6">
           <FadeInItem className="flex items-center gap-4">
-            <div className="w-14 h-14 rounded-full border-4 border-white bg-gradient-to-tr from-brand-primary to-brand-secondary text-white flex items-center justify-center select-none shadow-md font-display font-bold text-lg">
-              {lang === "ru" ? "А" : "A"}
-            </div>
+            <LazyImage
+              src={catBag}
+              alt={lang === "ru" ? "Аватар Александра" : "Alexander avatar"}
+              width="56"
+              height="56"
+              loading="lazy"
+              wrapperClassName="w-14 h-14 rounded-full border-4 border-white shadow-md bg-purple-50"
+              className="w-full h-full object-cover object-[70%_center]"
+            />
             <div>
               <span className="text-sm font-display font-semibold block leading-none text-brand-charcoal">
                 {lang === "ru" ? "Александр" : "Alexander"}
