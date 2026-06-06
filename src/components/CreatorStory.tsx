@@ -7,6 +7,7 @@ import FadeInItem from "./FadeInItem";
 // Реальные фото кота Йоси (прислал создатель проекта)
 import catBag from "../assets/images/cat_photo_1_bag.webp";
 import catBox from "../assets/images/cat_photo_5_box.webp";
+import catSleep from "../assets/images/cat_photo_4_sleep.webp";
 
 interface CreatorStoryProps {
   lang: Language;
@@ -27,7 +28,7 @@ interface StoryBlock {
 const STORY: StoryBlock[] = [
   {
     id: "story-1",
-    img: catBox,
+    img: catBag,
     side: "right",
     titleRu: "Знакомьтесь, настоящий Йося",
     titleEn: "Meet the real Yosa",
@@ -156,7 +157,7 @@ export default function CreatorStory({ lang }: CreatorStoryProps) {
         </div>
       </FadeIn>
 
-      {/* Блоки истории — фото в разнобой */}
+      {/* Блоки истории – фото в разнобой */}
       <div className="space-y-14 md:space-y-20 max-w-5xl mx-auto">
         {STORY.map((block) => (
           <FadeIn key={block.id} direction="up" staggerChildren={0.1}>

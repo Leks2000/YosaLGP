@@ -1,5 +1,5 @@
 import React from "react";
-import { Award, Flame, Star, Trophy, Sparkles } from "lucide-react";
+import { motion } from "motion/react";
 import { Language } from "../types";
 import rewardsBadgesImg from "../assets/images/yosa_rewards_badges.webp";
 import adStreak from "../assets/images/ad_01_streak.webp";
@@ -18,7 +18,7 @@ const LOCALIZATION = {
     subtitle:
       "Превратите скучную рутину подсчёта калорий в захватывающую игру с коллекционными бейджами.",
     intro:
-      "Главный секрет успеха в контроле веса — это регулярность. В приложении Йося каждая неделя вашей активности вознаграждается редкими кошачьими трофеями и праздничными медалями.",
+      "Главный секрет успеха в контроле веса – это регулярность. В приложении Йося каждая неделя вашей активности вознаграждается редкими кошачьими трофеями и праздничными медалями.",
     streakTitle: "Как работает система поощрений стрика активности:",
     streaks: [
       "Огненная серия (стрик): ведите дневник без пропусков. Специальный индикатор «кошачьего пламени» будет расти деление за делением, согревая кота.",
@@ -59,7 +59,7 @@ export default function BadgesGallery({ lang }: BadgesGalleryProps) {
         {/* Left column: descriptions and bullet lists */}
         <div className="lg:col-span-7 space-y-6">
           <FadeInItem className="inline-flex items-center gap-2 bg-purple-100/70 py-1 px-3.5 rounded-full text-xs font-bold text-brand-primary">
-            <Award className="w-3.5 h-3.5" />
+            <span className="w-1.5 h-1.5 rounded-full bg-brand-primary" />
             {t.badge}
           </FadeInItem>
 
@@ -83,8 +83,7 @@ export default function BadgesGallery({ lang }: BadgesGalleryProps) {
 
           <div className="space-y-3.5 pt-2">
             <FadeInItem>
-              <h4 className="text-xs md:text-sm font-bold uppercase tracking-wider text-brand-charcoal flex items-center gap-1.5">
-                <Flame className="w-4 h-4 text-orange-500 fill-orange-500 animate-pulse" />
+              <h4 className="text-xs md:text-sm font-bold uppercase tracking-wider text-brand-charcoal">
                 {t.streakTitle}
               </h4>
             </FadeInItem>
@@ -94,8 +93,8 @@ export default function BadgesGallery({ lang }: BadgesGalleryProps) {
                   key={idx}
                   className="flex gap-2.5 items-start text-xs md:text-sm text-gray-500"
                 >
-                  <span className="p-1 bg-amber-50 border border-amber-100 text-amber-500 rounded-lg shrink-0 mt-0.5">
-                    <Trophy className="w-3.5 h-3.5" />
+                  <span className="w-6 h-6 flex items-center justify-center bg-gradient-to-br from-brand-primary to-brand-secondary text-white rounded-lg shrink-0 mt-0.5 text-[11px] font-display font-bold shadow-sm">
+                    {idx + 1}
                   </span>
                   <span>{streak}</span>
                 </FadeInItem>
@@ -104,10 +103,7 @@ export default function BadgesGallery({ lang }: BadgesGalleryProps) {
           </div>
 
           {/* Golden quote comment from cat Yosa */}
-          <FadeInItem className="bg-purple-50/50 p-4 rounded-2xl border border-purple-100 flex gap-4 items-center text-xs md:text-sm text-purple-700 italic">
-            <div className="p-3 bg-purple-100 rounded-full shrink-0 shadow-sm animate-bounce">
-              <Award className="w-6 h-6 text-brand-primary" />
-            </div>
+          <FadeInItem className="bg-purple-50/50 p-4 rounded-2xl border border-purple-100 border-l-4 border-l-brand-primary text-xs md:text-sm text-purple-700 italic">
             <p className="font-display font-medium leading-relaxed">
               {t.motto}
             </p>
@@ -121,42 +117,83 @@ export default function BadgesGallery({ lang }: BadgesGalleryProps) {
               src={rewardsBadgesImg}
               alt={t.imageAlt}
               referrerPolicy="no-referrer"
+              width="620"
+              height="1100"
               className="rounded-[30px] shadow-2xl max-w-[280px] md:max-w-[310px] w-full transform group-hover:scale-105 duration-500 border border-white"
             />
           </div>
         </FadeInItem>
       </div>
 
-      {/* Ряд реальных кадров приложения (стрик, бейджи, календарь) — раскиданы по сайту */}
-      <div className="relative z-10 mt-10 grid grid-cols-3 gap-3 md:gap-6 max-w-3xl mx-auto">
+      {/* Реальные кадры приложения раскиданы хаотично — разные размеры, наклоны и высоты */}
+      <div className="relative z-10 mt-12 h-[380px] md:h-[440px] max-w-3xl mx-auto hidden sm:block">
         {[
-          { img: adStreak, ru: "Серия дней", en: "Daily streak", v: "left" as const },
-          { img: adBadges, ru: "Коллекция бейджей", en: "Badge collection", v: "up" as const },
+          {
+            img: adStreak,
+            ru: "Серия дней",
+            en: "Daily streak",
+            v: "left" as const,
+            rotate: -7,
+            pos: "left-0 top-6 md:top-10 w-32 md:w-40",
+          },
+          {
+            img: adBadges,
+            ru: "Коллекция бейджей",
+            en: "Badge collection",
+            v: "up" as const,
+            rotate: 5,
+            pos: "left-1/2 -translate-x-1/2 top-0 w-36 md:w-48 z-20",
+          },
           {
             img: adStreakCalendar,
             ru: "Календарь прогресса",
             en: "Progress calendar",
             v: "right" as const,
+            rotate: 8,
+            pos: "right-0 top-14 md:top-20 w-28 md:w-36",
           },
         ].map((shot, idx) => (
           <FadeInItem
             key={idx}
             direction={shot.v}
             variant="rotate"
-            className="flex flex-col items-center gap-2 group"
+            className={`absolute ${shot.pos} group`}
           >
-            <div className="bg-[#1E152A] p-1.5 rounded-[22px] shadow-lg border border-white/10 transition-transform duration-500 group-hover:-translate-y-1.5">
+            <motion.div
+              initial={{ rotate: shot.rotate }}
+              whileHover={{ rotate: 0, scale: 1.05, y: -8, zIndex: 30 }}
+              transition={{ type: "spring", stiffness: 200, damping: 16 }}
+              className="bg-[#1E152A] p-1.5 rounded-[22px] shadow-2xl border border-white/10"
+            >
               <img
                 src={shot.img}
                 alt={lang === "ru" ? shot.ru : shot.en}
                 loading="lazy"
+                width="200"
+                height="420"
                 className="rounded-[16px] w-full object-cover object-top aspect-[9/19]"
               />
-            </div>
-            <span className="text-[10px] md:text-xs font-semibold text-gray-400 text-center">
-              {lang === "ru" ? shot.ru : shot.en}
-            </span>
+            </motion.div>
           </FadeInItem>
+        ))}
+      </div>
+
+      {/* Мобильный fallback — компактный горизонтальный ряд */}
+      <div className="relative z-10 mt-10 grid grid-cols-3 gap-3 max-w-md mx-auto sm:hidden">
+        {[adStreak, adBadges, adStreakCalendar].map((img, idx) => (
+          <div
+            key={idx}
+            className="bg-[#1E152A] p-1 rounded-[18px] shadow-lg border border-white/10"
+          >
+            <img
+              src={img}
+              alt={lang === "ru" ? t.imageAlt : t.imageAlt}
+              loading="lazy"
+              width="120"
+              height="253"
+              className="rounded-[13px] w-full object-cover object-top aspect-[9/19]"
+            />
+          </div>
         ))}
       </div>
     </div>

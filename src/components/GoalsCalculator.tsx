@@ -63,7 +63,7 @@ export default function GoalsCalculator({ lang }: GoalsCalculatorProps) {
               referrerPolicy="no-referrer"
               className="rounded-[34px] shadow-2xl max-w-[330px] md:max-w-[380px] w-full transform group-hover:scale-105 duration-500 border border-white"
             />
-            {/* Кадр «Настройки» — слева сверху, увеличен */}
+            {/* Кадр «Настройки» – слева сверху, увеличен */}
             <div className="absolute -top-5 -left-3 md:-left-8 w-24 md:w-32 bg-[#1E152A] p-1 rounded-[18px] shadow-2xl border border-white/15 -rotate-6 transition-transform duration-500 group-hover:rotate-0">
               <img
                 src={adSettings}
@@ -72,7 +72,7 @@ export default function GoalsCalculator({ lang }: GoalsCalculatorProps) {
                 className="rounded-[13px] w-full object-cover object-top aspect-[9/19]"
               />
             </div>
-            {/* Кадр «Цели» — справа снизу, увеличен */}
+            {/* Кадр «Цели» – справа снизу, увеличен */}
             <div className="absolute -bottom-6 -right-3 md:-right-8 w-24 md:w-32 bg-[#1E152A] p-1 rounded-[18px] shadow-2xl border border-white/15 rotate-6 transition-transform duration-500 group-hover:rotate-0">
               <img
                 src={adGoals}

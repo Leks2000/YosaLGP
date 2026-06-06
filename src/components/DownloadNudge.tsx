@@ -26,7 +26,7 @@ interface NudgeCard {
   isArt?: boolean;
 }
 
-// Порядок: фото — арт-растяжка (поз. 2) — фото — фото — арт-растяжка (поз. 5)
+// Порядок: фото – арт-растяжка (поз. 2) – фото – фото – арт-растяжка (поз. 5)
 const CARDS: NudgeCard[] = [
   {
     id: "n1",
@@ -104,7 +104,7 @@ export default function DownloadNudge({ lang }: DownloadNudgeProps) {
         </FadeInItem>
       </FadeIn>
 
-      {/* Карточки — фото и арты раскиданы в разнобой */}
+      {/* Карточки – фото и арты раскиданы в разнобой */}
       <FadeIn direction="up" staggerChildren={0.12}>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-5">
           {CARDS.map((card) => (

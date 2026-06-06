@@ -1,7 +1,7 @@
 import React from "react";
-import { Sparkles, Mic, Sparkle, Heart, Flame } from "lucide-react";
 import { Language } from "../types";
 import mealTrackerImg from "../assets/images/yosa_meal_tracker.webp";
+import catAvatar from "../assets/images/yosya_stretch.png";
 import FadeInItem from "./FadeInItem";
 
 interface CalorieEstimatorProps {
@@ -101,7 +101,7 @@ export default function CalorieEstimator({ lang }: CalorieEstimatorProps) {
           {/* Left Column: Descriptive text and voice-examples */}
           <div className="lg:col-span-7 space-y-6">
             <FadeInItem className="inline-flex items-center gap-2 bg-purple-100/70 py-1 px-3.5 rounded-full text-xs font-bold text-brand-primary">
-              <Sparkles className="w-3.5 h-3.5" />
+              <span className="w-1.5 h-1.5 rounded-full bg-brand-primary" />
               {t.badge}
             </FadeInItem>
 
@@ -133,9 +133,20 @@ export default function CalorieEstimator({ lang }: CalorieEstimatorProps) {
                   className="bg-purple-50/50 p-3 rounded-2xl border border-purple-100/60 flex flex-col md:flex-row md:items-center justify-between gap-2 hover:bg-purple-100/30 transition-colors"
                 >
                   <div className="flex items-center gap-2.5">
-                    <span className="p-1.5 bg-purple-100 text-brand-primary rounded-xl">
-                      <Mic className="w-4 h-4 text-brand-primary" />
-                    </span>
+                    {/* Иконка микрофона без фона — просто контур */}
+                    <svg
+                      className="w-4 h-4 text-brand-primary shrink-0"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <rect x="9" y="2" width="6" height="11" rx="3" />
+                      <path d="M5 10a7 7 0 0 0 14 0" />
+                      <line x1="12" y1="19" x2="12" y2="22" />
+                    </svg>
                     <span className="font-display font-semibold text-xs md:text-sm text-brand-charcoal">
                       {item.text}
                     </span>
@@ -160,9 +171,14 @@ export default function CalorieEstimator({ lang }: CalorieEstimatorProps) {
 
             {/* Cat advice bubble */}
             <FadeInItem className="bg-white border border-purple-50/80 p-4 rounded-2xl shadow-sm relative flex gap-3 mt-4">
-              <span className="text-2xl select-none animate-float shrink-0">
-                🐱
-              </span>
+              <img
+                src={catAvatar}
+                alt={lang === "ru" ? "Кот Йося" : "Yosa cat"}
+                width="44"
+                height="44"
+                loading="lazy"
+                className="w-11 h-11 object-contain select-none animate-float shrink-0"
+              />
               <div>
                 <span className="text-xs font-bold text-brand-primary block mb-0.5">
                   {t.catAdviceTitle}
@@ -184,9 +200,7 @@ export default function CalorieEstimator({ lang }: CalorieEstimatorProps) {
                 referrerPolicy="no-referrer"
                 className="rounded-[30px] shadow-2xl max-w-[280px] md:max-w-[310px] w-full transform group-hover:scale-105 duration-500 border border-white"
               />
-              <div className="absolute top-4 right-4 bg-orange-500 text-white p-2 rounded-full shadow-md animate-bounce">
-                <Flame className="w-4 h-4 fill-white animate-pulse" />
-              </div>
+
             </div>
           </FadeInItem>
         </div>

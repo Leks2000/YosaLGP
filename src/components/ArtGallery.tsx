@@ -73,7 +73,7 @@ export default function ArtGallery({ lang }: ArtGalleryProps) {
       {/* Хаотичная дизайнерская раскладка: киви и фастфуд разного размера, слегка повёрнуты */}
       <FadeIn direction="up" staggerChildren={0.15}>
         <div className="grid grid-cols-1 md:grid-cols-12 gap-5 md:gap-6 items-start">
-          {/* Киви — крупная, сдвинута и наклонена */}
+          {/* Киви – крупная, сдвинута и наклонена */}
           <FadeInItem
             direction="left"
             variant="rotate"
@@ -101,7 +101,7 @@ export default function ArtGallery({ lang }: ArtGalleryProps) {
             </motion.div>
           </FadeInItem>
 
-          {/* Фастфуд — меньше, опущена ниже и наклонена в другую сторону */}
+          {/* Фастфуд – меньше, опущена ниже и наклонена в другую сторону */}
           <FadeInItem
             direction="right"
             variant="rotate"
@@ -129,7 +129,7 @@ export default function ArtGallery({ lang }: ArtGalleryProps) {
         </div>
       </FadeIn>
 
-      {/* Космонавт — кинематографичный баннер с увеличенной высотой */}
+      {/* Космонавт – кинематографичный баннер с увеличенной высотой */}
       <FadeIn direction="up">
         <motion.div
           whileHover={{ scale: 1.005 }}

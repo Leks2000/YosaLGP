@@ -131,43 +131,43 @@ export default function PawCursor({ enabled }: PawCursorProps) {
         ))}
       </AnimatePresence>
 
-      {/* Main Cat Paw Cursor */}
-      <motion.div
-        animate={{
-          x: mousePosition.x - 14,
-          y: mousePosition.y - 14,
-          scale: isHovering ? 1.15 : isClicked ? 0.85 : 1,
-          rotate: isHovering ? -15 : 0,
-        }}
-        transition={{
-          type: "spring",
-          damping: 25,
-          stiffness: 400,
-          mass: 0.2,
-        }}
+      {/* Main Cat Paw Cursor – мгновенное движение без сглаживания (smooth убран).
+          Позиция задаётся напрямую через style на внешнем контейнере (без инерции),
+          а scale/rotate анимируются на вложенном motion.div, чтобы transform не конфликтовал. */}
+      <div
         style={{
           position: "fixed",
           left: 0,
           top: 0,
-          transformOrigin: "center center",
+          transform: `translate(${mousePosition.x - 14}px, ${mousePosition.y - 14}px)`,
         }}
-        className="w-8 h-8 flex items-center justify-center filter drop-shadow-md"
+        className="w-8 h-8"
       >
-        <svg
-          viewBox="0 0 24 24"
-          className={`w-full h-full drop-shadow-sm transition-colors duration-300 ${
-            isHovering ? "fill-brand-secondary" : "fill-brand-primary"
-          }`}
-          xmlns="http://www.w3.org/2000/svg"
+        <motion.div
+          animate={{
+            scale: isHovering ? 1.15 : isClicked ? 0.85 : 1,
+            rotate: isHovering ? -15 : 0,
+          }}
+          transition={{ duration: 0.15, ease: "easeOut" }}
+          style={{ transformOrigin: "center center" }}
+          className="w-8 h-8 flex items-center justify-center filter drop-shadow-md"
         >
-          <path d="M12,12 C9.79,12 8,13.79 8,16 C8,18.21 9.79,20 12,20 C14.21,20 16,18.21 16,16 C16,13.79 14.21,12 12,12 Z" />
-          <circle cx="8" cy="8" r="2" />
-          <circle cx="12" cy="6" r="2" />
-          <circle cx="16" cy="8" r="2" />
-          <circle cx="6" cy="11" r="1.5" />
-          <circle cx="18" cy="11" r="1.5" />
-        </svg>
-      </motion.div>
+          <svg
+            viewBox="0 0 24 24"
+            className={`w-full h-full drop-shadow-sm transition-colors duration-300 ${
+              isHovering ? "fill-brand-secondary" : "fill-brand-primary"
+            }`}
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path d="M12,12 C9.79,12 8,13.79 8,16 C8,18.21 9.79,20 12,20 C14.21,20 16,18.21 16,16 C16,13.79 14.21,12 12,12 Z" />
+            <circle cx="8" cy="8" r="2" />
+            <circle cx="12" cy="6" r="2" />
+            <circle cx="16" cy="8" r="2" />
+            <circle cx="6" cy="11" r="1.5" />
+            <circle cx="18" cy="11" r="1.5" />
+          </svg>
+        </motion.div>
+      </div>
     </div>
   );
 }

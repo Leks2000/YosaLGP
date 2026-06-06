@@ -24,7 +24,7 @@ const FAQ_ITEMS: FAQItem[] = [
     questionRu: "Что такое стрик (серия дней)?",
     questionEn: "What is a streak count?",
     answerRu:
-      "Стрик — это серия дней подряд, в которые вы заносите съеденную еду в приложение. Чем длиннее ваш стрик активности, тем больше памятных кошачьих наград вы разблокируете! Это помогает поддерживать железную мотивацию в игровой форме.",
+      "Стрик – это серия дней подряд, в которые вы заносите съеденную еду в приложение. Чем длиннее ваш стрик активности, тем больше памятных кошачьих наград вы разблокируете! Это помогает поддерживать железную мотивацию в игровой форме.",
     answerEn:
       "A streak represents consecutive days of logging your meals in the app. The longer your streak of activity, the more adorable cat trophies and badges you lock in! It's designed to keep you motivated and gamify your nutrition building.",
   },
@@ -42,7 +42,7 @@ const FAQ_ITEMS: FAQItem[] = [
     questionRu: "Что такое Йося Pro?",
     questionEn: "What is Yosa Pro?",
     answerRu:
-      "Йося Pro — это расширенная версия приложения с безлимитными AI-запросами к умному КБЖУ парсеру, полной безлимитной историей дневников и удобной глубокой аналитикой. Оформить подписку можно прямо внутри мобильного приложения.",
+      "Йося Pro – это расширенная версия приложения с безлимитными AI-запросами к умному КБЖУ парсеру, полной безлимитной историей дневников и удобной глубокой аналитикой. Оформить подписку можно прямо внутри мобильного приложения.",
     answerEn:
       "Yosa Pro is our advanced premium mode with unlimited AI queries to our calorie semantic parser, full lifetime diary logs history, and structured personal statistics. You can activate Pro safely right from within the mobile app.",
   },
@@ -60,7 +60,7 @@ const FAQ_ITEMS: FAQItem[] = [
     questionRu: "Можно ли использовать голосовой ввод еды?",
     questionEn: "Can I use voice input for meals?",
     answerRu:
-      "Да! Вместо ручного набора вы можете зажать кнопку микрофона в строке ввода и сказать, например: «овсянка с бананом на молоке» или «две чашки капучино и синнабон», — и ИИ моментально рассчитает точный КБЖУ за секунды.",
+      "Да! Вместо ручного набора вы можете зажать кнопку микрофона в строке ввода и сказать, например: «овсянка с бананом на молоке» или «две чашки капучино и синнабон», – и ИИ моментально рассчитает точный КБЖУ за секунды.",
     answerEn:
       "Yes! Instead of tapping on keyboard keys, simply hold down the microphone button in the input strip and say: 'bowl of oatmeal with organic bananas and almond milk' or 'two cappuccinos and a glazed donut'. The AI evaluates and computes macro stats immediately.",
   },
@@ -91,9 +91,9 @@ const FEATURES: FeatureItem[] = [
     titleRu: "Умное распознавание",
     titleEn: "Smart AI Engine",
     descRu:
-      "Скажите «пюре с котлетой» — система мгновенно рассчитает точный КБЖУ.",
+      "Скажите «пюре с котлетой» – система мгновенно рассчитает точный КБЖУ.",
     descEn:
-      "Say 'mashed potatoes' — and the AI computes the exact nutrient split.",
+      "Say 'mashed potatoes' – and the AI computes the exact nutrient split.",
   },
   {
     id: "feat-2",
@@ -153,7 +153,7 @@ export default function App() {
   // Localization structure for main layout titles & sections
   const staticText = {
     ru: {
-      tag: "Йося — Умный счётчик калорий с ИИ-котом",
+      tag: "Йося – Умный счётчик калорий с ИИ-котом",
       heroTitle: "Следи за питанием просто,",
       heroTitleAccent: "на одном языке с ИИ",
       heroDesc:
@@ -170,9 +170,9 @@ export default function App() {
       badgesSec: "Стрики и трофеи",
       developersSec: "Создатели проекта",
       creatorHeading:
-        "Привет, я Александр! 🐾 Меня вдохновила идея упростить скучные подсчёты калорий и сделать приложение, в которое хочется заходить каждый день ради пушистого друга.",
+        "Привет, я Александр! Меня вдохновила идея упростить скучные подсчёты калорий и сделать приложение, в которое хочется заходить каждый день ради пушистого друга.",
       creatorDesc:
-        "Я создал Йосю, чтобы помочь тысячам людей вести дневник питания без рутины. Я потратил кучу времени на полировку дизайна, динамические виджеты и разработку персонального кота-нутрициолога. С Йосей вам не нужно быть экспертом по балансу — просто пишите еду как есть, а пушистик поможет вам оставаться в форме!",
+        "Я создал Йосю, чтобы помочь тысячам людей вести дневник питания без рутины. Я потратил кучу времени на полировку дизайна, динамические виджеты и разработку персонального кота-нутрициолога. С Йосей вам не нужно быть экспертом по балансу – просто пишите еду как есть, а пушистик поможет вам оставаться в форме!",
       widgetsText: "Виджет",
       faqHeading: "Вопросы и ответы",
       faqSub:
@@ -181,7 +181,7 @@ export default function App() {
         "Все права защищены. Разработано в духе Amy Food Journal с любовью к пушистым котикам.",
     },
     en: {
-      tag: "Yosa — AI Calorie Counter with Cat Companion",
+      tag: "Yosa – AI Calorie Counter with Cat Companion",
       heroTitle: "Track your calories cleanly,",
       heroTitleAccent: "with the speed of AI",
       heroDesc:
@@ -198,9 +198,9 @@ export default function App() {
       badgesSec: "Streaks & Trophies",
       developersSec: "Meet Yosa's Creator",
       creatorHeading:
-        "Hi, I'm Alexander! 🐾 I wanted to turn boring diet planning into an exciting, gamified experience with a friendly virtual pet always by your side.",
+        "Hi, I'm Alexander! I wanted to turn boring diet planning into an exciting, gamified experience with a friendly virtual pet always by your side.",
       creatorDesc:
-        "I wanted to create a calorie tracking experience that felt incredible to use — like writing in a notes app. Elegant graphics and natural interaction was something I devoted hundreds of hours to. Hopefully Yosa helps you manage your nutrition habits as much as it helped me! Keep your streak flowing, human!",
+        "I wanted to create a calorie tracking experience that felt incredible to use – like writing in a notes app. Elegant graphics and natural interaction was something I devoted hundreds of hours to. Hopefully Yosa helps you manage your nutrition habits as much as it helped me! Keep your streak flowing, human!",
       widgetsText: "Widget View",
       faqHeading: "Frequently Asked Questions",
       faqSub:
@@ -513,17 +513,17 @@ export default function App() {
           </section>
         </FadeIn>
 
-        {/* ART UNIVERSE GALLERY — арты Йоси (банка, киви, фастфуд, космонавт) */}
+        {/* ART UNIVERSE GALLERY – арты Йоси (банка, киви, фастфуд, космонавт) */}
         <FadeIn direction="up">
           <ArtGallery lang={lang} />
         </FadeIn>
 
-        {/* «ТЫ ЕЩЁ НЕ СКАЧАЛ?» — игривая секция с реальными фото кота */}
+        {/* «ТЫ ЕЩЁ НЕ СКАЧАЛ?» – игривая секция с реальными фото кота */}
         <FadeIn direction="up">
           <DownloadNudge lang={lang} />
         </FadeIn>
 
-        {/* MEET THE CREATOR STORY SECTION — реальные фото кота, картинки в разнобой */}
+        {/* MEET THE CREATOR STORY SECTION – реальные фото кота, картинки в разнобой */}
         <CreatorStory lang={lang} />
 
         {/* INDIVIDUAL FAQ ACCORDIONS */}
@@ -676,7 +676,7 @@ export default function App() {
               </span>
             </div>
 
-            {/* Внешние ссылки автора — помогают индексации сайта */}
+            {/* Внешние ссылки автора – помогают индексации сайта */}
             <div className="flex items-center gap-3 mt-5">
               <a
                 href="https://www.rustore.ru/catalog/app/ru.puhlyash.yosa"

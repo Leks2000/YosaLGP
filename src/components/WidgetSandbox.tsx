@@ -110,7 +110,7 @@ export default function WidgetSandbox({ lang }: WidgetSandboxProps) {
               referrerPolicy="no-referrer"
               className="rounded-[30px] shadow-2xl w-full h-auto object-contain transform group-hover:scale-[1.03] duration-500 border border-white bg-white"
             />
-            {/* Реальный кадр виджета — в углу, увеличен */}
+            {/* Реальный кадр виджета – в углу, увеличен */}
             <div className="absolute -bottom-6 -right-3 md:-right-7 w-28 md:w-32 bg-[#1E152A] p-1 rounded-[18px] shadow-2xl border border-white/15 rotate-6 transition-transform duration-500 group-hover:rotate-0">
               <img
                 src={adWidget}
