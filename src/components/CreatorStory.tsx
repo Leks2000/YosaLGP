@@ -1,15 +1,11 @@
 import React from "react";
 import { motion } from "motion/react";
-import { Sparkles, Heart, PawPrint } from "lucide-react";
 import { Language } from "../types";
 import FadeIn from "./FadeIn";
 import FadeInItem from "./FadeInItem";
 
 // Реальные фото кота Йоси (прислал создатель проекта)
 import catBag from "../assets/images/cat_photo_1_bag.webp";
-import catPillow from "../assets/images/cat_photo_2_pillow.webp";
-import catOnion from "../assets/images/cat_photo_3_onion.webp";
-import catSleep from "../assets/images/cat_photo_4_sleep.webp";
 import catBox from "../assets/images/cat_photo_5_box.webp";
 
 interface CreatorStoryProps {
@@ -20,7 +16,6 @@ interface StoryBlock {
   id: string;
   img: string;
   side: "left" | "right";
-  // Заголовок маленький жирный, остальное обычным весом
   titleRu: string;
   titleEn: string;
   textRu: React.ReactNode;
@@ -34,11 +29,11 @@ const STORY: StoryBlock[] = [
     id: "story-1",
     img: catBox,
     side: "right",
-    titleRu: "Знакомьтесь — настоящий Йося",
+    titleRu: "Знакомьтесь, настоящий Йося",
     titleEn: "Meet the real Yosa",
     textRu: (
       <>
-        Йося — это мой чёрный кот, который и стал лицом приложения. Он обожает{" "}
+        Йося – это мой чёрный кот, который и стал лицом приложения. Он обожает{" "}
         <strong className="font-semibold text-brand-primary">
           спать в самых неожиданных местах
         </strong>{" "}
@@ -56,18 +51,18 @@ const STORY: StoryBlock[] = [
         our AI companion.
       </>
     ),
-    altRu: "Чёрный кот Йося спит на ковре рядом с пакетом",
-    altEn: "Black cat Yosa sleeping on the rug next to a bag",
+    altRu: "Чёрный кот Йося отдыхает на кровати рядом с сумкой",
+    altEn: "Black cat Yosa resting on the bed next to a bag",
   },
   {
     id: "story-2",
-    img: catOnion,
+    img: catBag,
     side: "left",
     titleRu: "Почему именно кот-нутрициолог?",
     titleEn: "Why a cat nutritionist?",
     textRu: (
       <>
-        Коты умеют есть осознанно и знают меру — ну, почти всегда. Я хотел, чтобы
+        Коты умеют есть осознанно и знают меру, ну, почти всегда. Я хотел, чтобы
         приложение было{" "}
         <strong className="font-semibold text-brand-primary">
           таким же тёплым и ненавязчивым
@@ -77,7 +72,7 @@ const STORY: StoryBlock[] = [
     ),
     textEn: (
       <>
-        Cats eat mindfully and know their limits — well, almost always. I wanted
+        Cats eat mindfully and know their limits, well, almost always. I wanted
         the app to feel{" "}
         <strong className="font-semibold text-brand-primary">
           as warm and gentle
@@ -85,18 +80,18 @@ const STORY: StoryBlock[] = [
         as having a cat nearby. No pressure, just soft nudges.
       </>
     ),
-    altRu: "Чёрный кот Йося сидит на кухне рядом с луком",
-    altEn: "Black cat Yosa sitting in the kitchen near onions",
+    altRu: "Любопытный чёрный кот Йося с пакетом",
+    altEn: "Curious black cat Yosa with a bag",
   },
   {
     id: "story-3",
-    img: catBag,
+    img: catBox,
     side: "right",
-    titleRu: "Каждый день — маленький шаг",
+    titleRu: "Каждый день, маленький шаг",
     titleEn: "Every day is a small step",
     textRu: (
       <>
-        Главная идея Йоси — это привычка, а не жёсткая диета. Достаточно записать
+        Главная идея Йоси – это привычка, а не жёсткая диета. Достаточно записать
         один приём пищи, и серия дней продолжится. Кот будет{" "}
         <strong className="font-semibold text-brand-primary">
           радоваться вместе с тобой
@@ -114,8 +109,8 @@ const STORY: StoryBlock[] = [
         on every new streak day.
       </>
     ),
-    altRu: "Любопытный чёрный кот Йося играет с пакетом на кровати",
-    altEn: "Curious black cat Yosa playing with a bag on the bed",
+    altRu: "Чёрный кот Йося на кровати с сумкой",
+    altEn: "Black cat Yosa on the bed with a bag",
   },
 ];
 
@@ -132,7 +127,7 @@ export default function CreatorStory({ lang }: CreatorStoryProps) {
       <FadeIn direction="up" staggerChildren={0.12}>
         <div className="text-center max-w-2xl mx-auto space-y-4 mb-12 md:mb-16">
           <FadeInItem className="inline-flex items-center gap-2 bg-white px-3 py-1.5 rounded-full shadow-sm text-xs uppercase tracking-wider font-bold text-brand-primary">
-            <Sparkles className="w-3.5 h-3.5" />
+            <span className="w-1.5 h-1.5 rounded-full bg-brand-primary" />
             {lang === "ru" ? "История Йоси" : "Behind the Paw"}
           </FadeInItem>
           <FadeInItem>
@@ -152,25 +147,22 @@ export default function CreatorStory({ lang }: CreatorStoryProps) {
             </h2>
           </FadeInItem>
           <FadeInItem>
-            {/* Обычный вес — не весь текст жирный */}
             <p className="text-gray-500 text-sm md:text-base leading-relaxed font-normal">
               {lang === "ru"
-                ? "Привет, я Александр! Я создал Йосю, чтобы превратить скучный подсчёт калорий в тёплую ежедневную привычку. А вдохновил меня мой собственный кот — вот его реальные фотографии."
-                : "Hi, I'm Alexander! I built Yosa to turn boring calorie counting into a warm daily ritual. My own cat inspired the whole thing — here are his real photos."}
+                ? "Привет, я Александр! Я создал Йосю, чтобы превратить скучный подсчёт калорий в тёплую ежедневную привычку. А вдохновил меня мой собственный кот, вот его реальные фотографии."
+                : "Hi, I'm Alexander! I built Yosa to turn boring calorie counting into a warm daily ritual. My own cat inspired the whole thing, here are his real photos."}
             </p>
           </FadeInItem>
         </div>
       </FadeIn>
 
-      {/* Блоки истории — фото в разнобой (право / лево / право) */}
+      {/* Блоки истории — фото в разнобой */}
       <div className="space-y-14 md:space-y-20 max-w-5xl mx-auto">
         {STORY.map((block) => (
           <FadeIn key={block.id} direction="up" staggerChildren={0.1}>
             <div
               className={`flex flex-col gap-6 md:gap-12 items-center ${
-                block.side === "right"
-                  ? "md:flex-row"
-                  : "md:flex-row-reverse"
+                block.side === "right" ? "md:flex-row" : "md:flex-row-reverse"
               }`}
             >
               {/* Фото */}
@@ -186,20 +178,14 @@ export default function CreatorStory({ lang }: CreatorStoryProps) {
                     loading="lazy"
                     className="w-full h-full object-cover aspect-[4/3] transition-transform duration-700 group-hover:scale-105"
                   />
-                  {/* Маленькая лапка-метка */}
-                  <span className="absolute bottom-3 right-3 bg-white/90 backdrop-blur-sm text-brand-primary p-1.5 rounded-full shadow">
-                    <PawPrint className="w-4 h-4" />
-                  </span>
                 </motion.div>
               </FadeInItem>
 
               {/* Текст блока */}
               <FadeInItem className="w-full md:w-1/2 space-y-3">
-                {/* Только заголовок жирный и заметный */}
                 <h3 className="text-xl md:text-2xl font-display font-bold text-brand-charcoal leading-snug">
                   {lang === "ru" ? block.titleRu : block.titleEn}
                 </h3>
-                {/* Основной текст обычным весом */}
                 <p className="text-sm md:text-base text-gray-500 leading-relaxed font-normal">
                   {lang === "ru" ? block.textRu : block.textEn}
                 </p>
@@ -213,8 +199,8 @@ export default function CreatorStory({ lang }: CreatorStoryProps) {
       <FadeIn direction="up" staggerChildren={0.1}>
         <div className="mt-14 md:mt-20 pt-8 border-t border-purple-100 flex flex-col sm:flex-row items-center justify-center gap-6">
           <FadeInItem className="flex items-center gap-4">
-            <div className="w-14 h-14 rounded-full border-4 border-white bg-gradient-to-tr from-brand-primary to-brand-secondary text-white flex items-center justify-center select-none shadow-md">
-              <Heart className="w-6 h-6 fill-white" />
+            <div className="w-14 h-14 rounded-full border-4 border-white bg-gradient-to-tr from-brand-primary to-brand-secondary text-white flex items-center justify-center select-none shadow-md font-display font-bold text-lg">
+              {lang === "ru" ? "А" : "A"}
             </div>
             <div>
               <span className="text-sm font-display font-semibold block leading-none text-brand-charcoal">

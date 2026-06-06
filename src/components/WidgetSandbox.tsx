@@ -1,5 +1,4 @@
 import React from "react";
-import { Smartphone, Sparkles, CheckSquare, Sparkle } from "lucide-react";
 import { Language } from "../types";
 import desktopWidgetImg from "../assets/images/yosa_desktop_widget.webp";
 import adWidget from "../assets/images/ad_04_widget.webp";
@@ -24,7 +23,7 @@ const LOCALIZATION = {
       "Мини-виджеты: экономичные размеры 2х2 или полноценный информационный экран 4x2 со списком лога на день.",
     ],
     catRemark:
-      "«Я сижу в виждете и жду твой сытный обед, хозяин! Добавь вкусную котлетку прямо с экрана — и я замурчу!»",
+      "«Я сижу в виджете и жду твой сытный обед, хозяин! Добавь вкусную котлетку прямо с экрана, и я замурчу!»",
     imageAlt: "Йося интерактивный виджет на Android",
   },
   en: {
@@ -50,12 +49,12 @@ export default function WidgetSandbox({ lang }: WidgetSandboxProps) {
   const t = LOCALIZATION[lang];
 
   return (
-    <div className="bg-white/60 backdrop-blur-md rounded-3xl p-6 md:p-10 border border-purple-100 shadow-xl overflow-hidden relative">
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+    <div className="bg-white/60 backdrop-blur-md rounded-3xl p-7 md:p-14 border border-purple-100 shadow-xl overflow-hidden relative">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center">
         {/* Left column: descriptions */}
-        <div className="lg:col-span-7 space-y-6">
+        <div className="lg:col-span-6 space-y-6">
           <FadeInItem className="inline-flex items-center gap-2 bg-purple-100/70 py-1 px-3.5 rounded-full text-xs font-bold text-brand-primary">
-            <Smartphone className="w-3.5 h-3.5" />
+            <span className="w-1.5 h-1.5 rounded-full bg-brand-primary" />
             {t.badge}
           </FadeInItem>
 
@@ -85,39 +84,34 @@ export default function WidgetSandbox({ lang }: WidgetSandboxProps) {
               {t.features.map((feat, idx) => (
                 <FadeInItem
                   key={idx}
-                  className="flex gap-2.5 items-start text-xs md:text-sm text-gray-500"
+                  className="flex gap-3 items-start text-xs md:text-sm text-gray-500"
                 >
-                  <span className="p-0.5 bg-purple-100 text-brand-primary rounded-lg shrink-0 mt-0.5">
-                    <Sparkle className="w-3.5 h-3.5 text-brand-primary fill-brand-primary" />
-                  </span>
+                  <span className="w-2 h-2 rounded-full bg-brand-primary shrink-0 mt-1.5" />
                   <span>{feat}</span>
                 </FadeInItem>
               ))}
             </div>
           </div>
 
-          {/* Cute quote */}
-          <FadeInItem className="bg-purple-50/50 p-4 rounded-2xl border border-purple-100 flex gap-3 text-xs md:text-sm text-purple-700 italic">
-            <span className="text-2xl shrink-0 select-none animate-bounce">
-              📱🐾
-            </span>
+          {/* Реплика кота без иконок */}
+          <FadeInItem className="bg-purple-50/50 p-4 md:p-5 rounded-2xl border border-purple-100 border-l-4 border-l-brand-primary text-xs md:text-sm text-purple-700 italic">
             <p className="font-display font-medium leading-relaxed">
               {t.catRemark}
             </p>
           </FadeInItem>
         </div>
 
-        {/* Right column: widget illustration screenshot + наложенный реальный кадр виджета */}
-        <FadeInItem variant="zoom" className="lg:col-span-5 flex justify-center">
-          <div className="relative bg-gradient-to-tr from-pink-50/40 via-purple-100/20 to-indigo-50/40 p-4 rounded-[42px] border border-purple-100 shadow-inner group">
+        {/* Right column: виджет показан полностью (object-contain) и увеличен */}
+        <FadeInItem variant="zoom" className="lg:col-span-6 flex justify-center">
+          <div className="relative bg-gradient-to-tr from-pink-50/40 via-purple-100/20 to-indigo-50/40 p-5 md:p-7 rounded-[46px] border border-purple-100 shadow-inner group w-full max-w-[460px]">
             <img
               src={desktopWidgetImg}
               alt={t.imageAlt}
               referrerPolicy="no-referrer"
-              className="rounded-[30px] shadow-2xl max-w-[280px] md:max-w-[310px] w-full transform group-hover:scale-105 duration-500 border border-white"
+              className="rounded-[30px] shadow-2xl w-full h-auto object-contain transform group-hover:scale-[1.03] duration-500 border border-white bg-white"
             />
-            {/* Реальный кадр виджета — приклеен в углу как «настоящий скрин» */}
-            <div className="absolute -bottom-6 -right-3 md:-right-6 w-24 md:w-28 bg-[#1E152A] p-1 rounded-[18px] shadow-2xl border border-white/15 rotate-6 transition-transform duration-500 group-hover:rotate-0">
+            {/* Реальный кадр виджета — в углу, увеличен */}
+            <div className="absolute -bottom-6 -right-3 md:-right-7 w-28 md:w-32 bg-[#1E152A] p-1 rounded-[18px] shadow-2xl border border-white/15 rotate-6 transition-transform duration-500 group-hover:rotate-0">
               <img
                 src={adWidget}
                 alt={lang === "ru" ? "Кадр виджета Йоси" : "Yosa widget screenshot"}

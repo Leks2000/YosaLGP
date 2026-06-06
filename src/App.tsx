@@ -1,23 +1,5 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import {
-  Flame,
-  Smartphone,
-  Scale,
-  Sparkles,
-  Mic,
-  Heart,
-  ShieldCheck,
-  HelpCircle,
-  ChevronDown,
-  Download,
-  ChevronUp,
-  Cpu,
-  Award,
-  MousePointer,
-  Sparkle,
-  Settings,
-} from "lucide-react";
 
 import FadeIn from "./components/FadeIn";
 import FadeInItem from "./components/FadeInItem";
@@ -32,8 +14,8 @@ import HeroShowcase from "./components/HeroShowcase";
 import CreatorStory from "./components/CreatorStory";
 import ArtGallery from "./components/ArtGallery";
 import DownloadNudge from "./components/DownloadNudge";
-import dirtyCatArt from "./assets/images/art_dirty_cat.webp";
 import appIconArt from "./assets/images/app_icon.webp";
+import yosaStretch from "./assets/images/yosa_stretch.webp";
 
 // Interactive FAQ Content derived from the user request
 const FAQ_ITEMS: FAQItem[] = [
@@ -171,7 +153,7 @@ export default function App() {
   // Localization structure for main layout titles & sections
   const staticText = {
     ru: {
-      tag: "🐱 Йося — Умный счётчик калорий с ИИ-котом",
+      tag: "Йося — Умный счётчик калорий с ИИ-котом",
       heroTitle: "Следи за питанием просто,",
       heroTitleAccent: "на одном языке с ИИ",
       heroDesc:
@@ -199,7 +181,7 @@ export default function App() {
         "Все права защищены. Разработано в духе Amy Food Journal с любовью к пушистым котикам.",
     },
     en: {
-      tag: "🐱 Yosa — AI Calorie Counter with Cat Companion",
+      tag: "Yosa — AI Calorie Counter with Cat Companion",
       heroTitle: "Track your calories cleanly,",
       heroTitleAccent: "with the speed of AI",
       heroDesc:
@@ -271,28 +253,18 @@ export default function App() {
           {/* Logo with stretched cat icon details matching Image 15 */}
           <div
             onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-            className="flex items-center gap-2 cursor-pointer group"
+            className="flex items-center gap-2.5 cursor-pointer group"
           >
-            <div className="w-10 h-10 rounded-2xl bg-brand-primary text-white flex items-center justify-center font-display shadow-md group-hover:scale-105 transition-all">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="M12 5c.67 0 1.35.09 2 .26 1.78-2 5.03-2.84 6.42-2.26 1.4.58-.42 7-.42 7 .57 1.07 1 2.24 1 3.44C21 17.9 16.97 21 12 21s-9-3.1-9-7.56c0-1.25.5-2.4 1.1-3.48 0 0-1.89-6.42-.5-7 1.39-.58 4.72.23 6.5 2.23A9.04 9.04 0 0 1 12 5Z" />
-                <path d="M8 14v.5" />
-                <path d="M16 14v.5" />
-                <path d="M11.25 16.25h1.5L12 17l-.75-.75Z" />
-              </svg>
-            </div>
+            <img
+              src={yosaStretch}
+              alt={lang === "ru" ? "Кот Йося" : "Yosa cat"}
+              width="40"
+              height="40"
+              className="w-10 h-10 object-contain group-hover:scale-110 transition-transform"
+              loading="eager"
+            />
             <div className="flex flex-col">
-              <span className="font-display font-medium text-lg leading-tight tracking-tight text-brand-charcoal">
+              <span className="font-display font-semibold text-lg leading-tight tracking-tight text-brand-charcoal">
                 {lang === "ru" ? "Йося" : "Yosa"}
               </span>
             </div>
@@ -350,7 +322,11 @@ export default function App() {
               }`}
               title="Toggle Custom Paw Cursor"
             >
-              <MousePointer className="w-3.5 h-3.5" />
+              <span
+                className={`w-2.5 h-2.5 rounded-full shrink-0 transition-colors ${
+                  customCursor ? "bg-brand-primary" : "bg-gray-300"
+                }`}
+              />
               <span className="hidden sm:inline">
                 {lang === "ru"
                   ? customCursor
@@ -438,7 +414,7 @@ export default function App() {
                     whileHover={{ scale: 1.02 }}
                     className="bg-gray-150 border border-gray-200 text-gray-400 p-2.5 rounded-[16px] flex items-center gap-3 text-xs opacity-75 select-none font-medium cursor-not-allowed"
                   >
-                    <Smartphone className="w-4 h-4 text-gray-400 shrink-0" />
+                    <span className="w-1.5 h-1.5 rounded-full bg-gray-400 shrink-0" />
                     <span>{currentText.downloadPlay}</span>
                   </motion.div>
                   {/* App Store */}
@@ -446,7 +422,7 @@ export default function App() {
                     whileHover={{ scale: 1.02 }}
                     className="bg-gray-150 border border-gray-200 text-gray-400 p-2.5 rounded-[16px] flex items-center gap-3 text-xs opacity-75 select-none font-medium cursor-not-allowed"
                   >
-                    <Flame className="w-4 h-4 text-gray-400 shrink-0" />
+                    <span className="w-1.5 h-1.5 rounded-full bg-gray-400 shrink-0" />
                     <span>{currentText.downloadAppStore}</span>
                   </motion.div>
                 </div>
@@ -454,12 +430,12 @@ export default function App() {
 
               {/* Small safe tag badge */}
               <div className="flex items-center gap-8 text-xs text-gray-400 font-semibold select-none pt-2">
-                <span className="flex items-center gap-1.5">
-                  <ShieldCheck className="w-4 h-4 text-brand-primary" />
+                <span className="flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-brand-primary shrink-0" />
                   {lang === "ru" ? "Локальные данные" : "On-device data"}
                 </span>
-                <span className="flex items-center gap-1.5">
-                  <Heart className="w-4 h-4 text-brand-accent fill-brand-accent" />
+                <span className="flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-brand-accent shrink-0" />
                   {lang === "ru" ? "ИИ-счётчик будущего" : "AI counter of the future"}
                 </span>
               </div>
@@ -494,40 +470,24 @@ export default function App() {
             </FadeInItem>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {FEATURES.map((item) => {
-                const IconObj = {
-                  robot: <Cpu className="w-8 h-8 text-brand-primary" />,
-                  mic: <Mic className="w-8 h-8 text-brand-secondary" />,
-                  smartphone: (
-                    <Smartphone className="w-8 h-8 text-brand-accent" />
-                  ),
-                  trophy: <Award className="w-8 h-8 text-brand-primary" />,
-                  shield: (
-                    <ShieldCheck className="w-8 h-8 text-brand-secondary" />
-                  ),
-                  settings: <Settings className="w-8 h-8 text-brand-accent" />,
-                }[item.emoji] || (
-                  <Sparkles className="w-8 h-8 text-brand-primary" />
-                );
-
-                return (
-                  <FadeInItem
-                    key={item.id}
-                    direction="up"
-                    className="bg-white/70 backdrop-blur-md border border-purple-100 hover:border-brand-primary p-6 rounded-3xl shadow-sm hover:shadow-md transition-all duration-300 transform group hover:-translate-y-1"
-                  >
-                    <div className="mb-4 bg-purple-50 w-14 h-14 rounded-2xl flex items-center justify-center group-hover:scale-110 group-hover:bg-purple-100 transition-all select-none">
-                      {IconObj}
-                    </div>
-                    <h3 className="text-lg font-display font-bold text-brand-charcoal mb-2 leading-tight">
-                      {lang === "ru" ? item.titleRu : item.titleEn}
-                    </h3>
-                    <p className="text-xs md:text-sm text-gray-400 leading-relaxed">
-                      {lang === "ru" ? item.descRu : item.descEn}
-                    </p>
-                  </FadeInItem>
-                );
-              })}
+              {FEATURES.map((item, idx) => (
+                <FadeInItem
+                  key={item.id}
+                  direction="up"
+                  className="bg-white/70 backdrop-blur-md border border-purple-100 hover:border-brand-primary p-6 rounded-3xl shadow-sm hover:shadow-md transition-all duration-300 transform group hover:-translate-y-1"
+                >
+                  {/* Аккуратный номерной бейдж вместо дефолтной иконки */}
+                  <div className="mb-4 bg-gradient-to-br from-brand-primary to-brand-secondary text-white w-14 h-14 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-all select-none shadow-md font-display font-bold text-xl">
+                    {String(idx + 1).padStart(2, "0")}
+                  </div>
+                  <h3 className="text-lg font-display font-bold text-brand-charcoal mb-2 leading-tight">
+                    {lang === "ru" ? item.titleRu : item.titleEn}
+                  </h3>
+                  <p className="text-xs md:text-sm text-gray-400 leading-relaxed">
+                    {lang === "ru" ? item.descRu : item.descEn}
+                  </p>
+                </FadeInItem>
+              ))}
             </div>
           </section>
         </FadeIn>
@@ -572,15 +532,6 @@ export default function App() {
             id="faq-container"
             className="scroll-mt-24 space-y-8 max-w-3xl mx-auto relative"
           >
-            {/* Декоративный арт «грязного кота» — слегка обрезан и приглушён как фон */}
-            <img
-              src={dirtyCatArt}
-              alt=""
-              aria-hidden="true"
-              loading="lazy"
-              className="hidden lg:block absolute -top-10 -right-32 w-52 h-52 object-cover rounded-3xl opacity-20 blur-[1px] rotate-6 -z-10 pointer-events-none select-none"
-            />
-
             <FadeInItem direction="up" className="text-center space-y-2">
               <h2 className="text-2xl md:text-4xl font-display font-semibold text-brand-charcoal tracking-tight">
                 {currentText.faqHeading}
@@ -622,9 +573,9 @@ export default function App() {
                             stiffness: 300,
                             damping: 20,
                           }}
-                          className="p-1 bg-purple-50 rounded-md text-brand-primary shrink-0"
+                          className="w-6 h-6 bg-purple-50 rounded-md text-brand-primary shrink-0 flex items-center justify-center"
                         >
-                          <ChevronDown className="w-4 h-4" />
+                          <span className="block w-2 h-2 border-r-2 border-b-2 border-brand-primary -mt-1 rotate-45" />
                         </motion.span>
                       </button>
 
@@ -662,23 +613,15 @@ export default function App() {
           {/* Logo element */}
           <div className="lg:col-span-5 space-y-4">
             <div className="flex items-center gap-2.5">
-              <div className="bg-white text-brand-primary w-11 h-11 rounded-2xl flex items-center justify-center font-display shadow-lg">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="M12 5c.67 0 1.35.09 2 .26 1.78-2 5.03-2.84 6.42-2.26 1.4.58-.42 7-.42 7 .57 1.07 1 2.24 1 3.44C21 17.9 16.97 21 12 21s-9-3.1-9-7.56c0-1.25.5-2.4 1.1-3.48 0 0-1.89-6.42-.5-7 1.39-.58 4.72.23 6.5 2.23A9.04 9.04 0 0 1 12 5Z" />
-                  <path d="M8 14v.5" />
-                  <path d="M16 14v.5" />
-                  <path d="M11.25 16.25h1.5L12 17l-.75-.75Z" />
-                </svg>
+              <div className="bg-white w-12 h-12 rounded-2xl flex items-center justify-center shadow-lg p-1.5">
+                <img
+                  src={yosaStretch}
+                  alt={lang === "ru" ? "Кот Йося" : "Yosa cat"}
+                  width="40"
+                  height="40"
+                  className="w-full h-full object-contain"
+                  loading="lazy"
+                />
               </div>
               <span className="font-display font-semibold text-2xl tracking-tight">
                 {lang === "ru" ? "Йося" : "Yosa"}
@@ -719,18 +662,53 @@ export default function App() {
               {lang === "ru" ? "Конфиденциальность" : "Privacy & Terms"}
             </h4>
             <div className="flex flex-col gap-2 text-xs md:text-sm text-purple-100">
-              <span className="cursor-default">
-                🔒{" "}
+              <span className="cursor-default flex items-center gap-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-purple-200 shrink-0" />
                 {lang === "ru"
                   ? "100% Локальное хранение данных"
                   : "100% On-device storage"}
               </span>
-              <span className="cursor-default">
-                🐾{" "}
+              <span className="cursor-default flex items-center gap-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-purple-200 shrink-0" />
                 {lang === "ru"
                   ? "Мы никогда не продаём ваши данные"
                   : "We never sell your personal data"}
               </span>
+            </div>
+
+            {/* Внешние ссылки автора — помогают индексации сайта */}
+            <div className="flex items-center gap-3 mt-5">
+              <a
+                href="https://www.rustore.ru/catalog/app/ru.puhlyash.yosa"
+                target="_blank"
+                rel="noopener"
+                aria-label="RuStore"
+                className="text-xs font-semibold text-purple-100 hover:text-white transition-colors underline underline-offset-4 decoration-purple-300/50"
+              >
+                RuStore
+              </a>
+              <a
+                href="https://www.youtube.com/@xedanter"
+                target="_blank"
+                rel="noopener"
+                aria-label="YouTube"
+                className="text-purple-100 hover:text-white transition-colors"
+              >
+                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+                </svg>
+              </a>
+              <a
+                href="https://x.com/xedanter17151"
+                target="_blank"
+                rel="noopener"
+                aria-label="X / Twitter"
+                className="text-purple-100 hover:text-white transition-colors"
+              >
+                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                </svg>
+              </a>
             </div>
           </div>
         </div>
@@ -745,9 +723,9 @@ export default function App() {
               href="https://www.rustore.ru/catalog/app/ru.puhlyash.yosa"
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-white transition-colors cursor-pointer flex items-center gap-1"
+              className="hover:text-white transition-colors cursor-pointer flex items-center gap-1.5"
             >
-              <Download className="w-3.5 h-3.5" />
+              <span className="w-1.5 h-1.5 rounded-full bg-purple-200 shrink-0" />
               <span>RuStore Catalog</span>
             </a>
           </div>
