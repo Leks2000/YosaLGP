@@ -1,8 +1,9 @@
 import React from "react";
 import { Language } from "../types";
 import mealTrackerImg from "../assets/images/yosa_meal_tracker.webp";
-import catAvatar from "../assets/images/yosya_stretch.png";
+import catAvatar from "../assets/images/cat_photo_2_pillow.webp";
 import FadeInItem from "./FadeInItem";
+import LazyImage from "./LazyImage";
 
 interface CalorieEstimatorProps {
   lang: Language;
@@ -44,7 +45,7 @@ const LOCALIZATION = {
     ],
     catAdviceTitle: "Кошачий вердикт:",
     catAdviceText:
-      "«О, отличный борщ, хозяин! Тёплая сметанка дарит силы для игр, а углеводы из хлебушка помогут нам бегать быстрее! Мур.»",
+      "«Отличный борщ, хозяин! Тёплая сметанка дарит силы для игр, а углеводы из хлебушка помогут нам бегать быстрее.»",
     imageAlt: "Интерфейс мобильного приложения Йося при занесении блюда",
   },
   en: {
@@ -82,7 +83,7 @@ const LOCALIZATION = {
     ],
     catAdviceTitle: "Feline Nutrition Tip:",
     catAdviceText:
-      "«Spectacular dinner choice, human! The creamy warm proteins keep our muscles strong, and carbs from rye bread ensure we can sprint all night! Meow!»",
+      "«Spectacular dinner choice, human! The creamy warm proteins keep our muscles strong, and carbs from rye bread keep us sprinting all night.»",
     imageAlt: "Yosa mobile app meal verification screen screenshot mockup",
   },
 };
@@ -133,20 +134,6 @@ export default function CalorieEstimator({ lang }: CalorieEstimatorProps) {
                   className="bg-purple-50/50 p-3 rounded-2xl border border-purple-100/60 flex flex-col md:flex-row md:items-center justify-between gap-2 hover:bg-purple-100/30 transition-colors"
                 >
                   <div className="flex items-center gap-2.5">
-                    {/* Иконка микрофона без фона — просто контур */}
-                    <svg
-                      className="w-4 h-4 text-brand-primary shrink-0"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    >
-                      <rect x="9" y="2" width="6" height="11" rx="3" />
-                      <path d="M5 10a7 7 0 0 0 14 0" />
-                      <line x1="12" y1="19" x2="12" y2="22" />
-                    </svg>
                     <span className="font-display font-semibold text-xs md:text-sm text-brand-charcoal">
                       {item.text}
                     </span>
@@ -171,13 +158,14 @@ export default function CalorieEstimator({ lang }: CalorieEstimatorProps) {
 
             {/* Cat advice bubble */}
             <FadeInItem className="bg-white border border-purple-50/80 p-4 rounded-2xl shadow-sm relative flex gap-3 mt-4">
-              <img
+              <LazyImage
                 src={catAvatar}
                 alt={lang === "ru" ? "Кот Йося" : "Yosa cat"}
-                width="44"
-                height="44"
+                width="56"
+                height="56"
                 loading="lazy"
-                className="w-11 h-11 object-contain select-none animate-float shrink-0"
+                wrapperClassName="w-14 h-14 rounded-2xl shrink-0 bg-purple-50"
+                className="w-full h-full object-cover object-[60%_center] select-none animate-float"
               />
               <div>
                 <span className="text-xs font-bold text-brand-primary block mb-0.5">
@@ -194,11 +182,14 @@ export default function CalorieEstimator({ lang }: CalorieEstimatorProps) {
           {/* Right Column: Premium screenshot presentation of the layout */}
           <FadeInItem className="lg:col-span-5 flex justify-center">
             <div className="bg-gradient-to-tr from-purple-100/30 to-pink-100/30 p-4 rounded-[42px] border border-purple-100 relative group overflow-hidden shadow-inner">
-              <img
+              <LazyImage
                 src={mealTrackerImg}
                 alt={t.imageAlt}
                 referrerPolicy="no-referrer"
-                className="rounded-[30px] shadow-2xl max-w-[280px] md:max-w-[310px] w-full transform group-hover:scale-105 duration-500 border border-white"
+                width="620"
+                height="1340"
+                wrapperClassName="rounded-[30px] max-w-[280px] md:max-w-[310px] w-full border border-white shadow-2xl"
+                className="w-full h-auto transform group-hover:scale-105 duration-500"
               />
 
             </div>

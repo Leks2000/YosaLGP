@@ -2,6 +2,7 @@ import React from "react";
 import { motion } from "framer-motion";
 
 interface FadeInProps {
+  key?: React.Key;
   children: React.ReactNode;
   delay?: number;
   direction?: "up" | "down" | "left" | "right" | "none";
