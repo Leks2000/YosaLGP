@@ -78,3 +78,41 @@ html {
 .custom-cursor-active [role="button"] {
   cursor: none;
 }
+
+/* Shimmer / shine loading animation for lazy sections */
+@keyframes shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+.animate-shimmer {
+  background: linear-gradient(90deg, transparent, rgba(124, 58, 237, 0.06), transparent);
+  background-size: 200% 100%;
+  animation: shimmer 2s infinite;
+}
+
+/* Gentle pulse for CTA glow */
+@keyframes cta-glow {
+  0%, 100% { box-shadow: 0 10px 20px -10px rgba(124, 58, 237, 0.4); }
+  50% { box-shadow: 0 14px 28px -8px rgba(124, 58, 237, 0.6); }
+}
+
+.animate-cta-glow {
+  animation: cta-glow 3s ease-in-out infinite;
+}
+
+/* Cat walking animation (replaces lottie) */
+@keyframes cat-walk {
+  0%, 100% { transform: translateX(0) scaleX(1); }
+  25% { transform: translateX(3px) scaleX(1); }
+  50% { transform: translateX(6px) scaleX(1); }
+  75% { transform: translateX(3px) scaleX(1); }
+}
+
+.animate-cat-walk {
+  animation: cat-walk 4s ease-in-out infinite;
+}
+
+/* Scrollbar hide utility */
+.scrollbar-hide::-webkit-scrollbar { display: none; }
+.scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }

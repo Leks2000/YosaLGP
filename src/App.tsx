@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, lazy, Suspense } from "react";
 import { motion, AnimatePresence } from "motion/react";
 
 import FadeIn from "./components/FadeIn";
@@ -6,17 +6,29 @@ import FadeInItem from "./components/FadeInItem";
 import TextReveal from "./components/TextReveal";
 import { Language, FAQItem, FeatureItem } from "./types";
 import PawCursor from "./components/PawCursor";
-import CalorieEstimator from "./components/CalorieEstimator";
-import GoalsCalculator from "./components/GoalsCalculator";
-import WidgetSandbox from "./components/WidgetSandbox";
-import BadgesGallery from "./components/BadgesGallery";
 import HeroShowcase from "./components/HeroShowcase";
-import CreatorStory from "./components/CreatorStory";
-import ArtGallery from "./components/ArtGallery";
-import DownloadNudge from "./components/DownloadNudge";
+
+// Lazy-loaded sections below the fold (code splitting)
+const CalorieEstimator = lazy(() => import("./components/CalorieEstimator"));
+const GoalsCalculator = lazy(() => import("./components/GoalsCalculator"));
+const WidgetSandbox = lazy(() => import("./components/WidgetSandbox"));
+const BadgesGallery = lazy(() => import("./components/BadgesGallery"));
+const CreatorStory = lazy(() => import("./components/CreatorStory"));
+const ArtGallery = lazy(() => import("./components/ArtGallery"));
+const DownloadNudge = lazy(() => import("./components/DownloadNudge"));
+
+// Lazy loading fallback component
+const SectionLoader = () => (
+  <div className="flex items-center justify-center py-20">
+    <div className="flex flex-col items-center gap-3">
+      <div className="w-10 h-10 border-3 border-brand-primary/30 border-t-brand-primary rounded-full animate-spin" />
+      <span className="text-xs text-gray-400 font-medium">Загрузка...</span>
+    </div>
+  </div>
+);
 import appIconArt from "./assets/images/app_icon.webp";
 import yosaStretch from "./assets/images/yosa_stretch.webp";
-import catBedImg from "./assets/images/cat_photo_bed.jpg";
+import catBedImg from "./assets/images/cat_photo_bed.webp";
 
 // Interactive FAQ Content derived from the user request
 const FAQ_ITEMS: FAQItem[] = [
@@ -156,6 +168,7 @@ export default function App() {
   const [lang, setLang] = useState<Language>("ru");
   const [customCursor, setCustomCursor] = useState(true);
   const [activeFaq, setActiveFaq] = useState<string | null>(null);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   // Localization structure for main layout titles & sections
   const staticText = {
@@ -317,12 +330,12 @@ export default function App() {
             </button>
           </nav>
 
-          {/* Language Switcher and Option panels */}
+          {/* Right side: language switcher + burger */}
           <div className="flex items-center gap-3">
-            {/* Custom Mouse Paw trail toggle */}
+            {/* Custom Mouse Paw trail toggle (desktop only) */}
             <button
               onClick={() => setCustomCursor(!customCursor)}
-              className={`p-2 rounded-xl transition-all shadow-sm flex items-center gap-1.5 cursor-pointer text-xs font-medium hidden md:flex ${
+              className={`p-2 rounded-xl transition-all shadow-sm items-center gap-1.5 cursor-pointer text-xs font-medium hidden md:flex ${
                 customCursor
                   ? "bg-purple-100/90 text-brand-primary hover:bg-purple-200"
                   : "bg-gray-100 text-gray-400 hover:bg-gray-200"
@@ -350,13 +363,60 @@ export default function App() {
               onClick={toggleLanguage}
               className="bg-brand-primary text-white font-semibold text-xs py-2 px-4 shadow rounded-xl hover:bg-brand-primary/95 transition-all shrink-0 cursor-pointer flex items-center gap-1.5"
             >
-              {lang === "ru" ? "АНГЛИЙСКИЙ" : "RUSSIAN"}
+              {lang === "ru" ? "EN" : "RU"}
+            </button>
+
+            {/* Mobile Burger Menu Button */}
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="lg:hidden p-2 rounded-xl bg-gray-100 hover:bg-purple-100 transition-colors cursor-pointer"
+              aria-label="Menu"
+            >
+              <svg className="w-5 h-5 text-brand-charcoal" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
+                {mobileMenuOpen ? (
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                ) : (
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+                )}
+              </svg>
             </button>
           </div>
         </div>
+
+        {/* Mobile Navigation Drawer */}
+        <AnimatePresence>
+          {mobileMenuOpen && (
+            <motion.nav
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.25, ease: "easeInOut" }}
+              className="lg:hidden overflow-hidden border-t border-purple-50 mt-4"
+            >
+              <div className="max-w-7xl mx-auto px-4 py-4 flex flex-col gap-2">
+                {[
+                  { id: "estimator-playground", label: currentText.navTry },
+                  { id: "feat-grid", label: currentText.navFeatures },
+                  { id: "streaks-section", label: currentText.badgesSec },
+                  { id: "norm-calculator", label: currentText.navCalc },
+                  { id: "widget-preview-section", label: currentText.navWidget },
+                  { id: "faq-container", label: currentText.navFaq },
+                ].map((item) => (
+                  <button
+                    key={item.id}
+                    onClick={() => { handleScrollTo(item.id); setMobileMenuOpen(false); }}
+                    className="text-left py-2.5 px-4 rounded-xl text-sm font-semibold text-gray-600 hover:bg-purple-50 hover:text-brand-primary transition-all cursor-pointer"
+                  >
+                    {item.label}
+                  </button>
+                ))}
+              </div>
+            </motion.nav>
+          )}
+        </AnimatePresence>
       </header>
 
-      <main className="max-w-7xl mx-auto px-4 md:px-8 pt-10 md:pt-16 space-y-24 md:space-y-36">
+      <main className="max-w-7xl mx-auto px-4 md:px-8 pt-10 md:pt-16 space-y-32 md:space-y-44">
         {/* HERO SECTION CONTAINER */}
         <FadeIn direction="up" delay={0.1}>
           <section className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
@@ -377,13 +437,15 @@ export default function App() {
               <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 max-w-md pt-4">
                 {/* RuStore Badge */}
                 <motion.a
-                  whileHover={{ scale: 1.03 }}
-                  whileTap={{ scale: 0.95 }}
+                  whileHover={{ scale: 1.04, y: -3 }}
+                  whileTap={{ scale: 0.96 }}
                   href="https://www.rustore.ru/catalog/app/ru.puhlyash.yosa"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="bg-gradient-to-r from-blue-600 to-blue-700 text-white p-3 rounded-[20px] flex items-center gap-3.5 shadow-lg hover:shadow-xl transition-shadow group cursor-pointer border border-blue-500/30"
+                  className="bg-gradient-to-r from-blue-600 to-blue-700 text-white p-3 rounded-[20px] flex items-center gap-3.5 shadow-lg hover:shadow-[0_16px_40px_-8px_rgba(37,99,235,0.5)] transition-all duration-300 group cursor-pointer border border-blue-500/30 relative overflow-hidden"
                 >
+                  {/* Shine sweep effect */}
+                  <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/15 to-transparent" />
                   <div className="bg-white text-blue-600 rounded-xl w-10 h-10 flex items-center justify-center font-bold text-lg shadow-sm shrink-0 uppercase select-none relative overflow-hidden">
                     <div className="absolute inset-0 bg-blue-100 opacity-0 group-hover:opacity-100 animate-pulse"></div>
                     <span className="relative z-10">ru</span>
@@ -439,12 +501,21 @@ export default function App() {
           </section>
         </FadeIn>
 
+        {/* Section divider — breathing space */}
+        <div className="flex items-center justify-center gap-3 py-2">
+          <span className="w-1.5 h-1.5 rounded-full bg-brand-primary/20" />
+          <span className="w-2 h-2 rounded-full bg-brand-primary/30" />
+          <span className="w-1.5 h-1.5 rounded-full bg-brand-primary/20" />
+        </div>
+
         {/* INTERACTIVE CALORIE PLAYGROUND SANDBOX */}
-        <FadeIn direction="up" staggerChildren={0.15}>
-          <section id="estimator-playground" className="scroll-mt-24">
-            <CalorieEstimator lang={lang} />
-          </section>
-        </FadeIn>
+        <Suspense fallback={<SectionLoader />}>
+          <FadeIn direction="up" staggerChildren={0.15}>
+            <section id="estimator-playground" className="scroll-mt-24">
+              <CalorieEstimator lang={lang} />
+            </section>
+          </FadeIn>
+        </Suspense>
 
         {/* CORE FEATURES GRID SECTION */}
         <FadeIn direction="up" delay={0.1} staggerChildren={0.15}>
@@ -483,103 +554,146 @@ export default function App() {
           </section>
         </FadeIn>
 
+        {/* Section divider */}
+        <div className="flex items-center justify-center gap-3 py-2">
+          <span className="w-12 h-px bg-gradient-to-r from-transparent via-brand-primary/20 to-transparent" />
+          <span className="w-2 h-2 rounded-full bg-brand-secondary/30" />
+          <span className="w-12 h-px bg-gradient-to-r from-transparent via-brand-primary/20 to-transparent" />
+        </div>
+
         {/* STREAK & ACHIEVEMENTS SECTION */}
-        <FadeIn direction="up" staggerChildren={0.1}>
-          <section id="streaks-section" className="scroll-mt-24">
-            <BadgesGallery lang={lang} />
-          </section>
-        </FadeIn>
+        <Suspense fallback={<SectionLoader />}>
+          <FadeIn direction="up" staggerChildren={0.1}>
+            <section id="streaks-section" className="scroll-mt-24">
+              <BadgesGallery lang={lang} />
+            </section>
+          </FadeIn>
+        </Suspense>
+
+        {/* Section divider */}
+        <div className="flex items-center justify-center gap-3 py-2">
+          <span className="w-1.5 h-1.5 rounded-full bg-brand-primary/20" />
+          <span className="w-2 h-2 rounded-full bg-brand-primary/30" />
+          <span className="w-1.5 h-1.5 rounded-full bg-brand-primary/20" />
+        </div>
 
         {/* BMR TDEE GOALS CALCULATOR */}
-        <FadeIn direction="up">
-          <section id="norm-calculator" className="scroll-mt-24">
-            <GoalsCalculator lang={lang} />
-          </section>
-        </FadeIn>
+        <Suspense fallback={<SectionLoader />}>
+          <FadeIn direction="up">
+            <section id="norm-calculator" className="scroll-mt-24">
+              <GoalsCalculator lang={lang} />
+            </section>
+          </FadeIn>
+        </Suspense>
 
         {/* INTERACTIVE WIDGET CUSTOMIZATION SANDBOX */}
-        <FadeIn direction="up" staggerChildren={0.15}>
-          <section id="widget-preview-section" className="scroll-mt-24">
-            <WidgetSandbox lang={lang} />
-          </section>
-        </FadeIn>
+        <Suspense fallback={<SectionLoader />}>
+          <FadeIn direction="up" staggerChildren={0.15}>
+            <section id="widget-preview-section" className="scroll-mt-24">
+              <WidgetSandbox lang={lang} />
+            </section>
+          </FadeIn>
+        </Suspense>
+
+        {/* Section divider */}
+        <div className="flex items-center justify-center gap-3 py-2">
+          <span className="w-12 h-px bg-gradient-to-r from-transparent via-brand-primary/20 to-transparent" />
+          <span className="w-2 h-2 rounded-full bg-brand-secondary/30" />
+          <span className="w-12 h-px bg-gradient-to-r from-transparent via-brand-primary/20 to-transparent" />
+        </div>
 
         {/* ART UNIVERSE GALLERY – арты Йоси (банка, киви, фастфуд, космонавт) */}
-        <FadeIn direction="up">
-          <ArtGallery lang={lang} />
-        </FadeIn>
+        <Suspense fallback={<SectionLoader />}>
+          <FadeIn direction="up">
+            <ArtGallery lang={lang} />
+          </FadeIn>
+        </Suspense>
 
         {/* «ТЫ ЕЩЁ НЕ СКАЧАЛ?» – игривая секция с реальными фото кота */}
-        <FadeIn direction="up">
-          <DownloadNudge lang={lang} />
-        </FadeIn>
+        <Suspense fallback={<SectionLoader />}>
+          <FadeIn direction="up">
+            <DownloadNudge lang={lang} />
+          </FadeIn>
+        </Suspense>
 
         {/* MEET THE CREATOR STORY SECTION – реальные фото кота, картинки в разнобой */}
-        <CreatorStory lang={lang} />
+        <Suspense fallback={<SectionLoader />}>
+          <CreatorStory lang={lang} />
+        </Suspense>
 
-        {/* INDIVIDUAL FAQ ACCORDIONS */}
+        {/* Section divider */}
+        <div className="flex items-center justify-center gap-3 py-2">
+          <span className="w-1.5 h-1.5 rounded-full bg-brand-primary/20" />
+          <span className="w-2 h-2 rounded-full bg-brand-primary/30" />
+          <span className="w-1.5 h-1.5 rounded-full bg-brand-primary/20" />
+        </div>
+
+        {/* FAQ AS CARDS GRID */}
         <FadeIn direction="up" staggerChildren={0.1}>
           <section
             id="faq-container"
-            className="scroll-mt-24 space-y-8 max-w-3xl mx-auto relative"
+            className="scroll-mt-24 space-y-10 max-w-5xl mx-auto"
           >
-            <FadeInItem direction="up" className="text-center space-y-2">
+            <FadeInItem direction="up" className="text-center space-y-3">
               <h2 className="text-2xl md:text-4xl font-display font-semibold text-brand-charcoal tracking-tight">
                 {currentText.faqHeading}
               </h2>
-              <p className="text-xs md:text-sm text-gray-400 max-w-lg mx-auto">
+              <p className="text-sm text-gray-400 max-w-lg mx-auto">
                 {currentText.faqSub}
               </p>
             </FadeInItem>
 
-            <div className="space-y-5">
-              {FAQ_ITEMS.map((item) => {
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+              {FAQ_ITEMS.map((item, idx) => {
                 const isOpen = activeFaq === item.id;
                 return (
                   <FadeInItem
                     key={item.id}
                     direction="up"
-                    className={`relative ${isOpen ? "z-50" : "z-10"}`}
+                    className={idx === FAQ_ITEMS.length - 1 && FAQ_ITEMS.length % 2 !== 0 ? "md:col-span-2 md:max-w-[calc(50%-10px)] md:mx-auto" : ""}
                   >
                     <motion.div
-                      whileHover={{ scale: 1.02, y: -2 }}
+                      whileHover={{ y: -4, boxShadow: "0 12px 40px -12px rgba(124,58,237,0.15)" }}
                       whileTap={{ scale: 0.98 }}
-                      className={`bg-white border transition-all rounded-2xl shadow-sm ${
+                      className={`bg-white/80 backdrop-blur-sm border-2 transition-all rounded-3xl overflow-hidden h-full ${
                         isOpen
-                          ? "border-brand-primary shadow-md"
-                          : "border-purple-50 hover:shadow-md hover:border-purple-200"
+                          ? "border-brand-primary shadow-lg shadow-purple-100"
+                          : "border-purple-100/60 hover:border-purple-200"
                       }`}
                     >
                       <button
                         onClick={() => setActiveFaq(isOpen ? null : item.id)}
-                        className="w-full text-left p-5 flex items-center justify-between gap-4 font-semibold text-xs md:text-sm text-brand-charcoal cursor-pointer outline-none"
+                        className="w-full text-left p-5 pb-3 flex items-start justify-between gap-3 cursor-pointer outline-none"
                       >
-                        <span>
-                          {lang === "ru" ? item.questionRu : item.questionEn}
-                        </span>
+                        <div className="flex items-start gap-3">
+                          <span className="w-8 h-8 flex items-center justify-center bg-gradient-to-br from-brand-primary to-brand-secondary text-white rounded-xl shrink-0 text-xs font-bold shadow-sm mt-0.5">
+                            {idx + 1}
+                          </span>
+                          <span className="font-semibold text-sm text-brand-charcoal leading-snug">
+                            {lang === "ru" ? item.questionRu : item.questionEn}
+                          </span>
+                        </div>
                         <motion.span
                           animate={{ rotate: isOpen ? 180 : 0 }}
-                          transition={{
-                            type: "spring",
-                            stiffness: 300,
-                            damping: 20,
-                          }}
-                          className="w-6 h-6 bg-purple-50 rounded-md text-brand-primary shrink-0 flex items-center justify-center"
+                          transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                          className="w-7 h-7 bg-purple-50 rounded-lg text-brand-primary shrink-0 flex items-center justify-center mt-0.5"
                         >
-                          <span className="block w-2 h-2 border-r-2 border-b-2 border-brand-primary -mt-1 rotate-45" />
+                          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                          </svg>
                         </motion.span>
                       </button>
 
                       <AnimatePresence>
                         {isOpen && (
                           <motion.div
-                            initial={{ opacity: 0, scale: 0.95, y: -10 }}
-                            animate={{ opacity: 1, scale: 1, y: 0 }}
-                            exit={{ opacity: 0, scale: 0.95, y: -10 }}
-                            transition={{ duration: 0.2, ease: "easeOut" }}
-                            className="absolute top-[calc(100%+8px)] left-0 w-full bg-white border border-brand-primary/30 rounded-2xl shadow-xl overflow-hidden origin-top"
+                            initial={{ opacity: 0, height: 0 }}
+                            animate={{ opacity: 1, height: "auto" }}
+                            exit={{ opacity: 0, height: 0 }}
+                            transition={{ duration: 0.25, ease: "easeOut" }}
+                            className="overflow-hidden"
                           >
-                            <div className="p-5 text-xs md:text-sm text-gray-600 leading-relaxed bg-gradient-to-b from-purple-50/30 to-transparent">
+                            <div className="px-5 pb-5 pt-1 text-sm text-gray-500 leading-relaxed border-t border-purple-50 mx-3 pt-4">
                               {lang === "ru" ? item.answerRu : item.answerEn}
                             </div>
                           </motion.div>

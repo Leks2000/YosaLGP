@@ -8,9 +8,9 @@ import LazyImage from "./LazyImage";
 // Реальные фото кота Йоси (прислал создатель проекта)
 import catBag from "../assets/images/cat_photo_1_bag.webp";
 import catBox from "../assets/images/cat_photo_5_box.webp";
-import catBed from "../assets/images/cat_photo_bed.jpg";
-import creatorAvatar from "../assets/images/creator_avatar.jpg";
-import creatorPhoto from "../assets/images/creator_photo.jpg";
+import catBed from "../assets/images/cat_photo_bed.webp";
+import creatorAvatar from "../assets/images/creator_avatar.webp";
+import creatorPhoto from "../assets/images/creator_photo.webp";
 
 interface CreatorStoryProps {
   lang: Language;

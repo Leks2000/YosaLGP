@@ -7,8 +7,8 @@ import LazyImage from "./LazyImage";
 
 // Реальные фото кота Йоси
 import catBox from "../assets/images/cat_photo_5_box.webp";
-import catOnion from "../assets/images/cat_photo_onion_new.jpg";
-import catSleepNew from "../assets/images/cat_photo_sleep_new.jpg";
+import catOnion from "../assets/images/cat_photo_onion_new.webp";
+import catSleepNew from "../assets/images/cat_photo_sleep_new.webp";
 
 interface DownloadNudgeProps {
   lang: Language;
@@ -106,15 +106,19 @@ export default function DownloadNudge({ lang }: DownloadNudgeProps) {
       <FadeIn direction="up">
         <div className="flex justify-center">
           <motion.a
-            whileHover={{ scale: 1.04 }}
+            whileHover={{ scale: 1.04, y: -3 }}
             whileTap={{ scale: 0.96 }}
             href="https://www.rustore.ru/catalog/app/ru.puhlyash.yosa"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 bg-brand-primary hover:bg-brand-primary/90 text-white font-semibold text-sm py-3.5 px-7 rounded-2xl shadow-lg transition-all cursor-pointer"
+            className="inline-flex items-center gap-2 bg-brand-primary hover:bg-brand-primary/90 text-white font-semibold text-sm py-3.5 px-7 rounded-2xl shadow-lg hover:shadow-[0_16px_32px_-8px_rgba(124,58,237,0.5)] transition-all cursor-pointer group relative overflow-hidden animate-cta-glow"
           >
-            <span className="w-1.5 h-1.5 rounded-full bg-white shrink-0" />
-            {cta}
+            {/* Shine sweep effect */}
+            <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+            <span className="relative z-10 flex items-center gap-2">
+              <span className="w-1.5 h-1.5 rounded-full bg-white shrink-0" />
+              {cta}
+            </span>
           </motion.a>
         </div>
       </FadeIn>

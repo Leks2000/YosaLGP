@@ -56,7 +56,7 @@ export default function BadgesGallery({ lang }: BadgesGalleryProps) {
     <div className="space-y-12">
       {/* Заголовок – центрирован */}
       <div className="text-center space-y-3">
-        <FadeInItem className="inline-flex items-center gap-2 bg-amber-100/70 py-1.5 px-4 rounded-full text-xs font-bold text-amber-700">
+        <FadeInItem className="inline-flex items-center gap-2 bg-purple-100/70 py-1.5 px-4 rounded-full text-xs font-bold text-brand-primary">
           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" d="M15.362 5.214A8.252 8.252 0 0112 21 8.25 8.25 0 016.038 7.048 8.287 8.287 0 009 9.6a8.983 8.983 0 013.361-6.867 8.21 8.21 0 003 2.48z" />
           </svg>
@@ -89,7 +89,7 @@ export default function BadgesGallery({ lang }: BadgesGalleryProps) {
                 initial={{ rotate: shot.rotate }}
                 whileHover={{ rotate: 0, scale: 1.03 }}
                 transition={{ type: "spring", stiffness: 200, damping: 16 }}
-                className="flex-shrink-0 snap-center w-40 lg:w-full bg-gradient-to-br from-amber-50 to-orange-50 rounded-2xl p-3 border border-amber-100 shadow-sm hover:shadow-md transition-shadow"
+                className="flex-shrink-0 snap-center w-40 lg:w-full bg-gradient-to-br from-purple-50 to-violet-50 rounded-2xl p-3 border border-purple-100 shadow-sm hover:shadow-md transition-shadow"
               >
                 <div className="bg-[#1E152A] p-1 rounded-[14px] shadow-lg">
                   <LazyImage
@@ -102,7 +102,7 @@ export default function BadgesGallery({ lang }: BadgesGalleryProps) {
                     className="w-full h-full object-contain bg-white"
                   />
                 </div>
-                <p className="text-xs font-semibold text-amber-700 mt-2 text-center">{shot.label}</p>
+                <p className="text-xs font-semibold text-brand-primary mt-2 text-center">{shot.label}</p>
               </motion.div>
             ))}
           </div>
@@ -117,8 +117,8 @@ export default function BadgesGallery({ lang }: BadgesGalleryProps) {
           <div className="space-y-3">
             {t.streaks.map((streak, idx) => (
               <FadeInItem key={idx}>
-                <div className="flex gap-3 items-start bg-gradient-to-r from-amber-50/60 to-transparent p-3 rounded-xl border-l-3 border-l-amber-400">
-                  <span className="w-7 h-7 flex items-center justify-center bg-gradient-to-br from-amber-400 to-orange-500 text-white rounded-lg shrink-0 text-xs font-bold shadow-sm">
+                <div className="flex gap-3 items-start bg-gradient-to-r from-purple-50/60 to-transparent p-3 rounded-xl border-l-3 border-l-brand-primary">
+                  <span className="w-7 h-7 flex items-center justify-center bg-gradient-to-br from-brand-primary to-brand-secondary text-white rounded-lg shrink-0 text-xs font-bold shadow-sm">
                     {idx + 1}
                   </span>
                   <span className="text-xs md:text-sm text-gray-600 leading-relaxed">{streak}</span>
@@ -129,9 +129,9 @@ export default function BadgesGallery({ lang }: BadgesGalleryProps) {
 
           {/* Мотивационная цитата Йоси */}
           <FadeInItem>
-            <div className="relative bg-gradient-to-r from-amber-50 to-orange-50 p-5 rounded-2xl border border-amber-200">
+            <div className="relative bg-gradient-to-r from-purple-50 to-violet-50 p-5 rounded-2xl border border-purple-200">
               <div className="absolute -top-3 -left-2 text-3xl">🔥</div>
-              <p className="text-sm text-amber-800 italic font-display font-medium leading-relaxed pl-4">
+              <p className="text-sm text-purple-800 italic font-display font-medium leading-relaxed pl-4">
                 {t.motto}
               </p>
             </div>
@@ -139,7 +139,7 @@ export default function BadgesGallery({ lang }: BadgesGalleryProps) {
 
           {/* Главное изображение наград */}
           <FadeInItem variant="zoom" className="flex justify-center lg:justify-start">
-            <div className="bg-gradient-to-tr from-amber-50/50 to-purple-50/50 p-3 rounded-[30px] border border-amber-100 shadow-inner">
+            <div className="bg-gradient-to-tr from-purple-50/50 to-violet-50/50 p-3 rounded-[30px] border border-purple-100 shadow-inner">
               <LazyImage
                 src={rewardsBadgesImg}
                 alt={t.imageAlt}
