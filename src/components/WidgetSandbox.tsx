@@ -50,84 +50,87 @@ export default function WidgetSandbox({ lang }: WidgetSandboxProps) {
   const t = LOCALIZATION[lang];
 
   return (
-    <div className="bg-white/60 backdrop-blur-md rounded-3xl p-7 md:p-14 border border-purple-100 shadow-xl overflow-hidden relative">
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center">
-        {/* Left column: descriptions */}
-        <div className="lg:col-span-6 space-y-6">
-          <FadeInItem className="inline-flex items-center gap-2 bg-purple-100/70 py-1 px-3.5 rounded-full text-xs font-bold text-brand-primary">
-            <span className="w-1.5 h-1.5 rounded-full bg-brand-primary" />
-            {t.badge}
-          </FadeInItem>
+    <div className="relative">
+      {/* Глубокий тёмный фон для контраста */}
+      <div className="bg-gradient-to-br from-[#1a1025] via-[#1E152A] to-[#0f0a18] rounded-[40px] p-8 md:p-14 overflow-hidden relative">
+        {/* Декоративные элементы */}
+        <div className="absolute top-10 right-10 w-60 h-60 bg-brand-primary/10 rounded-full blur-[80px]"></div>
+        <div className="absolute bottom-10 left-10 w-40 h-40 bg-pink-500/10 rounded-full blur-[60px]"></div>
 
-          <FadeInItem>
-            <h3 className="text-2xl md:text-4xl font-display font-semibold text-brand-charcoal tracking-tight leading-tight">
-              {t.title}
-            </h3>
-          </FadeInItem>
-
-          <FadeInItem>
-            <p className="text-gray-500 text-sm md:text-base leading-relaxed">
-              {t.subtitle}
-            </p>
-          </FadeInItem>
-
-          <FadeInItem>
-            <p className="text-xs md:text-sm text-gray-400">{t.descText}</p>
-          </FadeInItem>
-
-          <div className="space-y-3.5 pt-2">
-            <FadeInItem>
-              <h4 className="text-xs md:text-sm font-bold uppercase tracking-wider text-brand-charcoal">
-                {t.featureTitle}
-              </h4>
+        <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-center">
+          {/* Левая колонка - текст */}
+          <div className="space-y-6">
+            <FadeInItem className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm py-1.5 px-4 rounded-full text-xs font-bold text-purple-200">
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 1.5H8.25A2.25 2.25 0 006 3.75v16.5a2.25 2.25 0 002.25 2.25h7.5A2.25 2.25 0 0018 20.25V3.75a2.25 2.25 0 00-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 18.75h3" />
+              </svg>
+              {t.badge}
             </FadeInItem>
-            <div className="space-y-3">
+
+            <FadeInItem>
+              <h3 className="text-3xl md:text-5xl font-display font-semibold text-white tracking-tight leading-tight">
+                {t.title}
+              </h3>
+            </FadeInItem>
+
+            <FadeInItem>
+              <p className="text-purple-100/70 text-sm md:text-base leading-relaxed">
+                {t.subtitle}
+              </p>
+            </FadeInItem>
+
+            {/* Фичи в виде мини-карточек */}
+            <div className="space-y-3 pt-2">
               {t.features.map((feat, idx) => (
-                <FadeInItem
-                  key={idx}
-                  className="flex gap-3 items-start text-xs md:text-sm text-gray-500"
-                >
-                  <span className="w-2 h-2 rounded-full bg-brand-primary shrink-0 mt-1.5" />
-                  <span>{feat}</span>
+                <FadeInItem key={idx}>
+                  <div className="flex gap-3 items-start bg-white/5 backdrop-blur-sm rounded-xl p-3 border border-white/10 hover:border-purple-400/30 transition-colors">
+                    <span className="w-7 h-7 flex items-center justify-center bg-brand-primary/20 rounded-lg shrink-0 text-purple-200 text-xs font-bold">
+                      {idx + 1}
+                    </span>
+                    <span className="text-xs md:text-sm text-purple-100/80 leading-relaxed">{feat}</span>
+                  </div>
                 </FadeInItem>
               ))}
             </div>
+
+            {/* Цитата */}
+            <FadeInItem className="bg-white/5 p-4 rounded-2xl border border-purple-400/20">
+              <p className="text-xs md:text-sm text-purple-200/80 italic font-display font-medium leading-relaxed">
+                {t.catRemark}
+              </p>
+            </FadeInItem>
           </div>
 
-          {/* Реплика кота без иконок */}
-          <FadeInItem className="bg-purple-50/50 p-4 md:p-5 rounded-2xl border border-purple-100 border-l-4 border-l-brand-primary text-xs md:text-sm text-purple-700 italic">
-            <p className="font-display font-medium leading-relaxed">
-              {t.catRemark}
-            </p>
+          {/* Правая колонка: виджет */}
+          <FadeInItem variant="zoom" className="flex justify-center">
+            <div className="relative group">
+              <div className="absolute inset-0 bg-gradient-to-tr from-brand-primary/20 to-pink-500/20 rounded-[36px] blur-xl group-hover:blur-2xl transition-all"></div>
+              <div className="relative bg-white/5 backdrop-blur-sm p-4 md:p-6 rounded-[36px] border border-white/10">
+                <LazyImage
+                  src={desktopWidgetImg}
+                  alt={t.imageAlt}
+                  referrerPolicy="no-referrer"
+                  width="900"
+                  height="520"
+                  wrapperClassName="rounded-[24px] w-full max-w-[440px] shadow-2xl overflow-hidden"
+                  className="w-full h-auto object-contain transform group-hover:scale-[1.02] duration-500"
+                />
+                {/* Кадр виджета */}
+                <div className="absolute -bottom-5 -right-5 w-28 md:w-36 bg-[#1E152A] p-1.5 rounded-[20px] shadow-2xl border border-white/15 rotate-6 group-hover:rotate-0 transition-transform duration-500">
+                  <LazyImage
+                    src={adWidget}
+                    alt={lang === "ru" ? "Кадр виджета Йоси" : "Yosa widget screenshot"}
+                    loading="lazy"
+                    width="180"
+                    height="320"
+                    wrapperClassName="rounded-[14px] w-full aspect-[9/16]"
+                    className="w-full h-full object-contain bg-white"
+                  />
+                </div>
+              </div>
+            </div>
           </FadeInItem>
         </div>
-
-        {/* Right column: виджет показан полностью (object-contain) и увеличен */}
-        <FadeInItem variant="zoom" className="lg:col-span-6 flex justify-center">
-          <div className="relative bg-gradient-to-tr from-pink-50/40 via-purple-100/20 to-indigo-50/40 p-5 md:p-7 rounded-[46px] border border-purple-100 shadow-inner group w-full max-w-[460px]">
-            <LazyImage
-              src={desktopWidgetImg}
-              alt={t.imageAlt}
-              referrerPolicy="no-referrer"
-              width="900"
-              height="520"
-              wrapperClassName="rounded-[30px] w-full border border-white shadow-2xl bg-white"
-              className="w-full h-auto object-contain transform group-hover:scale-[1.03] duration-500"
-            />
-            {/* Реальный кадр виджета – в углу, увеличен */}
-            <div className="absolute -bottom-6 -right-3 md:-right-7 w-28 md:w-32 bg-[#1E152A] p-1 rounded-[18px] shadow-2xl border border-white/15 rotate-6 transition-transform duration-500 group-hover:rotate-0">
-              <LazyImage
-                src={adWidget}
-                alt={lang === "ru" ? "Кадр виджета Йоси" : "Yosa widget screenshot"}
-                loading="lazy"
-                width="180"
-                height="320"
-                wrapperClassName="rounded-[13px] w-full aspect-[9/16]"
-                className="w-full h-full object-contain bg-white"
-              />
-            </div>
-          </div>
-        </FadeInItem>
       </div>
     </div>
   );

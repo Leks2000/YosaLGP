@@ -8,7 +8,9 @@ import LazyImage from "./LazyImage";
 // Реальные фото кота Йоси (прислал создатель проекта)
 import catBag from "../assets/images/cat_photo_1_bag.webp";
 import catBox from "../assets/images/cat_photo_5_box.webp";
-import catSleep from "../assets/images/cat_photo_4_sleep.webp";
+import catBed from "../assets/images/cat_photo_bed.jpg";
+import creatorAvatar from "../assets/images/creator_avatar.jpg";
+import creatorPhoto from "../assets/images/creator_photo.jpg";
 
 interface CreatorStoryProps {
   lang: Language;
@@ -87,7 +89,7 @@ const STORY: StoryBlock[] = [
   },
   {
     id: "story-3",
-    img: catSleep,
+    img: catBed,
     side: "right",
     titleRu: "Каждый день, маленький шаг",
     titleEn: "Every day is a small step",
@@ -111,8 +113,8 @@ const STORY: StoryBlock[] = [
         on every new streak day.
       </>
     ),
-    altRu: "Чёрный кот Йося на кровати с сумкой",
-    altEn: "Black cat Yosa on the bed with a bag",
+    altRu: "Чёрный кот Йося спит на кровати",
+    altEn: "Black cat Yosa sleeping on bed",
   },
 ];
 
@@ -200,66 +202,89 @@ export default function CreatorStory({ lang }: CreatorStoryProps) {
         ))}
       </div>
 
-      {/* Подпись автора + соцсети */}
+      {/* Подпись автора + соцсети + фото создателя */}
       <FadeIn direction="up" staggerChildren={0.1}>
-        <div className="mt-14 md:mt-20 pt-8 border-t border-purple-100 flex flex-col sm:flex-row items-center justify-center gap-6">
-          <FadeInItem className="flex items-center gap-4">
-            <LazyImage
-              src={catBag}
-              alt={lang === "ru" ? "Аватар Александра" : "Alexander avatar"}
-              width="56"
-              height="56"
-              loading="lazy"
-              wrapperClassName="w-14 h-14 rounded-full border-4 border-white shadow-md bg-purple-50"
-              className="w-full h-full object-cover object-[70%_center]"
-            />
-            <div>
-              <span className="text-sm font-display font-semibold block leading-none text-brand-charcoal">
-                {lang === "ru" ? "Александр" : "Alexander"}
-              </span>
-              <span className="text-xs text-gray-400 mt-1 block font-medium">
-                {lang === "ru" ? "Создатель Йоси" : "Creator of Yosa"}
-              </span>
-            </div>
-          </FadeInItem>
+        <div className="mt-14 md:mt-20 pt-8 border-t border-purple-100">
+          <div className="flex flex-col md:flex-row items-center gap-8 md:gap-12">
+            {/* Фото создателя - увеличенное */}
+            <FadeInItem className="shrink-0">
+              <div className="relative">
+                <LazyImage
+                  src={creatorPhoto}
+                  alt={lang === "ru" ? "Александр - создатель Йоси" : "Alexander - creator of Yosa"}
+                  width="180"
+                  height="180"
+                  loading="lazy"
+                  wrapperClassName="w-36 h-36 md:w-44 md:h-44 rounded-3xl border-4 border-white shadow-xl overflow-hidden"
+                  className="w-full h-full object-cover"
+                />
+                {/* Мини аватар с котом */}
+                <div className="absolute -bottom-3 -right-3 w-14 h-14 rounded-full border-4 border-white shadow-lg overflow-hidden bg-purple-50">
+                  <LazyImage
+                    src={creatorAvatar}
+                    alt=""
+                    width="56"
+                    height="56"
+                    loading="lazy"
+                    wrapperClassName="w-full h-full"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              </div>
+            </FadeInItem>
 
-          <div className="h-10 w-px bg-purple-200 hidden sm:block"></div>
-
-          <FadeInItem className="flex items-center gap-3">
-            <a
-              href="https://www.youtube.com/@xedanter"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="YouTube"
-              className="p-2.5 bg-white shadow-sm hover:shadow hover:bg-gray-50 rounded-xl text-[#FF0000] hover:scale-105 transition-all"
-            >
-              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
-              </svg>
-            </a>
-            <a
-              href="https://x.com/xedanter17151"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="X / Twitter"
-              className="p-2.5 bg-white shadow-sm hover:shadow hover:bg-gray-50 rounded-xl text-black hover:scale-105 transition-all"
-            >
-              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-              </svg>
-            </a>
-            <a
-              href="https://www.linkedin.com/in/alexander-halle/"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="LinkedIn"
-              className="p-2.5 bg-white shadow-sm hover:shadow hover:bg-gray-50 rounded-xl text-[#0077B5] hover:scale-105 transition-all"
-            >
-              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.475-.9 1.637-1.85 3.37-1.85 3.605 0 4.267 2.372 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
-              </svg>
-            </a>
-          </FadeInItem>
+            {/* Текст и соцсети */}
+            <FadeInItem className="flex-1 text-center md:text-left space-y-4">
+              <div>
+                <h4 className="text-xl md:text-2xl font-display font-bold text-brand-charcoal">
+                  {lang === "ru" ? "Александр" : "Alexander"}
+                </h4>
+                <span className="text-sm text-brand-primary font-semibold">
+                  {lang === "ru" ? "Создатель Йоси" : "Creator of Yosa"}
+                </span>
+              </div>
+              <p className="text-sm text-gray-500 leading-relaxed max-w-md">
+                {lang === "ru"
+                  ? "Разработчик, дизайнер и котовладелец. Создал Йосю, чтобы сделать контроль питания таким же приятным, как общение с котом."
+                  : "Developer, designer & cat owner. Built Yosa to make nutrition tracking as enjoyable as petting a cat."}
+              </p>
+              <div className="flex items-center justify-center md:justify-start gap-3">
+                <a
+                  href="https://www.youtube.com/@xedanter"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="YouTube"
+                  className="p-3 bg-white shadow-sm hover:shadow-md hover:bg-gray-50 rounded-xl text-[#FF0000] hover:scale-110 transition-all"
+                >
+                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+                  </svg>
+                </a>
+                <a
+                  href="https://x.com/xedanter17151"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="X / Twitter"
+                  className="p-3 bg-white shadow-sm hover:shadow-md hover:bg-gray-50 rounded-xl text-black hover:scale-110 transition-all"
+                >
+                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                  </svg>
+                </a>
+                <a
+                  href="https://www.linkedin.com/in/alexander-halle/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="LinkedIn"
+                  className="p-3 bg-white shadow-sm hover:shadow-md hover:bg-gray-50 rounded-xl text-[#0077B5] hover:scale-110 transition-all"
+                >
+                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.475-.9 1.637-1.85 3.37-1.85 3.605 0 4.267 2.372 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+                  </svg>
+                </a>
+              </div>
+            </FadeInItem>
+          </div>
         </div>
       </FadeIn>
     </section>

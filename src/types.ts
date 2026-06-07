@@ -37,4 +37,5 @@ export interface FeatureItem {
   descRu: string;
   descEn: string;
   emoji: string;
+  icon?: string;
 }

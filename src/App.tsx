@@ -16,6 +16,7 @@ import ArtGallery from "./components/ArtGallery";
 import DownloadNudge from "./components/DownloadNudge";
 import appIconArt from "./assets/images/app_icon.webp";
 import yosaStretch from "./assets/images/yosa_stretch.webp";
+import catBedImg from "./assets/images/cat_photo_bed.jpg";
 
 // Interactive FAQ Content derived from the user request
 const FAQ_ITEMS: FAQItem[] = [
@@ -88,6 +89,7 @@ const FEATURES: FeatureItem[] = [
   {
     id: "feat-1",
     emoji: "robot",
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.455 2.456L21.75 6l-1.036.259a3.375 3.375 0 00-2.455 2.456z" /></svg>`,
     titleRu: "Умное распознавание",
     titleEn: "Smart AI Engine",
     descRu:
@@ -98,6 +100,7 @@ const FEATURES: FeatureItem[] = [
   {
     id: "feat-2",
     emoji: "mic",
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7"><path stroke-linecap="round" stroke-linejoin="round" d="M12 18.75a6 6 0 006-6v-1.5m-6 7.5a6 6 0 01-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 01-3-3V4.5a3 3 0 116 0v8.25a3 3 0 01-3 3z" /></svg>`,
     titleRu: "Голосовой ввод",
     titleEn: "Instant Voice Logging",
     descRu:
@@ -107,6 +110,7 @@ const FEATURES: FeatureItem[] = [
   {
     id: "feat-3",
     emoji: "smartphone",
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 1.5H8.25A2.25 2.25 0 006 3.75v16.5a2.25 2.25 0 002.25 2.25h7.5A2.25 2.25 0 0018 20.25V3.75a2.25 2.25 0 00-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 18.75h3" /></svg>`,
     titleRu: "Удобный виджет",
     titleEn: "Convenient Widget",
     descRu:
@@ -117,6 +121,7 @@ const FEATURES: FeatureItem[] = [
   {
     id: "feat-4",
     emoji: "trophy",
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7"><path stroke-linecap="round" stroke-linejoin="round" d="M15.362 5.214A8.252 8.252 0 0112 21 8.25 8.25 0 016.038 7.048 8.287 8.287 0 009 9.6a8.983 8.983 0 013.361-6.867 8.21 8.21 0 003 2.48z" /><path stroke-linecap="round" stroke-linejoin="round" d="M12 18a3.75 3.75 0 00.495-7.467 5.99 5.99 0 00-1.925 3.546 5.974 5.974 0 01-2.133-1A3.75 3.75 0 0012 18z" /></svg>`,
     titleRu: "Игровой стрик",
     titleEn: "Streak Habits",
     descRu:
@@ -127,6 +132,7 @@ const FEATURES: FeatureItem[] = [
   {
     id: "feat-5",
     emoji: "shield",
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" /></svg>`,
     titleRu: "Локальные данные",
     titleEn: "Privacy-First Storage",
     descRu:
@@ -137,6 +143,7 @@ const FEATURES: FeatureItem[] = [
   {
     id: "feat-6",
     emoji: "settings",
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7"><path stroke-linecap="round" stroke-linejoin="round" d="M4.745 3A23.933 23.933 0 0112 3c2.517 0 4.942.388 7.255 1.107a48.26 48.26 0 00-.955 8.143 48.042 48.042 0 01-1.232 3.662 47.97 47.97 0 01-2.128 4.174A48.112 48.112 0 0112 21.933a48.03 48.03 0 01-2.94-1.847 47.97 47.97 0 01-2.128-4.174 48.042 48.042 0 01-1.232-3.662 48.26 48.26 0 00-.955-8.143zM12 13.5a3 3 0 100-6 3 3 0 000 6z" /></svg>`,
     titleRu: "Личные нормы БЖУ",
     titleEn: "Adjustable Targets",
     descRu: "Индивидуальный расчет идеальных пропорций для ваших целей и веса.",
@@ -224,7 +231,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-brand-cream/40 bg-grid text-brand-charcoal font-sans text-sm md:text-base leading-relaxed antialiased selection:bg-brand-primary/10 select-none custom-scrollbar relative">
+    <div className="min-h-screen bg-brand-cream/40 bg-grid text-brand-charcoal font-sans text-sm md:text-base leading-relaxed antialiased selection:bg-brand-primary/10 select-none custom-scrollbar relative scroll-smooth">
       {/* Animated Background Blobs for kind magical vibe */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none z-[-1]">
         <motion.div
@@ -355,22 +362,6 @@ export default function App() {
           <section className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             {/* Left Text / Download buttons layout */}
             <div className="lg:col-span-7 space-y-6 md:space-y-8">
-              {/* Бейдж-тег с настоящей арт-иконкой приложения */}
-              <motion.div
-                whileHover={{ scale: 1.03 }}
-                className="inline-flex items-center gap-2.5 bg-white/70 backdrop-blur-md border border-purple-100 pl-1.5 pr-4 py-1.5 rounded-full shadow-sm select-none"
-              >
-                <img
-                  src={appIconArt}
-                  alt={lang === "ru" ? "Иконка приложения Йося" : "Yosa app icon"}
-                  className="w-7 h-7 rounded-xl shadow"
-                  loading="eager"
-                />
-                <span className="text-xs font-bold text-brand-primary">
-                  {currentText.tag}
-                </span>
-              </motion.div>
-
               <h1 className="text-4xl md:text-6xl font-display font-semibold text-brand-charcoal tracking-tight leading-[1.1] mb-4">
                 <TextReveal text={currentText.heroTitle} delay={0.1} />
                 <span className="block text-transparent bg-clip-text bg-gradient-to-r from-brand-primary to-brand-secondary font-bold">
@@ -476,9 +467,9 @@ export default function App() {
                   direction="up"
                   className="bg-white/70 backdrop-blur-md border border-purple-100 hover:border-brand-primary p-6 rounded-3xl shadow-sm hover:shadow-md transition-all duration-300 transform group hover:-translate-y-1"
                 >
-                  {/* Аккуратный номерной бейдж вместо дефолтной иконки */}
-                  <div className="mb-4 bg-gradient-to-br from-brand-primary to-brand-secondary text-white w-14 h-14 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-all select-none shadow-md font-display font-bold text-xl">
-                    {String(idx + 1).padStart(2, "0")}
+                  {/* SVG иконка вместо номера */}
+                  <div className="mb-4 bg-gradient-to-br from-brand-primary to-brand-secondary text-white w-14 h-14 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-all select-none shadow-md">
+                    <span dangerouslySetInnerHTML={{ __html: item.icon || '' }} />
                   </div>
                   <h3 className="text-lg font-display font-bold text-brand-charcoal mb-2 leading-tight">
                     {lang === "ru" ? item.titleRu : item.titleEn}

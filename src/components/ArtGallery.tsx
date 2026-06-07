@@ -101,25 +101,25 @@ export default function ArtGallery({ lang }: ArtGalleryProps) {
             </motion.div>
           </FadeInItem>
 
-          {/* Фастфуд – меньше, опущена ниже и наклонена в другую сторону */}
+          {/* Фастфуд – формат 9:16, показывается полностью */}
           <FadeInItem
             direction="right"
             variant="rotate"
-            className="md:col-span-5 md:mt-16"
+            className="md:col-span-5 md:mt-8"
           >
             <motion.div
               initial={{ rotate: 3 }}
               whileHover={{ rotate: 0, scale: 1.02 }}
               transition={{ type: "spring", stiffness: 200, damping: 18 }}
-              className="relative rounded-[28px] overflow-hidden shadow-xl group min-h-[220px] md:min-h-[280px]"
+              className="relative rounded-[28px] overflow-hidden shadow-xl group"
             >
               <img
                 src={artMcd}
                 alt={lang === "ru" ? "Запись фастфуда в приложении Йося" : "Logging fast food in the Yosa app"}
                 loading="lazy"
-                className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                className="w-full h-auto object-contain transition-transform duration-700 group-hover:scale-105"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-black/10 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent" />
               <div className="absolute bottom-0 left-0 p-5 text-white">
                 <h3 className="text-lg font-display font-bold mb-0.5">{t.mcd.title}</h3>
                 <p className="text-xs text-white/85 font-normal max-w-xs">{t.mcd.text}</p>

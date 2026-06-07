@@ -50,89 +50,79 @@ export default function GoalsCalculator({ lang }: GoalsCalculatorProps) {
   const t = LOCALIZATION[lang];
 
   return (
-    <div className="bg-white/60 backdrop-blur-md rounded-3xl p-7 md:p-14 border border-purple-100 shadow-xl overflow-hidden relative">
-      <div className="absolute top-0 left-0 w-32 h-32 bg-purple-100/30 rounded-full blur-3xl opacity-50 -z-10"></div>
+    <div className="relative overflow-hidden">
+      {/* Фоновый gradient blob */}
+      <div className="absolute -top-20 -right-20 w-96 h-96 bg-gradient-to-br from-indigo-200/30 to-purple-200/30 rounded-full blur-3xl -z-10"></div>
+      <div className="absolute -bottom-20 -left-20 w-80 h-80 bg-gradient-to-tr from-pink-200/20 to-orange-200/20 rounded-full blur-3xl -z-10"></div>
 
-      <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center">
-        {/* Left Column: увеличенный мокап + два реальных кадра экранов */}
-        <FadeInItem variant="zoom" className="lg:col-span-5 flex justify-center order-last lg:order-first">
-          <div className="relative bg-gradient-to-br from-indigo-50 to-purple-50 p-5 md:p-6 rounded-[46px] border border-purple-100/60 shadow-inner group">
+      {/* Заголовок секции - отдельным блоком */}
+      <div className="text-center mb-10 space-y-3">
+        <FadeInItem className="inline-flex items-center gap-2 bg-indigo-100/70 py-1.5 px-4 rounded-full text-xs font-bold text-indigo-600">
+          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 3v11.25A2.25 2.25 0 006 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0118 16.5h-2.25m-7.5 0h7.5m-7.5 0l-1 3m8.5-3l1 3m0 0l.5 1.5m-.5-1.5h-9.5m0 0l-.5 1.5" />
+          </svg>
+          {t.badge}
+        </FadeInItem>
+        <FadeInItem>
+          <h3 className="text-3xl md:text-5xl font-display font-semibold text-brand-charcoal tracking-tight leading-tight">
+            {t.title}
+          </h3>
+        </FadeInItem>
+        <FadeInItem>
+          <p className="text-gray-500 text-sm md:text-base max-w-2xl mx-auto leading-relaxed">
+            {t.subtitle}
+          </p>
+        </FadeInItem>
+      </div>
+
+      {/* Карточный layout - 3 карточки в ряд */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-10">
+        {t.benefits.map((benefit, idx) => {
+          const colors = [
+            "from-emerald-500 to-teal-600",
+            "from-blue-500 to-indigo-600",
+            "from-amber-500 to-orange-600"
+          ];
+          const icons = ["🏃", "💪", "⚖️"];
+          return (
+            <FadeInItem key={idx} direction="up">
+              <div className="relative bg-white rounded-3xl p-6 border border-gray-100 shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1 group overflow-hidden">
+                <div className={`absolute top-0 right-0 w-20 h-20 bg-gradient-to-br ${colors[idx]} opacity-10 rounded-full blur-xl group-hover:opacity-20 transition-opacity`}></div>
+                <span className="text-3xl mb-3 block">{icons[idx]}</span>
+                <p className="text-sm text-gray-600 leading-relaxed">{benefit}</p>
+              </div>
+            </FadeInItem>
+          );
+        })}
+      </div>
+
+      {/* Нижний блок с мокапами */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+        <FadeInItem variant="zoom" className="flex justify-center">
+          <div className="relative group">
             <img
               src={goalsDashboardImg}
               alt={t.imageAlt}
               referrerPolicy="no-referrer"
-              className="rounded-[34px] shadow-2xl max-w-[330px] md:max-w-[380px] w-full transform group-hover:scale-105 duration-500 border border-white"
+              className="rounded-[28px] shadow-2xl max-w-[360px] w-full transform group-hover:scale-[1.02] duration-500 border-2 border-white"
             />
-            {/* Кадр «Настройки» – слева сверху, увеличен */}
-            <div className="absolute -top-5 -left-3 md:-left-8 w-24 md:w-32 bg-[#1E152A] p-1 rounded-[18px] shadow-2xl border border-white/15 -rotate-6 transition-transform duration-500 group-hover:rotate-0">
-              <img
-                src={adSettings}
-                alt={lang === "ru" ? "Экран настроек целей" : "Goals settings screen"}
-                loading="lazy"
-                className="rounded-[13px] w-full object-cover object-top aspect-[9/19]"
-              />
+            <div className="absolute -top-4 -left-6 w-20 md:w-28 bg-[#1E152A] p-1 rounded-[16px] shadow-xl border border-white/15 -rotate-6 group-hover:rotate-0 transition-transform duration-500">
+              <img src={adSettings} alt="" loading="lazy" className="rounded-[12px] w-full object-cover object-top aspect-[9/19]" />
             </div>
-            {/* Кадр «Цели» – справа снизу, увеличен */}
-            <div className="absolute -bottom-6 -right-3 md:-right-8 w-24 md:w-32 bg-[#1E152A] p-1 rounded-[18px] shadow-2xl border border-white/15 rotate-6 transition-transform duration-500 group-hover:rotate-0">
-              <img
-                src={adGoals}
-                alt={lang === "ru" ? "Экран персональных целей" : "Personal goals screen"}
-                loading="lazy"
-                className="rounded-[13px] w-full object-cover object-top aspect-[9/19]"
-              />
+            <div className="absolute -bottom-4 -right-6 w-20 md:w-28 bg-[#1E152A] p-1 rounded-[16px] shadow-xl border border-white/15 rotate-6 group-hover:rotate-0 transition-transform duration-500">
+              <img src={adGoals} alt="" loading="lazy" className="rounded-[12px] w-full object-cover object-top aspect-[9/19]" />
             </div>
           </div>
         </FadeInItem>
 
-        {/* Right Column: Descriptions and formula highlights */}
-        <div className="lg:col-span-7 space-y-6">
-          <FadeInItem className="inline-flex items-center gap-2 bg-purple-100/70 py-1 px-3.5 rounded-full text-xs font-bold text-brand-primary">
-            <span className="w-1.5 h-1.5 rounded-full bg-brand-primary" />
-            {t.badge}
-          </FadeInItem>
-
-          <FadeInItem>
-            <h3 className="text-2xl md:text-4xl font-display font-semibold text-brand-charcoal tracking-tight leading-tight">
-              {t.title}
-            </h3>
-          </FadeInItem>
-
-          <FadeInItem>
-            <p className="text-gray-500 text-sm md:text-base leading-relaxed">
-              {t.subtitle}
-            </p>
-          </FadeInItem>
-
-          <FadeInItem>
-            <p className="text-xs md:text-sm text-gray-400">{t.introText}</p>
-          </FadeInItem>
-
-          <div className="space-y-3.5 pt-2">
-            <FadeInItem>
-              <h4 className="text-xs md:text-sm font-bold uppercase tracking-wider text-brand-charcoal">
-                {t.benefitTitle}
-              </h4>
-            </FadeInItem>
-            <div className="space-y-3">
-              {t.benefits.map((benefit, idx) => (
-                <FadeInItem
-                  key={idx}
-                  className="flex gap-3 items-start text-xs md:text-sm text-gray-500"
-                >
-                  <span className="w-2 h-2 rounded-full bg-brand-primary shrink-0 mt-1.5" />
-                  <span>{benefit}</span>
-                </FadeInItem>
-              ))}
-            </div>
-          </div>
-
-          {/* Цитата кота без иконок */}
-          <FadeInItem className="bg-purple-50/50 p-4 md:p-5 rounded-2xl border border-purple-100 border-l-4 border-l-brand-primary text-xs md:text-sm text-purple-700 italic">
-            <p className="font-display font-medium leading-relaxed">
+        <FadeInItem direction="right" className="space-y-5">
+          <p className="text-sm text-gray-500 leading-relaxed">{t.introText}</p>
+          <div className="bg-gradient-to-r from-purple-50 to-indigo-50 p-5 rounded-2xl border border-purple-100">
+            <p className="text-sm text-purple-700 italic font-display font-medium leading-relaxed">
               {t.highlightQuote}
             </p>
-          </FadeInItem>
-        </div>
+          </div>
+        </FadeInItem>
       </div>
     </div>
   );

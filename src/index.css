@@ -13,6 +13,14 @@
   --font-sans: "Inter", "system-ui", sans-serif;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
+* {
+  cursor: inherit;
+}
+
 /* Custom background grid styling */
 .bg-grid {
   background-size: 40px 40px;

@@ -5,10 +5,10 @@ import FadeIn from "./FadeIn";
 import FadeInItem from "./FadeInItem";
 import LazyImage from "./LazyImage";
 
-// Реальные фото кота Йоси в нужном порядке: box → bag → pillow
+// Реальные фото кота Йоси
 import catBox from "../assets/images/cat_photo_5_box.webp";
-import catBag from "../assets/images/cat_photo_1_bag.webp";
-import catPillow from "../assets/images/cat_photo_2_pillow.webp";
+import catOnion from "../assets/images/cat_photo_onion_new.jpg";
+import catSleepNew from "../assets/images/cat_photo_sleep_new.jpg";
 
 interface DownloadNudgeProps {
   lang: Language;
@@ -39,26 +39,26 @@ const CARDS: NudgeCard[] = [
     objectPosition: "object-[68%_center]",
   },
   {
-    id: "bag",
-    img: catBag,
+    id: "onion",
+    img: catOnion,
     ru: "Как так ты ещё его не скачал?",
     en: "How have you still not downloaded it?",
-    altRu: "Чёрный кот Йося рядом с пакетом",
-    altEn: "Black cat Yosa next to a bag",
+    altRu: "Чёрный кот Йося с луком",
+    altEn: "Black cat Yosa with onions",
     rotate: 3,
     variant: "up",
-    objectPosition: "object-[70%_center]",
+    objectPosition: "object-center",
   },
   {
-    id: "pillow",
-    img: catPillow,
+    id: "sleep",
+    img: catSleepNew,
     ru: "Ой, беда, надо исправлять ошибку эту",
     en: "Oops, that's a problem we need to fix",
-    altRu: "Чёрный кот Йося на подушке",
-    altEn: "Black cat Yosa on a pillow",
+    altRu: "Чёрный кот Йося спит на кровати",
+    altEn: "Black cat Yosa sleeping on bed",
     rotate: -2,
     variant: "right",
-    objectPosition: "object-[64%_center]",
+    objectPosition: "object-center",
   },
 ];
 
