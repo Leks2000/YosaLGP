@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-import Lottie from "lottie-react";
-import loaderCat from "../assets/loader_cat.json";
 
 interface LazyImageProps {
   src: string;
@@ -32,14 +30,13 @@ export default function LazyImage({
   return (
     <span className={`relative block overflow-hidden ${wrapperClassName}`}>
       {!isLoaded && (
-        <span className="absolute inset-0 z-10 flex items-center justify-center bg-purple-50/70 backdrop-blur-[1px]">
-          <Lottie
-            animationData={loaderCat}
-            loop
-            autoplay
-            className="h-16 w-16 opacity-90"
-            aria-label="Loading image"
-          />
+        <span
+          className="absolute inset-0 z-10 flex items-center justify-center bg-purple-50/70 backdrop-blur-[1px]"
+          aria-label="Loading image"
+          role="status"
+        >
+          {/* Лёгкий CSS-спиннер «лапка» вместо тяжёлого lottie (-86KB gzip) */}
+          <span className="lazy-paw-spinner" aria-hidden="true" />
         </span>
       )}
       <img

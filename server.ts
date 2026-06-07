@@ -31,6 +31,48 @@ function getAiClient(): GoogleGenAI {
 
 app.use(express.json());
 
+/**
+ * Чистая функция офлайн-фолбэка оценки КБЖУ.
+ * Вынесена отдельно, чтобы быть покрытой юнит-тестами без сети и без Gemini.
+ * Возвращает валидную структуру даже когда ИИ недоступен (офлайн / нет ключа).
+ */
+export function getFallbackEstimate(food: string) {
+  const query = (food || "").toLowerCase();
+  const base = {
+    isFallback: true as const,
+    proteins: 6,
+    fats: 8,
+    carbs: 22,
+  };
+
+  if (query.includes("борщ") || query.includes("borsch")) {
+    return {
+      ...base,
+      foodName: "Борщ",
+      calories: 140,
+      proteins: 5,
+      fats: 6,
+      carbs: 16,
+      portionEstimation: "1 порция (250г)",
+      commentRu:
+        "Мяу! Я сейчас офлайн, но борщ узнаю с закрытыми глазами — вот примерные значения.",
+      commentEn:
+        "Meow! I'm offline right now, but I'd recognize borsch anywhere — here's an estimate.",
+    };
+  }
+
+  return {
+    ...base,
+    foodName: food || "Неизвестное блюдо",
+    calories: 180,
+    portionEstimation: "1 порция (примерно 150г)",
+    commentRu:
+      "Мур! Сейчас нет связи с ИИ, поэтому показал средние значения. Подключись к интернету для точного расчёта.",
+    commentEn:
+      "Meow! No AI connection right now, so I estimated a typical portion. Reconnect for an exact result.",
+  };
+}
+
 // API route: Estimate KBJU for a given food description
 app.post("/api/estimate", async (req, res) => {
   try {
@@ -100,38 +142,12 @@ app.post("/api/estimate", async (req, res) => {
     }
 
     const data = JSON.parse(responseText.trim());
-    return res.json(data);
+    // Помечаем как «живой» ответ ИИ, чтобы фронт мог отличать от офлайн-фолбэка
+    return res.json({ ...data, isFallback: false });
   } catch (error: any) {
     console.error("API Error in /api/estimate:", error);
-    // Return a structured graceful fallback if offline or failed
-    const mockResponses: { [key: string]: any } = {
-      "борщ": {
-        foodName: "Борщ",
-        calories: 140,
-        proteins: 5,
-        fats: 6,
-        carbs: 16,
-        portionEstimation: "1 порция (250г)",
-        commentRu: "Мяу! Это сытный домашний борщ. Превосходный выбор для обеда!",
-        commentEn: "Meow! Hearty homemade borsch. A perfect choice for a cozy lunch!"
-      },
-      "default": {
-        foodName: req.body.food || "Unknown Item",
-        calories: 180,
-        proteins: 6,
-        fats: 8,
-        carbs: 22,
-        portionEstimation: "1 portion (approx 150g)",
-        commentRu: "Мур! Не удалось точно распознать состав через ИИ, но я прикинул средние значения. Выглядит здорово!",
-        commentEn: "Meow! Couldn't fully query the AI server right now, but I estimated a typical portion. Looks tasty anyway!"
-      }
-    };
-    
-    const query = (req.body.food || "").toLowerCase();
-    const fallback = query.includes("борщ") ? mockResponses["борщ"] : mockResponses["default"];
-    
-    // We still return a valid structure even in error state
-    return res.json(fallback);
+    // Возвращаем валидную структуру с пометкой isFallback даже при сбое/офлайне
+    return res.json(getFallbackEstimate(req.body?.food || ""));
   }
 });
 

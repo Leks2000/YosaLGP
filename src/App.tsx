@@ -1,7 +1,10 @@
 import React, { useState, lazy, Suspense } from "react";
 import { motion, AnimatePresence } from "motion/react";
 
+import { trackRuStoreClick } from "./lib/analytics";
+import { getVariant, CTA_COPY } from "./lib/abtest";
 import FadeIn from "./components/FadeIn";
+import Parallax from "./components/Parallax";
 import FadeInItem from "./components/FadeInItem";
 import TextReveal from "./components/TextReveal";
 import { Language, FAQItem, FeatureItem } from "./types";
@@ -169,6 +172,10 @@ export default function App() {
   const [customCursor, setCustomCursor] = useState(true);
   const [activeFaq, setActiveFaq] = useState<string | null>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  // A/B-тест главного CTA. Вариант стабилен между визитами одного юзера.
+  const [ctaVariant] = useState(() => getVariant());
+  const ctaCopy = CTA_COPY[ctaVariant];
 
   // Localization structure for main layout titles & sections
   const staticText = {
@@ -442,6 +449,8 @@ export default function App() {
                   href="https://www.rustore.ru/catalog/app/ru.puhlyash.yosa"
                   target="_blank"
                   rel="noopener noreferrer"
+                  onClick={() => trackRuStoreClick("hero")}
+                  data-cta-variant={ctaVariant}
                   className="bg-gradient-to-r from-blue-600 to-blue-700 text-white p-3 rounded-[20px] flex items-center gap-3.5 shadow-lg hover:shadow-[0_16px_40px_-8px_rgba(37,99,235,0.5)] transition-all duration-300 group cursor-pointer border border-blue-500/30 relative overflow-hidden"
                 >
                   {/* Shine sweep effect */}
@@ -452,10 +461,10 @@ export default function App() {
                   </div>
                   <div>
                     <span className="text-[10px] text-blue-100/80 block uppercase tracking-wider font-bold leading-none">
-                      {currentText.rustoreSub}
+                      {lang === "ru" ? ctaCopy.sub_ru : ctaCopy.sub_en}
                     </span>
                     <span className="text-sm font-semibold leading-relaxed tracking-tight block">
-                      {currentText.downloadRuStore}
+                      {lang === "ru" ? ctaCopy.ru : ctaCopy.en}
                     </span>
                   </div>
                 </motion.a>
@@ -603,10 +612,13 @@ export default function App() {
         </div>
 
         {/* ART UNIVERSE GALLERY – арты Йоси (банка, киви, фастфуд, космонавт) */}
+        {/* Scroll-triggered parallax даёт контрастное движение vs соседние блоки */}
         <Suspense fallback={<SectionLoader />}>
-          <FadeIn direction="up">
-            <ArtGallery lang={lang} />
-          </FadeIn>
+          <Parallax offset={40}>
+            <FadeIn direction="up">
+              <ArtGallery lang={lang} />
+            </FadeIn>
+          </Parallax>
         </Suspense>
 
         {/* «ТЫ ЕЩЁ НЕ СКАЧАЛ?» – игривая секция с реальными фото кота */}
@@ -708,132 +720,78 @@ export default function App() {
         </FadeIn>
       </main>
 
-      {/* HIGHER PURPLE COLORED FOOTER MATCHING IMAGE 11 */}
-      <footer className="mt-28 md:mt-40 bg-[#7C3AED] text-white rounded-t-[40px] md:rounded-t-[60px] pt-12 md:pt-16 pb-10 md:pb-12 px-4 md:px-8 relative overflow-hidden">
-        {/* Soft background decor */}
-        <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-0 left-0 w-48 h-48 bg-purple-600 rounded-full blur-2xl"></div>
+      {/* Компактный footer: меньше высоты, плотная сетка, без дублей ссылок */}
+      <footer className="mt-24 md:mt-32 bg-[#7C3AED] text-white rounded-t-[32px] md:rounded-t-[44px] pt-9 md:pt-10 pb-7 px-4 md:px-8 relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-48 h-48 bg-white/5 rounded-full blur-3xl"></div>
 
-        <div className="max-w-7xl mx-auto relative z-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 md:gap-12 pb-12 border-b border-purple-600/60">
-          {/* Logo element */}
-          <div className="lg:col-span-5 space-y-4">
-            <div className="flex items-center gap-2.5">
-              <div className="bg-white w-12 h-12 rounded-2xl flex items-center justify-center shadow-lg p-1.5">
-                <img
-                  src={yosaStretch}
-                  alt={lang === "ru" ? "Кот Йося" : "Yosa cat"}
-                  width="40"
-                  height="40"
-                  className="w-full h-full object-contain"
-                  loading="lazy"
-                />
-              </div>
-              <span className="font-display font-semibold text-2xl tracking-tight">
+        <div className="max-w-7xl mx-auto relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6 pb-6 border-b border-purple-500/40">
+          {/* Лого + краткий слоган */}
+          <div className="flex items-center gap-3 max-w-md">
+            <div className="bg-white w-10 h-10 rounded-xl flex items-center justify-center shadow-lg p-1.5 shrink-0">
+              <img
+                src={yosaStretch}
+                alt={lang === "ru" ? "Кот Йося" : "Yosa cat"}
+                width="32"
+                height="32"
+                className="w-full h-full object-contain"
+                loading="lazy"
+              />
+            </div>
+            <div>
+              <span className="font-display font-semibold text-lg tracking-tight block leading-none">
                 {lang === "ru" ? "Йося" : "Yosa"}
               </span>
-            </div>
-
-            <p className="text-purple-100/80 text-xs md:text-sm max-w-sm leading-relaxed">
-              {lang === "ru"
-                ? "Умный счётчик калорий с котом-помощником. Никаких штрихкодов, никакой базы данных, только мгновенная оценка КБЖУ."
-                : "The advanced, feline-assisted calorie counter powered by local storage and speech recognition. Feed your cat, stay in shape."}
-            </p>
-          </div>
-
-          {/* Product links */}
-          <div className="lg:col-span-3">
-            <h4 className="font-semibold text-xs uppercase tracking-wider text-purple-200 mb-4 select-none">
-              {lang === "ru" ? "Приложение" : "Product"}
-            </h4>
-            <div className="flex flex-col gap-2 text-xs md:text-sm text-purple-100">
-              <a
-                href="https://www.rustore.ru/catalog/app/ru.puhlyash.yosa"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:text-white transition-colors cursor-pointer"
-              >
-                RuStore Android
-              </a>
-              <span className="opacity-60 select-none">Google Play (Soon)</span>
-              <span className="opacity-60 select-none">
-                App Store iOS (Soon)
-              </span>
-            </div>
-          </div>
-
-          {/* Guides & Resources */}
-          <div className="lg:col-span-4">
-            <h4 className="font-semibold text-xs uppercase tracking-wider text-purple-200 mb-4 select-none">
-              {lang === "ru" ? "Конфиденциальность" : "Privacy & Terms"}
-            </h4>
-            <div className="flex flex-col gap-2 text-xs md:text-sm text-purple-100">
-              <span className="cursor-default flex items-center gap-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-purple-200 shrink-0" />
+              <span className="text-purple-100/70 text-[11px] leading-tight block mt-1">
                 {lang === "ru"
-                  ? "100% Локальное хранение данных"
-                  : "100% On-device storage"}
+                  ? "Счётчик калорий с ИИ-котом · данные хранятся локально"
+                  : "AI cat calorie counter · on-device data"}
               </span>
-              <span className="cursor-default flex items-center gap-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-purple-200 shrink-0" />
-                {lang === "ru"
-                  ? "Мы никогда не продаём ваши данные"
-                  : "We never sell your personal data"}
-              </span>
-            </div>
-
-            {/* Внешние ссылки автора – помогают индексации сайта */}
-            <div className="flex items-center gap-3 mt-5">
-              <a
-                href="https://www.rustore.ru/catalog/app/ru.puhlyash.yosa"
-                target="_blank"
-                rel="noopener"
-                aria-label="RuStore"
-                className="text-xs font-semibold text-purple-100 hover:text-white transition-colors underline underline-offset-4 decoration-purple-300/50"
-              >
-                RuStore
-              </a>
-              <a
-                href="https://www.youtube.com/@xedanter"
-                target="_blank"
-                rel="noopener"
-                aria-label="YouTube"
-                className="text-purple-100 hover:text-white transition-colors"
-              >
-                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
-                </svg>
-              </a>
-              <a
-                href="https://x.com/xedanter17151"
-                target="_blank"
-                rel="noopener"
-                aria-label="X / Twitter"
-                className="text-purple-100 hover:text-white transition-colors"
-              >
-                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-                </svg>
-              </a>
             </div>
           </div>
-        </div>
 
-        {/* copyright and design credits links matching Image 11 */}
-        <div className="max-w-7xl mx-auto pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-purple-200/90 font-medium">
-          <p>
-            © {new Date().getFullYear()} Yosa (Йося). {currentText.allRights}
-          </p>
-          <div className="flex items-center gap-4">
+          {/* Ссылки в одну строку */}
+          <nav className="flex flex-wrap items-center gap-x-5 gap-y-2 text-xs md:text-sm text-purple-100">
             <a
               href="https://www.rustore.ru/catalog/app/ru.puhlyash.yosa"
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-white transition-colors cursor-pointer flex items-center gap-1.5"
+              onClick={() => trackRuStoreClick("footer_product")}
+              className="font-semibold hover:text-white transition-colors"
             >
-              <span className="w-1.5 h-1.5 rounded-full bg-purple-200 shrink-0" />
-              <span>RuStore Catalog</span>
+              RuStore
             </a>
-          </div>
+            <span className="opacity-50 select-none">Google Play (Soon)</span>
+            <span className="opacity-50 select-none">iOS (Soon)</span>
+            <a
+              href="https://www.youtube.com/@xedanter"
+              target="_blank"
+              rel="noopener"
+              aria-label="YouTube"
+              className="hover:text-white transition-colors"
+            >
+              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+              </svg>
+            </a>
+            <a
+              href="https://x.com/xedanter17151"
+              target="_blank"
+              rel="noopener"
+              aria-label="X / Twitter"
+              className="hover:text-white transition-colors"
+            >
+              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+              </svg>
+            </a>
+          </nav>
+        </div>
+
+        <div className="max-w-7xl mx-auto pt-5 flex flex-col sm:flex-row justify-between items-center gap-2 text-[11px] text-purple-200/80">
+          <p>© {new Date().getFullYear()} Yosa (Йося). {lang === "ru" ? "Все права защищены." : "All rights reserved."}</p>
+          <p className="opacity-80">
+            {lang === "ru" ? "100% локальное хранение · мы не продаём ваши данные" : "100% on-device · we never sell your data"}
+          </p>
         </div>
       </footer>
     </div>

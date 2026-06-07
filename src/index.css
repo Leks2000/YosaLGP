@@ -116,3 +116,25 @@ html {
 /* Scrollbar hide utility */
 .scrollbar-hide::-webkit-scrollbar { display: none; }
 .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* Лёгкий CSS-спиннер для LazyImage (заменил тяжёлый lottie-react ~86KB gzip) */
+.lazy-paw-spinner {
+  width: 28px;
+  height: 28px;
+  border-radius: 9999px;
+  border: 3px solid rgba(124, 58, 237, 0.18);
+  border-top-color: #7C3AED;
+  animation: slow-spin 0.8s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lazy-paw-spinner { animation-duration: 2s; }
+}
+
+/* Параллакс-секции: уважаем настройку «уменьшить движение» */
+@media (prefers-reduced-motion: reduce) {
+  .animate-float,
+  .animate-slow-spin,
+  .animate-cat-walk,
+  .animate-cta-glow { animation: none !important; }
+}
