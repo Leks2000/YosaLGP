@@ -24,13 +24,11 @@ export default function FadeInItem({
     none: { x: 0, y: 0 },
   };
 
-  // Базовое скрытое состояние зависит от выбранного варианта,
-  // чтобы каждая плашка появлялась по-своему.
-  const hiddenByVariant: Record<string, Record<string, number>> = {
+  const hiddenByVariant: Record<string, Record<string, unknown>> = {
     slide: { ...directionOffsets[direction], opacity: 0 },
     zoom: { scale: 0.8, opacity: 0 },
     rotate: { rotate: direction === "left" ? -8 : 8, y: 30, opacity: 0 },
-    blur: { y: 30, opacity: 0, filter: 0 as unknown as number },
+    blur: { y: 30, opacity: 0, filter: "blur(8px)" },
   };
 
   const itemVariants = {
@@ -48,6 +46,14 @@ export default function FadeInItem({
       transition: {
         duration: 0.6,
         ease: [0.21, 0.47, 0.32, 0.98],
+      },
+    },
+    "exit-up": {
+      opacity: 0,
+      y: -35,
+      transition: {
+        duration: 0.4,
+        ease: [0.32, 0, 0.67, 0],
       },
     },
   };

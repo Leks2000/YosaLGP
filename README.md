@@ -1,68 +1,161 @@
-# Йося (Yosa) — лендинг умного счётчика калорий с ИИ-котом
+# Йося / Yosa — AI Calorie Counter Landing Page
 
-## Обзор проекта
-- **Название**: Йося (Yosa)
-- **Цель**: Промо-лендинг мобильного приложения «Йося» — счётчика калорий с ИИ-котом, который считает КБЖУ по голосу/тексту.
-- **Стек**: React 19 + Vite + TailwindCSS v4 + Motion (`motion/react`) + Express (SSR-статик + API `/api/estimate` через Gemini). Тесты — Vitest. CI — GitHub Actions.
+## Project Overview
+- **Name**: Йося (Yosa)
+- **Goal**: Marketing landing page for the Yosa Android app — AI calorie tracker with a cat companion
+- **Stack**: React 18 + TypeScript + Vite + Tailwind CSS + Framer Motion (motion/react)
+- **Deployed on**: Cloudflare Pages (via Wrangler) / Node dev server (PM2)
 
-## Реализованные фичи
-- Hero с премиальной заглушкой видео, A/B-вариантом главного CTA.
-- Интерактивный оценщик КБЖУ (CalorieEstimator) с понятным офлайн-фолбэком (`isFallback`).
-- Сетка возможностей, калькулятор целей BMR/TDEE, виджет-песочница, галерея бейджей/стриков.
-- Арт-вселенная Йоси (со **scroll-параллаксом**), секции с реальными фото кота, история создателя, FAQ-аккордеон.
-- Двусторонние scroll-анимации, двуязычность RU/EN.
-- **Аналитика**: Yandex.Metrika + Google Analytics 4 с целями на клик по RuStore.
-- **A/B-тест CTA** (свой, без VWO/Optimize) — 50/50, стабильный по localStorage, с прокидыванием варианта в события аналитики.
-- **SEO**: title/description/keywords, Open Graph, Twitter Card, JSON-LD `SoftwareApplication`, `robots.txt`, `sitemap.xml`.
+---
 
-## Функциональные точки (URI)
-- `GET /` — основной лендинг (SPA).
-- `GET /api/health` — health-check, возвращает `{ status, time }`.
-- `POST /api/estimate` — оценка КБЖУ. Тело: `{ "food": string, "language": "ru"|"en" }`. Ответ содержит `isFallback: boolean` (true = офлайн-оценка без ИИ).
+## Production URLs
+- **Live site**: https://yosa-landing.pages.dev *(Cloudflare Pages)*
+- **RuStore app**: https://www.rustore.ru/catalog/app/ru.puhlyash.yosa
 
-## Аналитика и A/B (что подключено)
-- `src/lib/analytics.ts` — инициализация YM + GA4, хелперы `trackEvent`, `trackRuStoreClick`.
-- `src/lib/abtest.ts` — клиентский A/B-тест, варианты CTA-копий.
-- Событие-цель: `rustore_click` с параметром `placement` (`hero` / `footer_*`) и `cta_variant`.
-- Событие показа эксперимента: `cta_experiment_view`.
+---
 
-### Переменные окружения (Vite, префикс VITE_)
+## ✅ Completed Features (v1.0.4)
+
+### UI / UX
+- **Hero section** — Amy-inspired layout: huge bold 3-line title left, phone showcase right
+- **HowItWorks block** — phone mockup left + numbered steps 01/02/03 right with large grey numbers (replaces bloated CalorieEstimator demo)
+- **Logo** — enlarged to 52px + subtitle "ИИ-счётчик калорий"
+- **FAQ** — single full-width accordion, smooth height animation, dim neighbours on open, no layout shift
+- **Footer** — 4-column Amy-style grid: logo+social, App links, Sections nav, About
+- **Bidirectional scroll animation** — FadeIn blocks appear from bottom on scroll-down and animate-out upward on scroll-up (with state memory: only exit-up if already played)
+
+### Analytics & A/B
+- Yandex.Metrika integration with RuStore click goals
+- Google Analytics 4 (gtag) + RuStore click event
+- Client-side A/B test for hero CTA copy (no VWO, edge-friendly, stable per visitor)
+
+### Performance
+- Lazy-loaded below-fold sections (code splitting)
+- WebP images with eager/lazy loading strategy
+- Custom PawCursor (desktop only, toggle off)
+
+### Features (app sections)
+- **Features grid** — 6 key features with SVG icons
+- **Streaks & Badges gallery** — gamification showcase
+- **BMR/TDEE Goals Calculator** — interactive nutrition calculator
+- **Widget Sandbox** — interactive widget customizer preview
+- **Art Gallery** — parallax section with Yosa character art
+- **Download Nudge** — playful "haven't downloaded yet?" section
+- **Creator Story** — developer profile with real photos
+- **Bilingual** — full RU/EN toggle
+
+---
+
+## Architecture
+
 ```
-VITE_YM_ID=""   # номер счётчика Яндекс.Метрики (только цифры)
-VITE_GA_ID=""   # Measurement ID GA4 (G-XXXXXXXXXX)
+webapp/
+├── src/
+│   ├── App.tsx                  # Main layout, Hero, FAQ, Footer
+│   ├── components/
+│   │   ├── HowItWorks.tsx       # NEW: Amy-style phone + steps block
+│   │   ├── FadeIn.tsx           # Bidirectional scroll-reveal (IntersectionObserver)
+│   │   ├── FadeInItem.tsx       # Stagger child variants
+│   │   ├── HeroShowcase.tsx     # Phone mockup for hero
+│   │   ├── GoalsCalculator.tsx  # BMR/TDEE calculator
+│   │   ├── BadgesGallery.tsx    # Streaks & achievements
+│   │   ├── WidgetSandbox.tsx    # Widget customizer
+│   │   ├── CreatorStory.tsx     # Developer section
+│   │   ├── ArtGallery.tsx       # Art parallax gallery
+│   │   ├── DownloadNudge.tsx    # CTA nudge section
+│   │   ├── PawCursor.tsx        # Custom cat paw cursor
+│   │   ├── Parallax.tsx         # Scroll parallax wrapper
+│   │   ├── TextReveal.tsx       # Word-by-word text animation
+│   │   └── AnimatedButton.tsx   # Reusable animated button
+│   ├── lib/
+│   │   ├── analytics.ts         # GA4 + Yandex.Metrika tracking
+│   │   └── abtest.ts            # Edge-friendly A/B variant
+│   ├── assets/images/           # WebP app screenshots & art
+│   ├── index.css                # Tailwind + custom tokens
+│   └── types.ts                 # Shared TypeScript types
+├── public/                      # Static assets
+├── server.ts                    # Express dev server
+├── vite.config.ts
+├── ecosystem.config.cjs         # PM2 config (port 3000)
+└── .ci-templates/               # CI/CD template (activate manually)
 ```
-Если ID не заданы — аналитика работает в no-op режиме (локальная разработка не засоряет статистику).
 
-## Тесты и CI
+---
+
+## Data Architecture
+- **No backend database** — pure static landing page
+- **Analytics**: GA4 + Yandex.Metrika (event-based, no PII)
+- **A/B test**: `localStorage` variant assignment, 3 CTA variants
+- **App data storage**: 100% on-device (in the Yosa Android app itself)
+
+---
+
+## User Guide
+
+1. **Language toggle** — top-right "EN/RU" button switches all content
+2. **Paw cursor** — toggle the custom cat cursor via "Курсор: Вкл/Выкл" button
+3. **Nav links** — anchor-scroll to any section
+4. **FAQ** — click any question to expand; others dim; click again to close
+5. **Goals Calculator** — input weight/height/age/activity for personalized TDEE
+6. **Download** — RuStore badge in hero is the primary CTA
+
+---
+
+## Local Development
+
 ```bash
-npm test          # Vitest: A/B-логика + офлайн-фолбэк (9 тестов)
-npm run lint      # tsc --noEmit (type-check)
-npm run build     # прод-сборка
-```
-GitHub Actions (`.github/workflows/ci.yml`): на каждый push/PR в `main` прогоняет lint → tests → build.
-
-## Производительность (после рефакторинга)
-- LazyImage больше **не тянет lottie-react** → чанк `LazyImage` стал **0.73 KB (gzip 0.48 KB)** вместо ~346 KB (gzip ~86 KB).
-- Унифицированы импорты анимаций: только `motion/react` (убран дубль `framer-motion`).
-- Уважается `prefers-reduced-motion` для анимаций и спиннера.
-
-## Запуск локально
-```bash
+# Install deps (already done)
 npm install
-# .env: GEMINI_API_KEY=... (опц. VITE_YM_ID, VITE_GA_ID)
-npm run dev          # dev (Vite middleware)
-npm run build        # прод-сборка (dist/ + dist/server.cjs)
-pm2 start ecosystem.config.cjs   # прод через PM2 на :3000
+
+# Build
+npm run build
+
+# Start dev server with PM2
+pm2 start ecosystem.config.cjs
+
+# Test
+curl http://localhost:3000
+
+# Check logs
+pm2 logs yosa --nostream
 ```
 
-## Деплой
-- **Платформа**: Express SSR-статик (Node). Запуск: `node dist/server.cjs`.
-- **Статус**: ✅ Активен (PM2, порт 3000).
-- **Последнее обновление**: 2026-06-07.
+---
 
-## Дальнейшие шаги
-- Заменить `yosa.app` в canonical/OG/JSON-LD/sitemap на боевой домен после покупки.
-- Зарегистрировать сайт в Яндекс.Вебмастер и Google Search Console, отправить sitemap.
-- Подключить реальное демо-видео в hero.
-- Расширить покрытие тестами (компоненты через @testing-library/react).
-- Рассмотреть миграцию хостинга на CDN-edge (Cloudflare/Vercel) для кеширования.
+## Deployment (Cloudflare Pages)
+
+```bash
+# Build & deploy
+npm run build
+npx wrangler pages deploy dist --project-name yosa-landing
+```
+
+---
+
+## ⏳ Not Yet Implemented / Roadmap
+
+| Feature | Priority | Notes |
+|---------|----------|-------|
+| Vitest unit tests + CI/CD (GitHub Actions) | High | CI template in `.ci-templates/` — activate manually |
+| LazyImage lottie-react removal (-86KB gzip) | High | Replace with CSS animation |
+| Offline CalorieEstimator fallback | Medium | Show local estimate when AI API unavailable |
+| Scroll-parallax / contrast layout improvements | Medium | Additional depth for mid-page sections |
+| Video promo in Hero (HeroShowcase) | High | Replace placeholder with real Yosa promo reel |
+| iOS landing page variant | Medium | Separate hero CTA when iOS released |
+| Dark mode support | Low | CSS variables prepared, just needs toggle |
+| PWA manifest | Low | For "Add to homescreen" on web |
+
+---
+
+## Recent Changes (v1.0.4 — 2026-06-09)
+
+- ✅ **Hero**: Amy-style layout, bigger title (5xl→7xl), short subtitle
+- ✅ **HowItWorks**: New component replacing CalorieEstimator (phone + 01/02/03 steps)
+- ✅ **Logo**: Enlarged 40px→52px, added subtitle line
+- ✅ **FAQ**: Single column, smooth height accordion, dim neighbours, no layout shift
+- ✅ **Footer**: 4-column grid with proper links, larger typography
+- ✅ **FadeIn**: Bidirectional — exit-up animation on scroll-up, memory of played state
+
+---
+
+*Built with ❤️ by Alexander · Inspired by Amy Food Journal*

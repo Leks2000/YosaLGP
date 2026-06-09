@@ -10,9 +10,9 @@ import TextReveal from "./components/TextReveal";
 import { Language, FAQItem, FeatureItem } from "./types";
 import PawCursor from "./components/PawCursor";
 import HeroShowcase from "./components/HeroShowcase";
+import HowItWorks from "./components/HowItWorks";
 
 // Lazy-loaded sections below the fold (code splitting)
-const CalorieEstimator = lazy(() => import("./components/CalorieEstimator"));
 const GoalsCalculator = lazy(() => import("./components/GoalsCalculator"));
 const WidgetSandbox = lazy(() => import("./components/WidgetSandbox"));
 const BadgesGallery = lazy(() => import("./components/BadgesGallery"));
@@ -277,22 +277,25 @@ export default function App() {
       {/* Header element conforming to standard nav setup */}
       <header className="sticky top-0 z-50 bg-white/70 backdrop-blur-xl border-b border-purple-50/70 py-4 transition-all">
         <div className="max-w-7xl mx-auto px-4 md:px-8 flex items-center justify-between">
-          {/* Logo with stretched cat icon details matching Image 15 */}
+          {/* Logo — увеличено до 52px + текст крупнее */}
           <div
             onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-            className="flex items-center gap-2.5 cursor-pointer group"
+            className="flex items-center gap-3 cursor-pointer group"
           >
             <img
               src={yosaStretch}
               alt={lang === "ru" ? "Кот Йося" : "Yosa cat"}
-              width="40"
-              height="40"
-              className="w-10 h-10 object-contain group-hover:scale-110 transition-transform"
+              width="52"
+              height="52"
+              className="w-[52px] h-[52px] object-contain group-hover:scale-110 transition-transform"
               loading="eager"
             />
             <div className="flex flex-col">
-              <span className="font-display font-semibold text-lg leading-tight tracking-tight text-brand-charcoal">
+              <span className="font-display font-bold text-xl leading-tight tracking-tight text-brand-charcoal">
                 {lang === "ru" ? "Йося" : "Yosa"}
+              </span>
+              <span className="text-[10px] text-gray-400 font-medium leading-tight">
+                {lang === "ru" ? "ИИ-счётчик калорий" : "AI calorie counter"}
               </span>
             </div>
           </div>
@@ -424,19 +427,19 @@ export default function App() {
       </header>
 
       <main className="max-w-7xl mx-auto px-4 md:px-8 pt-10 md:pt-16 space-y-32 md:space-y-44">
-        {/* HERO SECTION CONTAINER */}
+        {/* HERO SECTION — Amy style: крупный заголовок слева, телефон справа */}
         <FadeIn direction="up" delay={0.1}>
           <section className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-            {/* Left Text / Download buttons layout */}
+            {/* Left: huge bold title + short desc + CTAs */}
             <div className="lg:col-span-7 space-y-6 md:space-y-8">
-              <h1 className="text-4xl md:text-6xl font-display font-semibold text-brand-charcoal tracking-tight leading-[1.1] mb-4">
+              <h1 className="text-5xl md:text-7xl font-display font-bold text-brand-charcoal tracking-tighter leading-[1.05] mb-4">
                 <TextReveal text={currentText.heroTitle} delay={0.1} />
-                <span className="block text-transparent bg-clip-text bg-gradient-to-r from-brand-primary to-brand-secondary font-bold">
+                <span className="block text-transparent bg-clip-text bg-gradient-to-r from-brand-primary to-brand-secondary">
                   <TextReveal text={currentText.heroTitleAccent} delay={0.3} />
                 </span>
               </h1>
 
-              <p className="text-gray-500 text-base md:text-xl max-w-xl leading-relaxed">
+              <p className="text-gray-500 text-base md:text-lg max-w-md leading-relaxed">
                 <TextReveal text={currentText.heroDesc} delay={0.5} />
               </p>
 
@@ -517,14 +520,10 @@ export default function App() {
           <span className="w-1.5 h-1.5 rounded-full bg-brand-primary/20" />
         </div>
 
-        {/* INTERACTIVE CALORIE PLAYGROUND SANDBOX */}
-        <Suspense fallback={<SectionLoader />}>
-          <FadeIn direction="up" staggerChildren={0.15}>
-            <section id="estimator-playground" className="scroll-mt-24">
-              <CalorieEstimator lang={lang} />
-            </section>
-          </FadeIn>
-        </Suspense>
+        {/* HOW IT WORKS — Amy-style phone + 01/02/03 steps (замена CalorieEstimator) */}
+        <FadeIn direction="up">
+          <HowItWorks lang={lang} />
+        </FadeIn>
 
         {/* CORE FEATURES GRID SECTION */}
         <FadeIn direction="up" delay={0.1} staggerChildren={0.15}>
@@ -640,79 +639,84 @@ export default function App() {
           <span className="w-1.5 h-1.5 rounded-full bg-brand-primary/20" />
         </div>
 
-        {/* FAQ AS CARDS GRID */}
-        <FadeIn direction="up" staggerChildren={0.1}>
+        {/* FAQ — одна колонка, плавное раскрытие, dim соседей, без сдвига layout */}
+        <FadeIn direction="up">
           <section
             id="faq-container"
-            className="scroll-mt-24 space-y-10 max-w-5xl mx-auto"
+            className="scroll-mt-24 space-y-10 max-w-3xl mx-auto"
           >
-            <FadeInItem direction="up" className="text-center space-y-3">
+            <div className="text-center space-y-3">
               <h2 className="text-2xl md:text-4xl font-display font-semibold text-brand-charcoal tracking-tight">
                 {currentText.faqHeading}
               </h2>
               <p className="text-sm text-gray-400 max-w-lg mx-auto">
                 {currentText.faqSub}
               </p>
-            </FadeInItem>
+            </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <div className="space-y-3">
               {FAQ_ITEMS.map((item, idx) => {
                 const isOpen = activeFaq === item.id;
+                const isDimmed = activeFaq !== null && !isOpen;
                 return (
-                  <FadeInItem
+                  <motion.div
                     key={item.id}
-                    direction="up"
-                    className={idx === FAQ_ITEMS.length - 1 && FAQ_ITEMS.length % 2 !== 0 ? "md:col-span-2 md:max-w-[calc(50%-10px)] md:mx-auto" : ""}
+                    animate={{
+                      opacity: isDimmed ? 0.45 : 1,
+                      scale: isDimmed ? 0.985 : 1,
+                    }}
+                    transition={{ duration: 0.25 }}
+                    className={`bg-white/85 backdrop-blur-sm border-2 rounded-3xl overflow-hidden transition-colors ${
+                      isOpen
+                        ? "border-brand-primary shadow-lg shadow-purple-100"
+                        : "border-purple-100/60 hover:border-purple-200"
+                    }`}
                   >
-                    <motion.div
-                      whileHover={{ y: -4, boxShadow: "0 12px 40px -12px rgba(124,58,237,0.15)" }}
-                      whileTap={{ scale: 0.98 }}
-                      className={`bg-white/80 backdrop-blur-sm border-2 transition-all rounded-3xl overflow-hidden h-full ${
-                        isOpen
-                          ? "border-brand-primary shadow-lg shadow-purple-100"
-                          : "border-purple-100/60 hover:border-purple-200"
-                      }`}
+                    <button
+                      onClick={() => setActiveFaq(isOpen ? null : item.id)}
+                      className="w-full text-left px-6 py-5 flex items-center justify-between gap-4 cursor-pointer outline-none group"
                     >
-                      <button
-                        onClick={() => setActiveFaq(isOpen ? null : item.id)}
-                        className="w-full text-left p-5 pb-3 flex items-start justify-between gap-3 cursor-pointer outline-none"
+                      <div className="flex items-center gap-4">
+                        <span className="w-8 h-8 flex items-center justify-center bg-gradient-to-br from-brand-primary to-brand-secondary text-white rounded-xl shrink-0 text-xs font-bold shadow-sm">
+                          {idx + 1}
+                        </span>
+                        <span className="font-semibold text-sm md:text-base text-brand-charcoal leading-snug">
+                          {lang === "ru" ? item.questionRu : item.questionEn}
+                        </span>
+                      </div>
+                      <motion.span
+                        animate={{ rotate: isOpen ? 180 : 0 }}
+                        transition={{ type: "spring", stiffness: 300, damping: 22 }}
+                        className={`w-8 h-8 rounded-xl shrink-0 flex items-center justify-center transition-colors ${
+                          isOpen ? "bg-brand-primary text-white" : "bg-purple-50 text-brand-primary"
+                        }`}
                       >
-                        <div className="flex items-start gap-3">
-                          <span className="w-8 h-8 flex items-center justify-center bg-gradient-to-br from-brand-primary to-brand-secondary text-white rounded-xl shrink-0 text-xs font-bold shadow-sm mt-0.5">
-                            {idx + 1}
-                          </span>
-                          <span className="font-semibold text-sm text-brand-charcoal leading-snug">
-                            {lang === "ru" ? item.questionRu : item.questionEn}
-                          </span>
-                        </div>
-                        <motion.span
-                          animate={{ rotate: isOpen ? 180 : 0 }}
-                          transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                          className="w-7 h-7 bg-purple-50 rounded-lg text-brand-primary shrink-0 flex items-center justify-center mt-0.5"
-                        >
-                          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
-                          </svg>
-                        </motion.span>
-                      </button>
+                        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                        </svg>
+                      </motion.span>
+                    </button>
 
-                      <AnimatePresence>
-                        {isOpen && (
-                          <motion.div
-                            initial={{ opacity: 0, height: 0 }}
-                            animate={{ opacity: 1, height: "auto" }}
-                            exit={{ opacity: 0, height: 0 }}
-                            transition={{ duration: 0.25, ease: "easeOut" }}
-                            className="overflow-hidden"
-                          >
-                            <div className="px-5 pb-5 pt-1 text-sm text-gray-500 leading-relaxed border-t border-purple-50 mx-3 pt-4">
+                    {/* Плавное раскрытие по высоте — соседи НЕ двигаются */}
+                    <AnimatePresence initial={false}>
+                      {isOpen && (
+                        <motion.div
+                          key="answer"
+                          initial={{ opacity: 0, height: 0 }}
+                          animate={{ opacity: 1, height: "auto" }}
+                          exit={{ opacity: 0, height: 0 }}
+                          transition={{ duration: 0.32, ease: [0.21, 0.47, 0.32, 0.98] }}
+                          style={{ overflow: "hidden" }}
+                        >
+                          <div className="px-6 pb-6 pt-0 text-sm md:text-base text-gray-500 leading-relaxed border-t border-purple-50 mt-0 pt-4">
+                            <div className="pl-12">
                               {lang === "ru" ? item.answerRu : item.answerEn}
                             </div>
-                          </motion.div>
-                        )}
-                      </AnimatePresence>
-                    </motion.div>
-                  </FadeInItem>
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </motion.div>
                 );
               })}
             </div>
@@ -720,78 +724,135 @@ export default function App() {
         </FadeIn>
       </main>
 
-      {/* Компактный footer: меньше высоты, плотная сетка, без дублей ссылок */}
-      <footer className="mt-24 md:mt-32 bg-[#7C3AED] text-white rounded-t-[32px] md:rounded-t-[44px] pt-9 md:pt-10 pb-7 px-4 md:px-8 relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-48 h-48 bg-white/5 rounded-full blur-3xl"></div>
+      {/* Footer в стиле Amy: колонки ссылок + крупная типографика */}
+      <footer className="mt-24 md:mt-32 bg-[#7C3AED] text-white rounded-t-[32px] md:rounded-t-[44px] pt-14 md:pt-16 pb-8 px-4 md:px-8 relative overflow-hidden">
+        {/* Background decorative blobs */}
+        <div className="absolute top-0 right-0 w-72 h-72 bg-white/5 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute bottom-0 left-10 w-48 h-48 bg-purple-400/20 rounded-full blur-2xl pointer-events-none" />
 
-        <div className="max-w-7xl mx-auto relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6 pb-6 border-b border-purple-500/40">
-          {/* Лого + краткий слоган */}
-          <div className="flex items-center gap-3 max-w-md">
-            <div className="bg-white w-10 h-10 rounded-xl flex items-center justify-center shadow-lg p-1.5 shrink-0">
-              <img
-                src={yosaStretch}
-                alt={lang === "ru" ? "Кот Йося" : "Yosa cat"}
-                width="32"
-                height="32"
-                className="w-full h-full object-contain"
-                loading="lazy"
-              />
-            </div>
-            <div>
-              <span className="font-display font-semibold text-lg tracking-tight block leading-none">
-                {lang === "ru" ? "Йося" : "Yosa"}
-              </span>
-              <span className="text-purple-100/70 text-[11px] leading-tight block mt-1">
+        <div className="max-w-7xl mx-auto relative z-10">
+          {/* Top row: logo + columns */}
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-10 pb-10 border-b border-purple-500/40">
+            {/* Logo column */}
+            <div className="md:col-span-1 flex flex-col gap-4">
+              <div className="flex items-center gap-3">
+                <div className="bg-white w-12 h-12 rounded-2xl flex items-center justify-center shadow-lg p-1.5 shrink-0">
+                  <img
+                    src={yosaStretch}
+                    alt={lang === "ru" ? "Кот Йося" : "Yosa cat"}
+                    width="36"
+                    height="36"
+                    className="w-full h-full object-contain"
+                    loading="lazy"
+                  />
+                </div>
+                <div>
+                  <span className="font-display font-bold text-xl tracking-tight block leading-none">
+                    {lang === "ru" ? "Йося" : "Yosa"}
+                  </span>
+                  <span className="text-purple-200/70 text-xs leading-tight block mt-0.5">
+                    {lang === "ru" ? "ИИ-счётчик калорий" : "AI calorie counter"}
+                  </span>
+                </div>
+              </div>
+              <p className="text-purple-200/70 text-sm leading-relaxed max-w-[200px]">
                 {lang === "ru"
-                  ? "Счётчик калорий с ИИ-котом · данные хранятся локально"
-                  : "AI cat calorie counter · on-device data"}
+                  ? "Умное отслеживание питания. Данные хранятся только на вашем устройстве."
+                  : "Smart nutrition tracking. Your data stays on your device only."}
+              </p>
+              {/* Social icons */}
+              <div className="flex items-center gap-3 mt-1">
+                <a
+                  href="https://www.youtube.com/@xedanter"
+                  target="_blank"
+                  rel="noopener"
+                  aria-label="YouTube"
+                  className="w-9 h-9 bg-white/10 hover:bg-white/20 rounded-xl flex items-center justify-center transition-colors"
+                >
+                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+                  </svg>
+                </a>
+                <a
+                  href="https://x.com/xedanter17151"
+                  target="_blank"
+                  rel="noopener"
+                  aria-label="X / Twitter"
+                  className="w-9 h-9 bg-white/10 hover:bg-white/20 rounded-xl flex items-center justify-center transition-colors"
+                >
+                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                  </svg>
+                </a>
+              </div>
+            </div>
+
+            {/* Column: Приложение */}
+            <div className="flex flex-col gap-3">
+              <h4 className="text-white font-bold text-base mb-1">
+                {lang === "ru" ? "Приложение" : "App"}
+              </h4>
+              <a
+                href="https://www.rustore.ru/catalog/app/ru.puhlyash.yosa"
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => trackRuStoreClick("footer_product")}
+                className="text-purple-200/80 hover:text-white text-sm transition-colors"
+              >
+                RuStore
+              </a>
+              <span className="text-purple-200/40 text-sm select-none">Google Play ({lang === "ru" ? "Скоро" : "Soon"})</span>
+              <span className="text-purple-200/40 text-sm select-none">iOS ({lang === "ru" ? "Скоро" : "Soon"})</span>
+            </div>
+
+            {/* Column: Разделы */}
+            <div className="flex flex-col gap-3">
+              <h4 className="text-white font-bold text-base mb-1">
+                {lang === "ru" ? "Разделы" : "Sections"}
+              </h4>
+              {[
+                { id: "estimator-playground", label: lang === "ru" ? "Как работает" : "How it works" },
+                { id: "feat-grid", label: lang === "ru" ? "Функции" : "Features" },
+                { id: "streaks-section", label: lang === "ru" ? "Достижения" : "Streaks" },
+                { id: "faq-container", label: "FAQ" },
+              ].map((item) => (
+                <button
+                  key={item.id}
+                  onClick={() => { const el = document.getElementById(item.id); if (el) el.scrollIntoView({ behavior: "smooth" }); }}
+                  className="text-purple-200/80 hover:text-white text-sm transition-colors text-left cursor-pointer"
+                >
+                  {item.label}
+                </button>
+              ))}
+            </div>
+
+            {/* Column: О проекте */}
+            <div className="flex flex-col gap-3">
+              <h4 className="text-white font-bold text-base mb-1">
+                {lang === "ru" ? "О проекте" : "About"}
+              </h4>
+              <span className="text-purple-200/80 text-sm">
+                {lang === "ru" ? "Разработчик: Александр" : "Developer: Alexander"}
+              </span>
+              <span className="text-purple-200/80 text-sm">
+                {lang === "ru" ? "Версия: 1.0.3" : "Version: 1.0.3"}
+              </span>
+              <span className="text-purple-200/80 text-sm">
+                {lang === "ru" ? "Платформа: Android" : "Platform: Android"}
+              </span>
+              <span className="text-purple-200/80 text-sm">
+                {lang === "ru" ? "100% локальные данные" : "100% local data"}
               </span>
             </div>
           </div>
 
-          {/* Ссылки в одну строку */}
-          <nav className="flex flex-wrap items-center gap-x-5 gap-y-2 text-xs md:text-sm text-purple-100">
-            <a
-              href="https://www.rustore.ru/catalog/app/ru.puhlyash.yosa"
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={() => trackRuStoreClick("footer_product")}
-              className="font-semibold hover:text-white transition-colors"
-            >
-              RuStore
-            </a>
-            <span className="opacity-50 select-none">Google Play (Soon)</span>
-            <span className="opacity-50 select-none">iOS (Soon)</span>
-            <a
-              href="https://www.youtube.com/@xedanter"
-              target="_blank"
-              rel="noopener"
-              aria-label="YouTube"
-              className="hover:text-white transition-colors"
-            >
-              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
-              </svg>
-            </a>
-            <a
-              href="https://x.com/xedanter17151"
-              target="_blank"
-              rel="noopener"
-              aria-label="X / Twitter"
-              className="hover:text-white transition-colors"
-            >
-              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-              </svg>
-            </a>
-          </nav>
-        </div>
-
-        <div className="max-w-7xl mx-auto pt-5 flex flex-col sm:flex-row justify-between items-center gap-2 text-[11px] text-purple-200/80">
-          <p>© {new Date().getFullYear()} Yosa (Йося). {lang === "ru" ? "Все права защищены." : "All rights reserved."}</p>
-          <p className="opacity-80">
-            {lang === "ru" ? "100% локальное хранение · мы не продаём ваши данные" : "100% on-device · we never sell your data"}
-          </p>
+          {/* Bottom row */}
+          <div className="pt-6 flex flex-col sm:flex-row justify-between items-center gap-3 text-sm text-purple-200/70">
+            <p>© {new Date().getFullYear()} Yosa (Йося). {lang === "ru" ? "Все права защищены." : "All rights reserved."}</p>
+            <p className="opacity-80 text-xs">
+              {lang === "ru" ? "Мы не продаём и не передаём ваши данные третьим лицам" : "We never sell or share your data with third parties"}
+            </p>
+          </div>
         </div>
       </footer>
     </div>
