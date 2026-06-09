@@ -744,7 +744,7 @@ export default function App() {
                 {lang === "ru" ? "Разработчик: Александр" : "Developer: Alexander"}
               </span>
               <span className="text-purple-200/80 text-sm">
-                {lang === "ru" ? "Версия: 1.0.3" : "Version: 1.0.3"}
+                {lang === "ru" ? "Версия: 1.2.0" : "Version: 1.2.0"}
               </span>
               <span className="text-purple-200/80 text-sm">
                 {lang === "ru" ? "Платформа: Android" : "Platform: Android"}
