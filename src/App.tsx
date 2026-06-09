@@ -563,25 +563,13 @@ export default function App() {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-10 pb-10 border-b border-purple-500/40">
             {/* Logo column */}
             <div className="md:col-span-1 flex flex-col gap-4">
-              <div className="flex items-center gap-3">
-                <div className="bg-white w-12 h-12 rounded-2xl flex items-center justify-center shadow-lg p-1.5 shrink-0">
-                  <img
-                    src={yosaStretch}
-                    alt={lang === "ru" ? "Кот Йося" : "Yosa cat"}
-                    width="36"
-                    height="36"
-                    className="w-full h-full object-contain"
-                    loading="lazy"
-                  />
-                </div>
-                <div>
-                  <span className="font-display font-bold text-xl tracking-tight block leading-none">
-                    {lang === "ru" ? "Йося" : "Yosa"}
-                  </span>
-                  <span className="text-purple-200/70 text-xs leading-tight block mt-0.5">
-                    {lang === "ru" ? "ИИ-счётчик калорий" : "AI calorie counter"}
-                  </span>
-                </div>
+              <div>
+                <span className="font-display font-bold text-2xl tracking-tight block leading-none">
+                  {lang === "ru" ? "Йося" : "Yosa"}
+                </span>
+                <span className="text-purple-200/70 text-xs leading-tight block mt-1">
+                  {lang === "ru" ? "ИИ-счётчик калорий" : "AI calorie counter"}
+                </span>
               </div>
               <p className="text-purple-200/70 text-sm leading-relaxed max-w-[200px]">
                 {lang === "ru"

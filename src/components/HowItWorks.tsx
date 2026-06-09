@@ -97,6 +97,7 @@ function StepRow({
   step,
   index,
 }: {
+  key?: React.Key;
   step: { num: string; title: string; desc: string };
   index: number;
 }) {
