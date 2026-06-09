@@ -4,21 +4,22 @@ import { motion, AnimatePresence } from "motion/react";
 import { trackRuStoreClick } from "./lib/analytics";
 import { getVariant, CTA_COPY } from "./lib/abtest";
 import FadeIn from "./components/FadeIn";
-import Parallax from "./components/Parallax";
 import FadeInItem from "./components/FadeInItem";
 import TextReveal from "./components/TextReveal";
-import { Language, FAQItem, FeatureItem } from "./types";
+import { Language, FAQItem } from "./types";
 import PawCursor from "./components/PawCursor";
 import HeroShowcase from "./components/HeroShowcase";
 import HowItWorks from "./components/HowItWorks";
 
 // Lazy-loaded sections below the fold (code splitting)
+const FeaturesGrid = lazy(() => import("./components/FeaturesGrid"));
 const GoalsCalculator = lazy(() => import("./components/GoalsCalculator"));
 const WidgetSandbox = lazy(() => import("./components/WidgetSandbox"));
 const BadgesGallery = lazy(() => import("./components/BadgesGallery"));
 const CreatorStory = lazy(() => import("./components/CreatorStory"));
 const ArtGallery = lazy(() => import("./components/ArtGallery"));
 const DownloadNudge = lazy(() => import("./components/DownloadNudge"));
+const AnalyticsDashboard = lazy(() => import("./components/AnalyticsDashboard"));
 
 // Lazy loading fallback component
 const SectionLoader = () => (
@@ -29,9 +30,7 @@ const SectionLoader = () => (
     </div>
   </div>
 );
-import appIconArt from "./assets/images/app_icon.webp";
 import yosaStretch from "./assets/images/yosa_stretch.webp";
-import catBedImg from "./assets/images/cat_photo_bed.webp";
 
 // Interactive FAQ Content derived from the user request
 const FAQ_ITEMS: FAQItem[] = [
@@ -100,72 +99,7 @@ const FAQ_ITEMS: FAQItem[] = [
   },
 ];
 
-const FEATURES: FeatureItem[] = [
-  {
-    id: "feat-1",
-    emoji: "robot",
-    icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.455 2.456L21.75 6l-1.036.259a3.375 3.375 0 00-2.455 2.456z" /></svg>`,
-    titleRu: "Умное распознавание",
-    titleEn: "Smart AI Engine",
-    descRu:
-      "Скажите «пюре с котлетой» – система мгновенно рассчитает точный КБЖУ.",
-    descEn:
-      "Say 'mashed potatoes' – and the AI computes the exact nutrient split.",
-  },
-  {
-    id: "feat-2",
-    emoji: "mic",
-    icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7"><path stroke-linecap="round" stroke-linejoin="round" d="M12 18.75a6 6 0 006-6v-1.5m-6 7.5a6 6 0 01-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 01-3-3V4.5a3 3 0 116 0v8.25a3 3 0 01-3 3z" /></svg>`,
-    titleRu: "Голосовой ввод",
-    titleEn: "Instant Voice Logging",
-    descRu:
-      "Диктуйте еду на ходу. Йося поймет контекст и внесет всё в дневник.",
-    descEn: "State your meal on the run. Yosa maps the context instantly.",
-  },
-  {
-    id: "feat-3",
-    emoji: "smartphone",
-    icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 1.5H8.25A2.25 2.25 0 006 3.75v16.5a2.25 2.25 0 002.25 2.25h7.5A2.25 2.25 0 0018 20.25V3.75a2.25 2.25 0 00-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 18.75h3" /></svg>`,
-    titleRu: "Удобный виджет",
-    titleEn: "Convenient Widget",
-    descRu:
-      "Отслеживайте норму калорий и БЖУ прямо на главном экране телефона.",
-    descEn:
-      "Display calorie balance meters and macro grids on your home screen.",
-  },
-  {
-    id: "feat-4",
-    emoji: "trophy",
-    icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7"><path stroke-linecap="round" stroke-linejoin="round" d="M15.362 5.214A8.252 8.252 0 0112 21 8.25 8.25 0 016.038 7.048 8.287 8.287 0 009 9.6a8.983 8.983 0 013.361-6.867 8.21 8.21 0 003 2.48z" /><path stroke-linecap="round" stroke-linejoin="round" d="M12 18a3.75 3.75 0 00.495-7.467 5.99 5.99 0 00-1.925 3.546 5.974 5.974 0 01-2.133-1A3.75 3.75 0 0012 18z" /></svg>`,
-    titleRu: "Игровой стрик",
-    titleEn: "Streak Habits",
-    descRu:
-      "Заносите еду каждый день и открывайте эксклюзивные пушистые бейджи.",
-    descEn:
-      "Log meals daily to keep the fire glowing and unlock reward badges.",
-  },
-  {
-    id: "feat-5",
-    emoji: "shield",
-    icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" /></svg>`,
-    titleRu: "Локальные данные",
-    titleEn: "Privacy-First Storage",
-    descRu:
-      "Ваш журнал и вес хранятся только локально на смартфоне. 100% приватно.",
-    descEn:
-      "Your target constraints and logs live purely on your device memory.",
-  },
-  {
-    id: "feat-6",
-    emoji: "settings",
-    icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7"><path stroke-linecap="round" stroke-linejoin="round" d="M4.745 3A23.933 23.933 0 0112 3c2.517 0 4.942.388 7.255 1.107a48.26 48.26 0 00-.955 8.143 48.042 48.042 0 01-1.232 3.662 47.97 47.97 0 01-2.128 4.174A48.112 48.112 0 0112 21.933a48.03 48.03 0 01-2.94-1.847 47.97 47.97 0 01-2.128-4.174 48.042 48.042 0 01-1.232-3.662 48.26 48.26 0 00-.955-8.143zM12 13.5a3 3 0 100-6 3 3 0 000 6z" /></svg>`,
-    titleRu: "Личные нормы БЖУ",
-    titleEn: "Adjustable Targets",
-    descRu: "Индивидуальный расчет идеальных пропорций для ваших целей и веса.",
-    descEn:
-      "Compute healthy, customized target splits for optimal body metrics.",
-  },
-];
+
 
 export default function App() {
   const [lang, setLang] = useState<Language>("ru");
@@ -525,42 +459,12 @@ export default function App() {
           <HowItWorks lang={lang} />
         </FadeIn>
 
-        {/* CORE FEATURES GRID SECTION */}
-        <FadeIn direction="up" delay={0.1} staggerChildren={0.15}>
-          <section id="feat-grid" className="scroll-mt-24 space-y-10">
-            <FadeInItem direction="up" className="text-center space-y-3">
-              <h2 className="text-3xl md:text-5xl font-display font-semibold text-brand-charcoal tracking-tight">
-                {lang === "ru" ? "Что умеет Йося" : "What Yosa Can Do"}
-              </h2>
-              <p className="text-gray-400 text-sm md:text-base max-w-xl mx-auto">
-                {lang === "ru"
-                  ? "Умный карманный нутрициолог, адаптированный под современный ритм жизни"
-                  : "A fun, intelligent calorie tracker engineered for effortless daily habits"}
-              </p>
-            </FadeInItem>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {FEATURES.map((item, idx) => (
-                <FadeInItem
-                  key={item.id}
-                  direction="up"
-                  className="bg-white/70 backdrop-blur-md border border-purple-100 hover:border-brand-primary p-6 rounded-3xl shadow-sm hover:shadow-md transition-all duration-300 transform group hover:-translate-y-1"
-                >
-                  {/* SVG иконка вместо номера */}
-                  <div className="mb-4 bg-gradient-to-br from-brand-primary to-brand-secondary text-white w-14 h-14 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-all select-none shadow-md">
-                    <span dangerouslySetInnerHTML={{ __html: item.icon || '' }} />
-                  </div>
-                  <h3 className="text-lg font-display font-bold text-brand-charcoal mb-2 leading-tight">
-                    {lang === "ru" ? item.titleRu : item.titleEn}
-                  </h3>
-                  <p className="text-xs md:text-sm text-gray-400 leading-relaxed">
-                    {lang === "ru" ? item.descRu : item.descEn}
-                  </p>
-                </FadeInItem>
-              ))}
-            </div>
-          </section>
-        </FadeIn>
+        {/* CORE FEATURES GRID SECTION — Amy Food Journal style */}
+        <Suspense fallback={<SectionLoader />}>
+          <FadeIn direction="up" delay={0.1} staggerChildren={0.15}>
+            <FeaturesGrid lang={lang} />
+          </FadeIn>
+        </Suspense>
 
         {/* Section divider */}
         <div className="flex items-center justify-center gap-3 py-2">
@@ -610,20 +514,22 @@ export default function App() {
           <span className="w-12 h-px bg-gradient-to-r from-transparent via-brand-primary/20 to-transparent" />
         </div>
 
-        {/* ART UNIVERSE GALLERY – арты Йоси (банка, киви, фастфуд, космонавт) */}
-        {/* Scroll-triggered parallax даёт контрастное движение vs соседние блоки */}
+        {/* ART UNIVERSE GALLERY – арты Йоси с встроенным scroll-parallax */}
         <Suspense fallback={<SectionLoader />}>
-          <Parallax offset={40}>
-            <FadeIn direction="up">
-              <ArtGallery lang={lang} />
-            </FadeIn>
-          </Parallax>
+          <ArtGallery lang={lang} />
         </Suspense>
 
         {/* «ТЫ ЕЩЁ НЕ СКАЧАЛ?» – игривая секция с реальными фото кота */}
         <Suspense fallback={<SectionLoader />}>
           <FadeIn direction="up">
             <DownloadNudge lang={lang} />
+          </FadeIn>
+        </Suspense>
+
+        {/* ANALYTICS DASHBOARD — A/B тест и click-rate CTA */}
+        <Suspense fallback={<SectionLoader />}>
+          <FadeIn direction="up">
+            <AnalyticsDashboard lang={lang} />
           </FadeIn>
         </Suspense>
 
@@ -662,13 +568,16 @@ export default function App() {
                   <motion.div
                     key={item.id}
                     animate={{
-                      opacity: isDimmed ? 0.45 : 1,
-                      scale: isDimmed ? 0.985 : 1,
+                      opacity: isDimmed ? 0.4 : 1,
+                      scale: isDimmed ? 0.97 : isOpen ? 1.02 : 1,
+                      // Раскрытие в ширь при открытии
+                      paddingLeft: isOpen ? 28 : 24,
+                      paddingRight: isOpen ? 28 : 24,
                     }}
-                    transition={{ duration: 0.25 }}
+                    transition={{ duration: 0.35, ease: [0.21, 0.47, 0.32, 0.98] }}
                     className={`bg-white/85 backdrop-blur-sm border-2 rounded-3xl overflow-hidden transition-colors ${
                       isOpen
-                        ? "border-brand-primary shadow-lg shadow-purple-100"
+                        ? "border-brand-primary shadow-xl shadow-purple-100/50"
                         : "border-purple-100/60 hover:border-purple-200"
                     }`}
                   >
@@ -697,18 +606,18 @@ export default function App() {
                       </motion.span>
                     </button>
 
-                    {/* Плавное раскрытие по высоте — соседи НЕ двигаются */}
+                    {/* Плавное раскрытие по высоте + по ширине */}
                     <AnimatePresence initial={false}>
                       {isOpen && (
                         <motion.div
                           key="answer"
-                          initial={{ opacity: 0, height: 0 }}
-                          animate={{ opacity: 1, height: "auto" }}
-                          exit={{ opacity: 0, height: 0 }}
-                          transition={{ duration: 0.32, ease: [0.21, 0.47, 0.32, 0.98] }}
-                          style={{ overflow: "hidden" }}
+                          initial={{ opacity: 0, height: 0, scaleX: 0.95 }}
+                          animate={{ opacity: 1, height: "auto", scaleX: 1 }}
+                          exit={{ opacity: 0, height: 0, scaleX: 0.95 }}
+                          transition={{ duration: 0.35, ease: [0.21, 0.47, 0.32, 0.98] }}
+                          style={{ overflow: "hidden", transformOrigin: "top center" }}
                         >
-                          <div className="px-6 pb-6 pt-0 text-sm md:text-base text-gray-500 leading-relaxed border-t border-purple-50 mt-0 pt-4">
+                          <div className="px-6 pb-6 pt-4 text-sm md:text-base text-gray-500 leading-relaxed border-t border-purple-50">
                             <div className="pl-12">
                               {lang === "ru" ? item.answerRu : item.answerEn}
                             </div>

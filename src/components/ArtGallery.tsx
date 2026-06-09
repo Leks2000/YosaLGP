@@ -1,10 +1,10 @@
-import React from "react";
-import { motion } from "motion/react";
+import React, { useRef } from "react";
+import { motion, useScroll, useTransform } from "motion/react";
 import { Language } from "../types";
 import FadeIn from "./FadeIn";
 import FadeInItem from "./FadeInItem";
 
-// Арт-вселенная Йоси (банку убрали по запросу)
+// Арт-вселенная Йоси
 import artKiwi from "../assets/images/art_kiwi.webp";
 import artMcd from "../assets/images/art_rem_mcd.webp";
 import artAstronaut from "../assets/images/art_astronaut.webp";
@@ -14,6 +14,19 @@ interface ArtGalleryProps {
 }
 
 export default function ArtGallery({ lang }: ArtGalleryProps) {
+  const sectionRef = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start end", "end start"],
+  });
+
+  // Контраст-движение: разные слои двигаются с разной скоростью
+  const y1 = useTransform(scrollYProgress, [0, 1], [80, -80]);
+  const y2 = useTransform(scrollYProgress, [0, 1], [50, -50]);
+  const y3 = useTransform(scrollYProgress, [0, 1], [30, -30]);
+  const rotate1 = useTransform(scrollYProgress, [0, 1], [-3, 3]);
+  const rotate2 = useTransform(scrollYProgress, [0, 1], [3, -3]);
+
   const t = {
     ru: {
       badge: "Арт-вселенная Йоси",
@@ -54,7 +67,7 @@ export default function ArtGallery({ lang }: ArtGalleryProps) {
   }[lang];
 
   return (
-    <section id="art-gallery" className="scroll-mt-24 space-y-12">
+    <section ref={sectionRef} id="art-gallery" className="scroll-mt-24 space-y-12">
       <FadeIn direction="up" staggerChildren={0.12}>
         <FadeInItem className="text-center space-y-3 max-w-2xl mx-auto">
           <span className="inline-flex items-center gap-2 bg-purple-100/70 py-1 px-3.5 rounded-full text-xs font-bold text-brand-primary">
@@ -70,24 +83,18 @@ export default function ArtGallery({ lang }: ArtGalleryProps) {
         </FadeInItem>
       </FadeIn>
 
-      {/* Хаотичная дизайнерская раскладка: киви и фастфуд разного размера, слегка повёрнуты */}
-      <FadeIn direction="up" staggerChildren={0.15}>
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-5 md:gap-6 items-start">
-          {/* Киви – крупная, сдвинута и наклонена */}
-          <FadeInItem
-            direction="left"
-            variant="rotate"
-            className="md:col-span-7 md:mt-2"
-          >
+      {/* Parallax grid with contrast movement */}
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-5 md:gap-6 items-start">
+        {/* Kiwi — large, parallax layer 1 */}
+        <motion.div style={{ y: y1, rotate: rotate1 }} className="md:col-span-7 md:mt-2">
+          <FadeInItem direction="left" variant="rotate">
             <motion.div
-              initial={{ rotate: -2 }}
-              whileHover={{ rotate: 0, scale: 1.01 }}
-              transition={{ type: "spring", stiffness: 200, damping: 18 }}
+              whileHover={{ scale: 1.01 }}
               className="relative rounded-[28px] overflow-hidden shadow-xl group min-h-[260px] md:min-h-[340px]"
             >
               <img
                 src={artKiwi}
-                alt={lang === "ru" ? "Сочный киви в воде, Йося знает КБЖУ" : "Juicy kiwi in water, Yosa knows the macros"}
+                alt={lang === "ru" ? "Сочный киви в воде" : "Juicy kiwi in water"}
                 loading="lazy"
                 width="900"
                 height="600"
@@ -100,22 +107,18 @@ export default function ArtGallery({ lang }: ArtGalleryProps) {
               </div>
             </motion.div>
           </FadeInItem>
+        </motion.div>
 
-          {/* Фастфуд – формат 9:16, показывается полностью */}
-          <FadeInItem
-            direction="right"
-            variant="rotate"
-            className="md:col-span-5 md:mt-8"
-          >
+        {/* Fast food — parallax layer 2, opposite direction */}
+        <motion.div style={{ y: y2, rotate: rotate2 }} className="md:col-span-5 md:mt-8">
+          <FadeInItem direction="right" variant="rotate">
             <motion.div
-              initial={{ rotate: 3 }}
-              whileHover={{ rotate: 0, scale: 1.02 }}
-              transition={{ type: "spring", stiffness: 200, damping: 18 }}
+              whileHover={{ scale: 1.02 }}
               className="relative rounded-[28px] overflow-hidden shadow-xl group"
             >
               <img
                 src={artMcd}
-                alt={lang === "ru" ? "Запись фастфуда в приложении Йося" : "Logging fast food in the Yosa app"}
+                alt={lang === "ru" ? "Фастфуд в Йосе" : "Fast food in Yosa"}
                 loading="lazy"
                 className="w-full h-auto object-contain transition-transform duration-700 group-hover:scale-105"
               />
@@ -126,46 +129,48 @@ export default function ArtGallery({ lang }: ArtGalleryProps) {
               </div>
             </motion.div>
           </FadeInItem>
-        </div>
-      </FadeIn>
-
-      {/* Космонавт – кинематографичный баннер с увеличенной высотой */}
-      <FadeIn direction="up">
-        <motion.div
-          whileHover={{ scale: 1.005 }}
-          className="relative rounded-[32px] overflow-hidden shadow-2xl grid grid-cols-1 md:grid-cols-2 items-center bg-[#0b1018]"
-        >
-          <div className="relative h-80 md:h-[520px] overflow-hidden">
-            <img
-              src={artAstronaut}
-              alt={lang === "ru" ? "Космонавт Йося, калорий осталось, log meal?" : "Astronaut Yosa, calories left, log meal?"}
-              loading="lazy"
-              className="w-full h-full object-cover object-center"
-            />
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent to-[#0b1018] md:to-[#0b1018]" />
-          </div>
-          <div className="p-8 md:p-12 text-white space-y-4">
-            <span className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm py-1 px-3 rounded-full text-xs font-bold text-purple-200">
-              <span className="w-1.5 h-1.5 rounded-full bg-purple-200" />
-              {lang === "ru" ? "Не теряй контроль" : "Stay in control"}
-            </span>
-            <h3 className="text-2xl md:text-4xl font-display font-bold leading-tight">
-              {t.astronaut.title}
-            </h3>
-            <p className="text-sm md:text-base text-white/75 font-normal max-w-md">
-              {t.astronaut.text}
-            </p>
-            <a
-              href="https://www.rustore.ru/catalog/app/ru.puhlyash.yosa"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 bg-brand-primary hover:bg-brand-primary/90 text-white font-semibold text-sm py-3 px-6 rounded-2xl shadow-lg transition-all cursor-pointer"
-            >
-              {lang === "ru" ? "Записать первый приём" : "Log your first meal"}
-            </a>
-          </div>
         </motion.div>
-      </FadeIn>
+      </div>
+
+      {/* Astronaut — cinematic banner with parallax layer 3 */}
+      <motion.div style={{ y: y3 }}>
+        <FadeIn direction="up">
+          <motion.div
+            whileHover={{ scale: 1.005 }}
+            className="relative rounded-[32px] overflow-hidden shadow-2xl grid grid-cols-1 md:grid-cols-2 items-center bg-[#0b1018]"
+          >
+            <div className="relative h-80 md:h-[520px] overflow-hidden">
+              <img
+                src={artAstronaut}
+                alt={lang === "ru" ? "Космонавт Йося" : "Astronaut Yosa"}
+                loading="lazy"
+                className="w-full h-full object-cover object-center"
+              />
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent to-[#0b1018]" />
+            </div>
+            <div className="p-8 md:p-12 text-white space-y-4">
+              <span className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm py-1 px-3 rounded-full text-xs font-bold text-purple-200">
+                <span className="w-1.5 h-1.5 rounded-full bg-purple-200" />
+                {lang === "ru" ? "Не теряй контроль" : "Stay in control"}
+              </span>
+              <h3 className="text-2xl md:text-4xl font-display font-bold leading-tight">
+                {t.astronaut.title}
+              </h3>
+              <p className="text-sm md:text-base text-white/75 font-normal max-w-md">
+                {t.astronaut.text}
+              </p>
+              <a
+                href="https://www.rustore.ru/catalog/app/ru.puhlyash.yosa"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 bg-brand-primary hover:bg-brand-primary/90 text-white font-semibold text-sm py-3 px-6 rounded-2xl shadow-lg transition-all cursor-pointer"
+              >
+                {lang === "ru" ? "Записать первый приём" : "Log your first meal"}
+              </a>
+            </div>
+          </motion.div>
+        </FadeIn>
+      </motion.div>
     </section>
   );
 }

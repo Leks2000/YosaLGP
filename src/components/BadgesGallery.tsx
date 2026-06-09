@@ -1,7 +1,6 @@
 import React from "react";
 import { motion } from "motion/react";
 import { Language } from "../types";
-import rewardsBadgesImg from "../assets/images/yosa_rewards_badges.webp";
 import adStreak from "../assets/images/ad_01_streak.webp";
 import adBadges from "../assets/images/ad_03_badges.webp";
 import adStreakCalendar from "../assets/images/ad_07_streak_calendar.webp";
@@ -18,34 +17,60 @@ const LOCALIZATION = {
     title: "Награды, стрики и кошачьи лиги",
     subtitle:
       "Превратите скучную рутину подсчёта калорий в захватывающую игру с коллекционными бейджами.",
-    intro:
-      "Главный секрет успеха в контроле веса – это регулярность. В приложении Йося каждая неделя вашей активности вознаграждается редкими кошачьими трофеями и праздничными медалями.",
-    streakTitle: "Как работает система поощрений стрика активности:",
-    streaks: [
-      "Огненная серия (стрик): ведите дневник без пропусков. Специальный индикатор «кошачьего пламени» будет расти деление за делением, согревая кота.",
-      "Разблокировка редких бейджей: за 3, 7, 14 и 30 дней подряд открываются уникальные коллекционные значки («Кошачий неофит», «Нутри-Самурай», «Великий Леопольд» и другие).",
-      "Реальные кошачьи награды: делитесь своими триумфами в социальных сетях с помощью эстетически отрисованных стикеров.",
+    features: [
+      {
+        num: "01",
+        title: "Огненная серия (стрик)",
+        desc: "Ведите дневник без пропусков. Специальный индикатор «кошачьего пламени» будет расти деление за делением.",
+      },
+      {
+        num: "02",
+        title: "Разблокировка бейджей",
+        desc: "За 3, 7, 14 и 30 дней подряд открываются уникальные коллекционные значки.",
+      },
+      {
+        num: "03",
+        title: "Делитесь в соцсетях",
+        desc: "Реальные кошачьи награды: эстетически отрисованные стикеры для социальных сетей.",
+      },
     ],
-    motto:
-      "«Твоя серия дней греет моё сердечко лучше самого вкусного паштета! Давай не угасать наше ИИ-пламя привычек, хозяин! Мяу!»",
-    imageAlt: "Коллекция бейджей и наград в Йосе",
+    catQuote:
+      "«Твоя серия дней греет моё сердечко лучше самого вкусного паштета! Мяу!»",
+    screenshots: [
+      { img: adStreak, label: "Серия дней" },
+      { img: adBadges, label: "Коллекция бейджей" },
+      { img: adStreakCalendar, label: "Календарь прогресса" },
+    ],
   },
   en: {
     badge: "Gamification & Healthy Habits",
-    title: "Unlock Awards & Streak milestones",
+    title: "Unlock Awards & Streak Milestones",
     subtitle:
-      "Turn calorie-counting into an exciting virtual pet RPG progression containing precious rare artifacts.",
-    intro:
-      "The fundamental engine of nutritional adaptation is daily, solid consistency. To encourage your weekly habit cycles, Yosa releases adorable cat medals, golden stickers, and limited-edition trophies.",
-    streakTitle: "Feline streak system mechanics:",
-    streaks: [
-      "Sparkling fire streak: enter just one ingredient daily to fuel the interactive 'kitten warmth' burner indicator on your overlay views.",
-      "Unlock ultra-rare cat cards: reach 3, 7, 14, and 30-day continuous targets to collect prestigious feline titles ('Kitten Explorer', 'Soup Scholar', 'Nutri Samurai', and 'Grand Leopold').",
-      "Show off on social cards: export gorgeous, high-contrast custom stickers of unlocked kittens to share with friends and diet buddies.",
+      "Turn calorie-counting into an exciting game with collectible badges.",
+    features: [
+      {
+        num: "01",
+        title: "Fire streak system",
+        desc: "Log your meals daily. The 'kitten warmth' indicator grows with every consecutive day.",
+      },
+      {
+        num: "02",
+        title: "Unlock rare badges",
+        desc: "Reach 3, 7, 14, and 30-day targets to collect unique cat badges.",
+      },
+      {
+        num: "03",
+        title: "Share on social media",
+        desc: "Export gorgeous custom stickers of unlocked kittens to share with friends.",
+      },
     ],
-    motto:
-      "«Every consecutive active day you document fuels our fire streak warmer than premium salmon treats! Let's keep the logging rhythm buzzing, human! Meow!»",
-    imageAlt: "Yosa adorable kitten achievement badges mockup",
+    catQuote:
+      "«Every active day fuels our fire streak warmer than salmon treats! Meow!»",
+    screenshots: [
+      { img: adStreak, label: "Day streaks" },
+      { img: adBadges, label: "Badge collection" },
+      { img: adStreakCalendar, label: "Progress calendar" },
+    ],
   },
 };
 
@@ -54,7 +79,7 @@ export default function BadgesGallery({ lang }: BadgesGalleryProps) {
 
   return (
     <div className="space-y-12">
-      {/* Заголовок – центрирован */}
+      {/* Header */}
       <div className="text-center space-y-3">
         <FadeInItem className="inline-flex items-center gap-2 bg-purple-100/70 py-1.5 px-4 rounded-full text-xs font-bold text-brand-primary">
           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
@@ -75,80 +100,65 @@ export default function BadgesGallery({ lang }: BadgesGalleryProps) {
       </div>
 
       {/* Двухколонник: скриншоты слева, текст справа */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
-        {/* Скриншоты – горизонтальный скролл на мобиле, стопка на десктопе */}
-        <FadeInItem direction="left" className="relative">
-          <div className="flex lg:flex-col gap-4 overflow-x-auto lg:overflow-visible pb-4 lg:pb-0 snap-x snap-mandatory scrollbar-hide">
-            {[
-              { img: adStreak, label: lang === "ru" ? "Серия дней" : "Daily streak", rotate: -3 },
-              { img: adBadges, label: lang === "ru" ? "Коллекция бейджей" : "Badge collection", rotate: 2 },
-              { img: adStreakCalendar, label: lang === "ru" ? "Календарь прогресса" : "Progress calendar", rotate: -1 },
-            ].map((shot, idx) => (
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        {/* LEFT: 3 screenshots в стиле Amy — розоватый фон */}
+        <FadeInItem direction="left">
+          <div className="grid grid-cols-3 gap-3">
+            {t.screenshots.map((shot, idx) => (
               <motion.div
                 key={idx}
-                initial={{ rotate: shot.rotate }}
-                whileHover={{ rotate: 0, scale: 1.03 }}
-                transition={{ type: "spring", stiffness: 200, damping: 16 }}
-                className="flex-shrink-0 snap-center w-40 lg:w-full bg-gradient-to-br from-purple-50 to-violet-50 rounded-2xl p-3 border border-purple-100 shadow-sm hover:shadow-md transition-shadow"
+                whileHover={{ y: -4, scale: 1.03 }}
+                transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                className="group"
               >
-                <div className="bg-[#1E152A] p-1 rounded-[14px] shadow-lg">
-                  <LazyImage
-                    src={shot.img}
-                    alt={shot.label}
-                    loading="lazy"
-                    width="360"
-                    height="640"
-                    wrapperClassName="rounded-[10px] w-full aspect-[9/16]"
-                    className="w-full h-full object-contain bg-white"
-                  />
+                <div className="bg-[#FFF5F0] rounded-[20px] p-3 flex items-center justify-center border border-orange-100/40 shadow-sm group-hover:shadow-md transition-shadow">
+                  <div className="bg-[#1a1a1a] rounded-[14px] p-[2px] overflow-hidden w-full">
+                    <LazyImage
+                      src={shot.img}
+                      alt={shot.label}
+                      loading="lazy"
+                      width="200"
+                      height="360"
+                      wrapperClassName="rounded-[12px] w-full aspect-[9/16] overflow-hidden"
+                      className="w-full h-full object-cover object-top"
+                    />
+                  </div>
                 </div>
-                <p className="text-xs font-semibold text-brand-primary mt-2 text-center">{shot.label}</p>
+                <p className="text-[10px] md:text-xs font-semibold text-gray-500 mt-2 text-center">
+                  {shot.label}
+                </p>
               </motion.div>
             ))}
           </div>
         </FadeInItem>
 
-        {/* Правая колонка – текст и мотто */}
+        {/* RIGHT: Features list */}
         <div className="space-y-6">
-          <FadeInItem>
-            <p className="text-sm md:text-base text-gray-500 leading-relaxed">{t.intro}</p>
-          </FadeInItem>
-
-          <div className="space-y-3">
-            {t.streaks.map((streak, idx) => (
-              <FadeInItem key={idx}>
-                <div className="flex gap-3 items-start bg-gradient-to-r from-purple-50/60 to-transparent p-3 rounded-xl border-l-3 border-l-brand-primary">
-                  <span className="w-7 h-7 flex items-center justify-center bg-gradient-to-br from-brand-primary to-brand-secondary text-white rounded-lg shrink-0 text-xs font-bold shadow-sm">
-                    {idx + 1}
-                  </span>
-                  <span className="text-xs md:text-sm text-gray-600 leading-relaxed">{streak}</span>
+          {t.features.map((feat, idx) => (
+            <FadeInItem key={idx} direction="right">
+              <div className="flex gap-4 items-start group">
+                <span className="w-9 h-9 flex items-center justify-center bg-gradient-to-br from-brand-primary to-brand-secondary text-white rounded-xl shrink-0 text-sm font-bold shadow-sm group-hover:scale-110 transition-transform">
+                  {idx + 1}
+                </span>
+                <div className="pt-0.5">
+                  <h4 className="text-base md:text-lg font-display font-bold text-brand-charcoal mb-1 leading-tight">
+                    {feat.title}
+                  </h4>
+                  <p className="text-sm text-gray-500 leading-relaxed">
+                    {feat.desc}
+                  </p>
                 </div>
-              </FadeInItem>
-            ))}
-          </div>
+              </div>
+            </FadeInItem>
+          ))}
 
-          {/* Мотивационная цитата Йоси */}
+          {/* Cat quote */}
           <FadeInItem>
-            <div className="relative bg-gradient-to-r from-purple-50 to-violet-50 p-5 rounded-2xl border border-purple-200">
-              <div className="absolute -top-3 -left-2 text-3xl">🔥</div>
+            <div className="bg-gradient-to-r from-purple-50 to-violet-50 p-5 rounded-2xl border border-purple-200 relative mt-4">
+              <div className="absolute -top-3 -left-2 text-2xl">🔥</div>
               <p className="text-sm text-purple-800 italic font-display font-medium leading-relaxed pl-4">
-                {t.motto}
+                {t.catQuote}
               </p>
-            </div>
-          </FadeInItem>
-
-          {/* Главное изображение наград */}
-          <FadeInItem variant="zoom" className="flex justify-center lg:justify-start">
-            <div className="bg-gradient-to-tr from-purple-50/50 to-violet-50/50 p-3 rounded-[30px] border border-purple-100 shadow-inner">
-              <LazyImage
-                src={rewardsBadgesImg}
-                alt={t.imageAlt}
-                referrerPolicy="no-referrer"
-                width="620"
-                height="1100"
-                wrapperClassName="rounded-[22px] max-w-[240px] w-full border border-white shadow-xl"
-                className="w-full h-auto object-contain"
-              />
             </div>
           </FadeInItem>
         </div>

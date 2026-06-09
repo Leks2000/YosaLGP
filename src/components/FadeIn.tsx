@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect, useCallback } from "react";
 import { motion } from "motion/react";
 
 interface FadeInProps {
@@ -8,34 +8,55 @@ interface FadeInProps {
   direction?: "up" | "down" | "left" | "right" | "none";
   className?: string;
   /**
-   * Если false – анимация проигрывается при каждом появлении в viewport.
-   * true = viewOnce (стандартно). Теперь неважно — bidirectional всегда.
+   * ID для запоминания проигрывания анимации в sessionStorage.
+   * Если указан — анимация не будет повторно играть при повторном скролле в одной сессии.
    */
-  viewOnce?: boolean;
+  persistId?: string;
   staggerChildren?: number;
 }
 
 /**
- * Bidirectional scroll-reveal:
- * - Вход снизу (скролл вниз) → появляется снизу вверх.
- * - Выход сверху (скролл вверх мимо блока) → уходит вверх.
- * - Память: блок, который уже был показан, при скролле вверх
- *   убирается только если он находится ниже viewport (ещё не видели?
- *   нет, не убираем). Т.е. exit-анимация играет только когда
- *   элемент уходит ВНИЗ (из viewport вниз при scroll-up).
+ * Bidirectional scroll-reveal с СИСТЕМОЙ ЗАПОМИНАНИЯ:
+ * - Вход: появляется при попадании в viewport
+ * - Выход: уходит вверх при скролле вверх мимо блока
+ * - Запоминание: если persistId задан — анимация входа играет один раз за сессию,
+ *   при повторном попадании блок просто показывается мгновенно.
+ * - Exit-анимация: все плашки плавно уходят при скролле вверх
  */
 export default function FadeIn({
   children,
   delay = 0,
   direction = "up",
   className = "",
-  viewOnce = false,
+  persistId,
   staggerChildren,
 }: FadeInProps) {
   const ref = useRef<HTMLDivElement>(null);
-  const [state, setState] = useState<"hidden" | "visible" | "exit-up">("hidden");
-  // hasPlayed: была ли анимация входа уже сыграна
   const hasPlayedRef = useRef(false);
+  const lastScrollY = useRef(0);
+
+  // Check if animation was already played (sessionStorage)
+  const wasPlayed = useCallback(() => {
+    if (!persistId) return false;
+    try {
+      return sessionStorage.getItem(`fadein-${persistId}`) === "1";
+    } catch {
+      return false;
+    }
+  }, [persistId]);
+
+  const markPlayed = useCallback(() => {
+    if (!persistId) return;
+    try {
+      sessionStorage.setItem(`fadein-${persistId}`, "1");
+    } catch {}
+  }, [persistId]);
+
+  const [state, setState] = useState<"hidden" | "visible" | "exit-up">(() => {
+    // Если анимация уже была проиграна в этой сессии — сразу visible
+    if (wasPlayed()) return "visible";
+    return "hidden";
+  });
 
   const directionOffsets = {
     up: { y: 60, x: 0 },
@@ -49,27 +70,32 @@ export default function FadeIn({
     const el = ref.current;
     if (!el) return;
 
+    // If already played in session, mark as played
+    if (wasPlayed()) {
+      hasPlayedRef.current = true;
+      return;
+    }
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            // Элемент вошёл в viewport → показываем
             hasPlayedRef.current = true;
             setState("visible");
+            markPlayed();
           } else {
-            // Элемент вышел из viewport
             if (hasPlayedRef.current) {
-              // Определяем: элемент ушёл ВНИЗ (мы скролим вверх)
-              // или вверх (мы скролим вниз, ещё не дошли).
-              // boundingClientRect.top < 0 → элемент выше viewport (ушёл вверх при scroll-up)
               const rect = el.getBoundingClientRect();
               if (rect.top < 0) {
-                // Ушёл выше — exit-up анимация (уходит вверх)
+                // Ушёл выше viewport — exit-up
                 setState("exit-up");
               } else {
-                // Ушёл ниже viewport — возвращаем в hidden для повторного входа
-                setState("hidden");
-                hasPlayedRef.current = false;
+                // Ушёл ниже viewport
+                if (!persistId) {
+                  setState("hidden");
+                  hasPlayedRef.current = false;
+                }
+                // Если persistId — не убираем, оставляем visible
               }
             }
           }
@@ -80,7 +106,28 @@ export default function FadeIn({
 
     observer.observe(el);
     return () => observer.disconnect();
-  }, []);
+  }, [wasPlayed, markPlayed, persistId]);
+
+  // Re-enter: если элемент был в exit-up и вернулся в viewport
+  useEffect(() => {
+    if (state !== "exit-up") return;
+    const el = ref.current;
+    if (!el) return;
+
+    const reEnterObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && state === "exit-up") {
+            setState("visible");
+          }
+        });
+      },
+      { threshold: 0.05 }
+    );
+
+    reEnterObserver.observe(el);
+    return () => reEnterObserver.disconnect();
+  }, [state]);
 
   const variants = {
     hidden: {
@@ -94,12 +141,11 @@ export default function FadeIn({
       x: 0,
       transition: {
         duration: 0.65,
-        delay,
+        delay: wasPlayed() ? 0 : delay, // No delay if already played
         ease: [0.21, 0.47, 0.32, 0.98],
         staggerChildren: staggerChildren,
       },
     },
-    // Уходит вверх — зеркало входа снизу
     "exit-up": {
       opacity: 0,
       y: direction === "up" ? -50 : direction === "down" ? 50 : 0,
@@ -107,6 +153,8 @@ export default function FadeIn({
       transition: {
         duration: 0.45,
         ease: [0.32, 0, 0.67, 0],
+        staggerChildren: staggerChildren ? staggerChildren * 0.5 : undefined,
+        staggerDirection: -1, // Reverse stagger on exit
       },
     },
   };
@@ -116,7 +164,7 @@ export default function FadeIn({
       ref={ref}
       variants={variants}
       animate={state}
-      initial="hidden"
+      initial={wasPlayed() ? "visible" : "hidden"}
       className={className}
     >
       {children}

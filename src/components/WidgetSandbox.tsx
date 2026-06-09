@@ -1,6 +1,7 @@
 import React from "react";
+import { motion } from "motion/react";
 import { Language } from "../types";
-import desktopWidgetImg from "../assets/images/yosa_desktop_widget.webp";
+import yosaDesktopWidget from "../assets/images/yosa_desktop_widget.webp";
 import adWidget from "../assets/images/ad_04_widget.webp";
 import FadeInItem from "./FadeInItem";
 import LazyImage from "./LazyImage";
@@ -15,9 +16,6 @@ const LOCALIZATION = {
     title: "Йося всегда на твоём экране",
     subtitle:
       "Следите за калориями, шкалой сытости и настроением пушистого друга прямо на рабочем столе телефона.",
-    descText:
-      "Специально разработанный для Android-устройств интерактивный виджет позволяет мгновенно вносить блюда и отслеживать калорийность без необходимости каждый раз запускать основное приложение.",
-    featureTitle: "Уникальные возможности виджета:",
     features: [
       "Живая анимация кошачьего настроения: кот спит утром, радуется сытным приёмам пищи и впадает в панику при сильном переборе ваших лимитов калорий.",
       "Шкалы сытости БЖУ: интуитивные цветные линии показывают баланс белков, жиров и углеводов в реальном времени.",
@@ -25,24 +23,19 @@ const LOCALIZATION = {
     ],
     catRemark:
       "«Я сижу в виджете и жду твой сытный обед, хозяин! Добавь вкусную котлетку прямо с экрана, и я замурчу!»",
-    imageAlt: "Йося интерактивный виджет на Android",
   },
   en: {
     badge: "Interactive Desktop Widgets",
     title: "Yosa right on your home screen",
     subtitle:
-      "Keep an eye on remaining calorie targets, macro grids, and your kitten's mood directly on your phone's wallpaper.",
-    descText:
-      "Our Android desktop widgets stream nutritional logs in real-time. Log ingredients or record voice prompts directly from your home page widget shortcut.",
-    featureTitle: "Key Widget Enhancements:",
+      "Keep an eye on calories, macro grids, and your kitten's mood directly on your wallpaper.",
     features: [
-      "Dynamic state animations: Yosa sleeps in the mornings, flashes positive stars during balanced lunch logs, and warns you playfully if carbs go off the charts.",
-      "Visual energy rings: high-contrast satiety progress circles let you view your status in a split-second flash.",
-      "Multi-size support: fit beautiful tiny 2-unit cubes, or setup full width grid lists displaying everything you logged throughout active days.",
+      "Dynamic state animations: Yosa sleeps mornings, sparkles during balanced meals, and warns playfully if carbs spike.",
+      "Visual energy rings: high-contrast progress circles for split-second status checks.",
+      "Multi-size support: tiny 2-unit cubes or full width grid displaying everything you logged.",
     ],
     catRemark:
-      "«I'm sitting waiting on your beautiful screen, human! Tap to record that steak in one click, and watch my tummy fill with magic!»",
-    imageAlt: "Yosa Android premium home screen widgets mockup",
+      "«I'm sitting on your screen, human! Tap to record that steak in one click, and watch my tummy fill!»",
   },
 };
 
@@ -51,14 +44,14 @@ export default function WidgetSandbox({ lang }: WidgetSandboxProps) {
 
   return (
     <div className="relative">
-      {/* Глубокий тёмный фон для контраста */}
+      {/* Dark container */}
       <div className="bg-gradient-to-br from-[#1a1025] via-[#1E152A] to-[#0f0a18] rounded-[40px] p-8 md:p-14 overflow-hidden relative">
-        {/* Декоративные элементы */}
-        <div className="absolute top-10 right-10 w-60 h-60 bg-brand-primary/10 rounded-full blur-[80px]"></div>
-        <div className="absolute bottom-10 left-10 w-40 h-40 bg-pink-500/10 rounded-full blur-[60px]"></div>
+        {/* Decorative blobs */}
+        <div className="absolute top-10 right-10 w-60 h-60 bg-brand-primary/10 rounded-full blur-[80px]" />
+        <div className="absolute bottom-10 left-10 w-40 h-40 bg-pink-500/10 rounded-full blur-[60px]" />
 
         <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-center">
-          {/* Левая колонка - текст */}
+          {/* Left: text */}
           <div className="space-y-6">
             <FadeInItem className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm py-1.5 px-4 rounded-full text-xs font-bold text-purple-200">
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
@@ -79,7 +72,7 @@ export default function WidgetSandbox({ lang }: WidgetSandboxProps) {
               </p>
             </FadeInItem>
 
-            {/* Фичи в виде мини-карточек */}
+            {/* Features as mini-cards */}
             <div className="space-y-3 pt-2">
               {t.features.map((feat, idx) => (
                 <FadeInItem key={idx}>
@@ -93,7 +86,7 @@ export default function WidgetSandbox({ lang }: WidgetSandboxProps) {
               ))}
             </div>
 
-            {/* Цитата */}
+            {/* Quote */}
             <FadeInItem className="bg-white/5 p-4 rounded-2xl border border-purple-400/20">
               <p className="text-xs md:text-sm text-purple-200/80 italic font-display font-medium leading-relaxed">
                 {t.catRemark}
@@ -101,32 +94,36 @@ export default function WidgetSandbox({ lang }: WidgetSandboxProps) {
             </FadeInItem>
           </div>
 
-          {/* Правая колонка: виджет */}
+          {/* Right: Widget screenshots */}
           <FadeInItem variant="zoom" className="flex justify-center">
             <div className="relative group">
-              <div className="absolute inset-0 bg-gradient-to-tr from-brand-primary/20 to-pink-500/20 rounded-[36px] blur-xl group-hover:blur-2xl transition-all"></div>
+              <div className="absolute inset-0 bg-gradient-to-tr from-brand-primary/20 to-pink-500/20 rounded-[36px] blur-xl group-hover:blur-2xl transition-all" />
               <div className="relative bg-white/5 backdrop-blur-sm p-4 md:p-6 rounded-[36px] border border-white/10">
                 <LazyImage
-                  src={desktopWidgetImg}
-                  alt={t.imageAlt}
+                  src={yosaDesktopWidget}
+                  alt={lang === "ru" ? "Виджет Йоси" : "Yosa widget"}
                   referrerPolicy="no-referrer"
                   width="900"
                   height="520"
                   wrapperClassName="rounded-[24px] w-full max-w-[440px] shadow-2xl overflow-hidden"
                   className="w-full h-auto object-contain transform group-hover:scale-[1.02] duration-500"
                 />
-                {/* Кадр виджета */}
-                <div className="absolute -bottom-5 -right-5 w-28 md:w-36 bg-[#1E152A] p-1.5 rounded-[20px] shadow-2xl border border-white/15 rotate-6 group-hover:rotate-0 transition-transform duration-500">
+                {/* Overlay small phone */}
+                <motion.div
+                  whileHover={{ rotate: 0 }}
+                  initial={{ rotate: 6 }}
+                  className="absolute -bottom-5 -right-5 w-28 md:w-36 bg-[#1a1a1a] p-[2px] rounded-[20px] shadow-2xl border border-white/15 transition-transform duration-500"
+                >
                   <LazyImage
                     src={adWidget}
-                    alt={lang === "ru" ? "Кадр виджета Йоси" : "Yosa widget screenshot"}
+                    alt=""
                     loading="lazy"
                     width="180"
                     height="320"
-                    wrapperClassName="rounded-[14px] w-full aspect-[9/16]"
-                    className="w-full h-full object-contain bg-white"
+                    wrapperClassName="rounded-[18px] w-full aspect-[9/16] overflow-hidden"
+                    className="w-full h-full object-cover object-top"
                   />
-                </div>
+                </motion.div>
               </div>
             </div>
           </FadeInItem>
