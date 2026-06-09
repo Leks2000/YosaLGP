@@ -9,7 +9,6 @@ import LazyImage from "./LazyImage";
 import catBag from "../assets/images/cat_photo_1_bag.webp";
 import catBox from "../assets/images/cat_photo_5_box.webp";
 import catBed from "../assets/images/cat_photo_bed.webp";
-import creatorAvatar from "../assets/images/creator_avatar.webp";
 import creatorPhoto from "../assets/images/creator_photo.webp";
 
 interface CreatorStoryProps {
@@ -218,18 +217,6 @@ export default function CreatorStory({ lang }: CreatorStoryProps) {
                   wrapperClassName="w-36 h-36 md:w-44 md:h-44 rounded-3xl border-4 border-white shadow-xl overflow-hidden"
                   className="w-full h-full object-cover"
                 />
-                {/* Мини аватар с котом */}
-                <div className="absolute -bottom-3 -right-3 w-14 h-14 rounded-full border-4 border-white shadow-lg overflow-hidden bg-purple-50">
-                  <LazyImage
-                    src={creatorAvatar}
-                    alt=""
-                    width="56"
-                    height="56"
-                    loading="lazy"
-                    wrapperClassName="w-full h-full"
-                    className="w-full h-full object-cover"
-                  />
-                </div>
               </div>
             </FadeInItem>
 
