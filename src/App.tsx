@@ -13,13 +13,9 @@ import HowItWorks from "./components/HowItWorks";
 
 // Lazy-loaded sections below the fold (code splitting)
 const FeaturesGrid = lazy(() => import("./components/FeaturesGrid"));
-const GoalsCalculator = lazy(() => import("./components/GoalsCalculator"));
-const WidgetSandbox = lazy(() => import("./components/WidgetSandbox"));
-const BadgesGallery = lazy(() => import("./components/BadgesGallery"));
 const CreatorStory = lazy(() => import("./components/CreatorStory"));
 const ArtGallery = lazy(() => import("./components/ArtGallery"));
 const DownloadNudge = lazy(() => import("./components/DownloadNudge"));
-const AnalyticsDashboard = lazy(() => import("./components/AnalyticsDashboard"));
 
 // Lazy loading fallback component
 const SectionLoader = () => (
@@ -125,16 +121,12 @@ export default function App() {
       rustoreSub: "Официальный магазин РФ",
       navTry: "Как устроен ИИ",
       navFeatures: "Что умеет Йося",
-      navCalc: "Режим целей",
-      navWidget: "Красивый виджет",
       navFaq: "Частые вопросы",
-      badgesSec: "Стрики и трофеи",
       developersSec: "Создатели проекта",
       creatorHeading:
         "Привет, я Александр! Меня вдохновила идея упростить скучные подсчёты калорий и сделать приложение, в которое хочется заходить каждый день ради пушистого друга.",
       creatorDesc:
         "Я создал Йосю, чтобы помочь тысячам людей вести дневник питания без рутины. Я потратил кучу времени на полировку дизайна, динамические виджеты и разработку персонального кота-нутрициолога. С Йосей вам не нужно быть экспертом по балансу – просто пишите еду как есть, а пушистик поможет вам оставаться в форме!",
-      widgetsText: "Виджет",
       faqHeading: "Вопросы и ответы",
       faqSub:
         "Полезная информация о работе ИИ-нутрициолога прямо у вас под лапой",
@@ -153,16 +145,12 @@ export default function App() {
       rustoreSub: "Official RU App Market",
       navTry: "How AI works",
       navFeatures: "Core Features",
-      navCalc: "Nutrition Setup",
-      navWidget: "Desktop Widget",
       navFaq: "FAQ",
-      badgesSec: "Streaks & Trophies",
       developersSec: "Meet Yosa's Creator",
       creatorHeading:
         "Hi, I'm Alexander! I wanted to turn boring diet planning into an exciting, gamified experience with a friendly virtual pet always by your side.",
       creatorDesc:
         "I wanted to create a calorie tracking experience that felt incredible to use – like writing in a notes app. Elegant graphics and natural interaction was something I devoted hundreds of hours to. Hopefully Yosa helps you manage your nutrition habits as much as it helped me! Keep your streak flowing, human!",
-      widgetsText: "Widget View",
       faqHeading: "Frequently Asked Questions",
       faqSub:
         "Comprehensive insights about our intelligent cat assistant and nutrition evaluation formulas.",
@@ -249,24 +237,6 @@ export default function App() {
               {currentText.navFeatures}
             </button>
             <button
-              onClick={() => handleScrollTo("streaks-section")}
-              className="hover:text-brand-primary transition-colors cursor-pointer"
-            >
-              {currentText.badgesSec}
-            </button>
-            <button
-              onClick={() => handleScrollTo("norm-calculator")}
-              className="hover:text-brand-primary transition-colors cursor-pointer"
-            >
-              {currentText.navCalc}
-            </button>
-            <button
-              onClick={() => handleScrollTo("widget-preview-section")}
-              className="hover:text-brand-primary transition-colors cursor-pointer"
-            >
-              {currentText.navWidget}
-            </button>
-            <button
               onClick={() => handleScrollTo("faq-container")}
               className="hover:text-brand-primary transition-colors cursor-pointer"
             >
@@ -341,9 +311,6 @@ export default function App() {
                 {[
                   { id: "estimator-playground", label: currentText.navTry },
                   { id: "feat-grid", label: currentText.navFeatures },
-                  { id: "streaks-section", label: currentText.badgesSec },
-                  { id: "norm-calculator", label: currentText.navCalc },
-                  { id: "widget-preview-section", label: currentText.navWidget },
                   { id: "faq-container", label: currentText.navFaq },
                 ].map((item) => (
                   <button
@@ -362,7 +329,7 @@ export default function App() {
 
       <main className="max-w-7xl mx-auto px-4 md:px-8 pt-10 md:pt-16 space-y-32 md:space-y-44">
         {/* HERO SECTION — Amy style: крупный заголовок слева, телефон справа */}
-        <FadeIn direction="up" delay={0.1}>
+        <FadeIn direction="up" delay={0.1} persistId="hero">
           <section className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             {/* Left: huge bold title + short desc + CTAs */}
             <div className="lg:col-span-7 space-y-6 md:space-y-8">
@@ -440,7 +407,7 @@ export default function App() {
               </div>
             </div>
 
-            {/* Right Display: Live screenshot carousel of the real app */}
+            {/* Right Display: Real app screenshot */}
             <div className="lg:col-span-5 flex justify-center relative">
               <HeroShowcase lang={lang} />
             </div>
@@ -454,56 +421,15 @@ export default function App() {
           <span className="w-1.5 h-1.5 rounded-full bg-brand-primary/20" />
         </div>
 
-        {/* HOW IT WORKS — Amy-style phone + 01/02/03 steps (замена CalorieEstimator) */}
-        <FadeIn direction="up">
+        {/* HOW IT WORKS — Amy-style phone + 01/02/03 steps */}
+        <FadeIn direction="up" persistId="how-it-works">
           <HowItWorks lang={lang} />
         </FadeIn>
 
         {/* CORE FEATURES GRID SECTION — Amy Food Journal style */}
         <Suspense fallback={<SectionLoader />}>
-          <FadeIn direction="up" delay={0.1} staggerChildren={0.15}>
+          <FadeIn direction="up" delay={0.1} staggerChildren={0.15} persistId="features-grid">
             <FeaturesGrid lang={lang} />
-          </FadeIn>
-        </Suspense>
-
-        {/* Section divider */}
-        <div className="flex items-center justify-center gap-3 py-2">
-          <span className="w-12 h-px bg-gradient-to-r from-transparent via-brand-primary/20 to-transparent" />
-          <span className="w-2 h-2 rounded-full bg-brand-secondary/30" />
-          <span className="w-12 h-px bg-gradient-to-r from-transparent via-brand-primary/20 to-transparent" />
-        </div>
-
-        {/* STREAK & ACHIEVEMENTS SECTION */}
-        <Suspense fallback={<SectionLoader />}>
-          <FadeIn direction="up" staggerChildren={0.1}>
-            <section id="streaks-section" className="scroll-mt-24">
-              <BadgesGallery lang={lang} />
-            </section>
-          </FadeIn>
-        </Suspense>
-
-        {/* Section divider */}
-        <div className="flex items-center justify-center gap-3 py-2">
-          <span className="w-1.5 h-1.5 rounded-full bg-brand-primary/20" />
-          <span className="w-2 h-2 rounded-full bg-brand-primary/30" />
-          <span className="w-1.5 h-1.5 rounded-full bg-brand-primary/20" />
-        </div>
-
-        {/* BMR TDEE GOALS CALCULATOR */}
-        <Suspense fallback={<SectionLoader />}>
-          <FadeIn direction="up">
-            <section id="norm-calculator" className="scroll-mt-24">
-              <GoalsCalculator lang={lang} />
-            </section>
-          </FadeIn>
-        </Suspense>
-
-        {/* INTERACTIVE WIDGET CUSTOMIZATION SANDBOX */}
-        <Suspense fallback={<SectionLoader />}>
-          <FadeIn direction="up" staggerChildren={0.15}>
-            <section id="widget-preview-section" className="scroll-mt-24">
-              <WidgetSandbox lang={lang} />
-            </section>
           </FadeIn>
         </Suspense>
 
@@ -521,15 +447,8 @@ export default function App() {
 
         {/* «ТЫ ЕЩЁ НЕ СКАЧАЛ?» – игривая секция с реальными фото кота */}
         <Suspense fallback={<SectionLoader />}>
-          <FadeIn direction="up">
+          <FadeIn direction="up" persistId="download-nudge">
             <DownloadNudge lang={lang} />
-          </FadeIn>
-        </Suspense>
-
-        {/* ANALYTICS DASHBOARD — A/B тест и click-rate CTA */}
-        <Suspense fallback={<SectionLoader />}>
-          <FadeIn direction="up">
-            <AnalyticsDashboard lang={lang} />
           </FadeIn>
         </Suspense>
 
@@ -545,8 +464,8 @@ export default function App() {
           <span className="w-1.5 h-1.5 rounded-full bg-brand-primary/20" />
         </div>
 
-        {/* FAQ — одна колонка, плавное раскрытие, dim соседей, без сдвига layout */}
-        <FadeIn direction="up">
+        {/* FAQ — одна колонка, плавное раскрытие В ШИРЬ И В ВЫСОТУ, dim соседей */}
+        <FadeIn direction="up" persistId="faq">
           <section
             id="faq-container"
             className="scroll-mt-24 space-y-10 max-w-3xl mx-auto"
@@ -569,12 +488,12 @@ export default function App() {
                     key={item.id}
                     animate={{
                       opacity: isDimmed ? 0.4 : 1,
-                      scale: isDimmed ? 0.97 : isOpen ? 1.02 : 1,
-                      // Раскрытие в ширь при открытии
-                      paddingLeft: isOpen ? 28 : 24,
-                      paddingRight: isOpen ? 28 : 24,
+                      scale: isDimmed ? 0.95 : isOpen ? 1.0 : 1,
+                      // Раскрытие в ширь при открытии — увеличиваем margin/padding
+                      marginLeft: isOpen ? -16 : 0,
+                      marginRight: isOpen ? -16 : 0,
                     }}
-                    transition={{ duration: 0.35, ease: [0.21, 0.47, 0.32, 0.98] }}
+                    transition={{ duration: 0.4, ease: [0.21, 0.47, 0.32, 0.98] }}
                     className={`bg-white/85 backdrop-blur-sm border-2 rounded-3xl overflow-hidden transition-colors ${
                       isOpen
                         ? "border-brand-primary shadow-xl shadow-purple-100/50"
@@ -606,15 +525,15 @@ export default function App() {
                       </motion.span>
                     </button>
 
-                    {/* Плавное раскрытие по высоте + по ширине */}
+                    {/* Плавное раскрытие по высоте + по ширине (scaleX) */}
                     <AnimatePresence initial={false}>
                       {isOpen && (
                         <motion.div
                           key="answer"
-                          initial={{ opacity: 0, height: 0, scaleX: 0.95 }}
-                          animate={{ opacity: 1, height: "auto", scaleX: 1 }}
-                          exit={{ opacity: 0, height: 0, scaleX: 0.95 }}
-                          transition={{ duration: 0.35, ease: [0.21, 0.47, 0.32, 0.98] }}
+                          initial={{ opacity: 0, height: 0, scaleX: 0.92, scaleY: 0.95 }}
+                          animate={{ opacity: 1, height: "auto", scaleX: 1, scaleY: 1 }}
+                          exit={{ opacity: 0, height: 0, scaleX: 0.92, scaleY: 0.95 }}
+                          transition={{ duration: 0.4, ease: [0.21, 0.47, 0.32, 0.98] }}
                           style={{ overflow: "hidden", transformOrigin: "top center" }}
                         >
                           <div className="px-6 pb-6 pt-4 text-sm md:text-base text-gray-500 leading-relaxed border-t border-purple-50">
@@ -722,7 +641,6 @@ export default function App() {
               {[
                 { id: "estimator-playground", label: lang === "ru" ? "Как работает" : "How it works" },
                 { id: "feat-grid", label: lang === "ru" ? "Функции" : "Features" },
-                { id: "streaks-section", label: lang === "ru" ? "Достижения" : "Streaks" },
                 { id: "faq-container", label: "FAQ" },
               ].map((item) => (
                 <button
