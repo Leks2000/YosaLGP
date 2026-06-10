@@ -16,19 +16,18 @@ interface HeroShowcaseProps {
  */
 export default function HeroShowcase({ lang }: HeroShowcaseProps) {
   return (
-    <div className="relative flex flex-col items-center overflow-hidden">
+    <div className="relative flex flex-col items-end w-full">
+      {/* glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[360px] h-[360px] bg-gradient-to-br from-pink-200/40 to-orange-100/30 rounded-full blur-[80px] -z-10" />
       <motion.div
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, delay: 0.3, ease: [0.21, 0.47, 0.32, 0.98] }}
-        className="relative translate-x-8"
       >
         <video
-          className="block object-cover"
+          className="block object-cover w-full max-w-[380px]"
           style={{
-            width: 330,
-            borderRadius: 44,
+            borderRadius: 36,
             aspectRatio: "9/16",
             boxShadow: "0 50px 100px -25px rgba(0,0,0,0.25)",
           }}
