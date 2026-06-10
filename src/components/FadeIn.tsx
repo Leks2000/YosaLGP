@@ -59,10 +59,10 @@ export default function FadeIn({
   });
 
   const directionOffsets = {
-    up: { y: 60, x: 0 },
-    down: { y: -60, x: 0 },
-    left: { x: 60, y: 0 },
-    right: { x: -60, y: 0 },
+    up: { y: 38, x: 0 },
+    down: { y: -38, x: 0 },
+    left: { x: 38, y: 0 },
+    right: { x: -38, y: 0 },
     none: { x: 0, y: 0 },
   };
 
@@ -101,7 +101,7 @@ export default function FadeIn({
           }
         });
       },
-      { threshold: 0.08, rootMargin: "0px 0px -8% 0px" }
+      { threshold: 0.04, rootMargin: "0px 0px -4% 0px" }
     );
 
     observer.observe(el);
@@ -140,7 +140,7 @@ export default function FadeIn({
       y: 0,
       x: 0,
       transition: {
-        duration: 0.65,
+        duration: 0.42,
         delay: wasPlayed() ? 0 : delay, // No delay if already played
         ease: [0.21, 0.47, 0.32, 0.98],
         staggerChildren: staggerChildren,
@@ -148,10 +148,10 @@ export default function FadeIn({
     },
     "exit-up": {
       opacity: 0,
-      y: direction === "up" ? -50 : direction === "down" ? 50 : 0,
-      x: direction === "left" ? -50 : direction === "right" ? 50 : 0,
+      y: direction === "up" ? -34 : direction === "down" ? 34 : 0,
+      x: direction === "left" ? -34 : direction === "right" ? 34 : 0,
       transition: {
-        duration: 0.45,
+        duration: 0.26,
         ease: [0.32, 0, 0.67, 0],
         staggerChildren: staggerChildren ? staggerChildren * 0.5 : undefined,
         staggerDirection: -1, // Reverse stagger on exit

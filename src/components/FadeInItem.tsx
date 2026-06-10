@@ -17,10 +17,10 @@ export default function FadeInItem({
   variant = "slide",
 }: FadeInItemProps) {
   const directionOffsets = {
-    up: { y: 45, x: 0 },
-    down: { y: -45, x: 0 },
-    left: { x: 45, y: 0 },
-    right: { x: -45, y: 0 },
+    up: { y: 30, x: 0 },
+    down: { y: -30, x: 0 },
+    left: { x: 30, y: 0 },
+    right: { x: -30, y: 0 },
     none: { x: 0, y: 0 },
   };
 
@@ -44,7 +44,7 @@ export default function FadeInItem({
       rotate: 0,
       filter: "blur(0px)",
       transition: {
-        duration: 0.6,
+        duration: 0.38,
         ease: [0.21, 0.47, 0.32, 0.98],
       },
     },
@@ -52,7 +52,7 @@ export default function FadeInItem({
       opacity: 0,
       y: -35,
       transition: {
-        duration: 0.4,
+        duration: 0.24,
         ease: [0.32, 0, 0.67, 0],
       },
     },

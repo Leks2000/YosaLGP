@@ -19,8 +19,8 @@
 ### UI / UX
 - **Hero section** — Amy-inspired layout: huge bold 3-line title left, phone showcase right with autoplay Android UI video
 - **HowItWorks block** — phone mockup left + numbered steps 01/02/03 right with large grey numbers (replaces bloated CalorieEstimator demo)
-- **Logo** — enlarged to 52px + subtitle "ИИ-счётчик калорий"
-- **FAQ** — single full-width accordion, smooth height animation, dim neighbours on open, no layout shift
+- **Top bar** — large 1.75x logo/text, right-aligned nav, and install CTA
+- **FAQ** — wide two-panel animated layout with reserved answer space so the footer does not jump
 - **Footer** — 4-column Amy-style grid: logo+social, App links, Sections nav, About
 - **Bidirectional scroll animation** — FadeIn blocks appear from bottom on scroll-down and animate-out upward on scroll-up (with state memory: only exit-up if already played)
 
@@ -93,9 +93,9 @@ webapp/
 ## User Guide
 
 1. **Language toggle** — top-right "EN/RU" button switches all content
-2. **Paw cursor** — toggle the custom cat cursor via "Курсор: Вкл/Выкл" button
+2. **Paw cursor** — desktop custom cat cursor is enabled by default with smooth spring follow
 3. **Nav links** — anchor-scroll to any section
-4. **FAQ** — click any question to expand; others dim; click again to close
+4. **FAQ** — click any question to switch the animated answer panel; other questions dim without moving the footer
 5. **Goals Calculator** — input weight/height/age/activity for personalized TDEE
 6. **Download** — RuStore badge in hero is the primary CTA
 
