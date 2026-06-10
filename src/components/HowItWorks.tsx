@@ -62,26 +62,26 @@ export default function HowItWorks({ lang }: HowItWorksProps) {
   return (
     <section id="estimator-playground" className="scroll-mt-24">
       {/* Badge */}
-      <div className="flex justify-center mb-10">
+      <div className="flex justify-center mb-14">
         <span className="inline-flex items-center gap-2 bg-brand-primary/10 text-brand-primary text-xs font-bold px-4 py-1.5 rounded-full uppercase tracking-widest">
           <span className="w-1.5 h-1.5 rounded-full bg-brand-primary animate-pulse" />
           {t.badge}
         </span>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-20 items-center">
+      <div className="grid grid-cols-1 lg:grid-cols-[0.92fr_1.08fr] gap-20 lg:gap-28 xl:gap-36 items-center">
         {/* LEFT: iPhone mockup with real screenshot */}
-        <div className="flex justify-center lg:justify-end order-2 lg:order-1">
+        <div className="flex justify-center lg:justify-end order-2 lg:order-1 lg:pr-4">
           <PhoneMockupStatic lang={lang} />
         </div>
 
         {/* RIGHT: heading + steps with numbers on the right */}
-        <div className="space-y-10 order-1 lg:order-2">
-          <h2 className="text-3xl md:text-5xl font-display font-bold text-brand-charcoal tracking-tight leading-[1.1] whitespace-pre-line">
+        <div className="space-y-12 order-1 lg:order-2">
+          <h2 className="text-4xl md:text-6xl font-display font-bold text-brand-charcoal tracking-tight leading-[1.06] whitespace-pre-line max-w-3xl">
             {t.heading}
           </h2>
 
-          <div className="space-y-8">
+          <div className="space-y-10 max-w-3xl">
             {t.steps.map((step, i) => (
               <StepRow key={step.num} step={step} index={i} />
             ))}
@@ -97,6 +97,7 @@ function StepRow({
   step,
   index,
 }: {
+  key?: React.Key;
   step: { num: string; title: string; desc: string };
   index: number;
 }) {
@@ -119,20 +120,20 @@ function StepRow({
       ref={ref}
       initial={{ opacity: 0, x: 40 }}
       animate={visible ? { opacity: 1, x: 0 } : { opacity: 0, x: 40 }}
-      transition={{ duration: 0.55, delay: index * 0.12, ease: [0.21, 0.47, 0.32, 0.98] }}
-      className="flex items-start gap-5 group"
+      transition={{ duration: 0.36, delay: index * 0.08, ease: [0.21, 0.47, 0.32, 0.98] }}
+      className="grid grid-cols-[minmax(0,1fr)_5.5rem] md:grid-cols-[minmax(0,1fr)_7rem] items-start gap-6 md:gap-8 group"
     >
       {/* Text content on the left */}
-      <div className="pt-2 border-t-2 border-gray-100 group-hover:border-brand-primary/40 transition-colors flex-1">
-        <h3 className="text-lg md:text-xl font-display font-bold text-brand-charcoal mb-1.5 leading-tight">
+      <div className="pt-4 border-t-2 border-gray-100 group-hover:border-brand-primary/40 transition-colors min-w-0">
+        <h3 className="text-xl md:text-2xl font-display font-bold text-brand-charcoal mb-2 leading-tight">
           {step.title}
         </h3>
-        <p className="text-sm md:text-base text-gray-400 leading-relaxed">
+        <p className="text-base md:text-lg text-gray-400 leading-relaxed">
           {step.desc}
         </p>
       </div>
       {/* Big number moved to the RIGHT */}
-      <span className="text-5xl md:text-6xl font-display font-bold text-gray-200 leading-none select-none w-16 shrink-0 text-right group-hover:text-brand-primary/30 transition-colors duration-300">
+      <span className="text-6xl md:text-7xl font-display font-bold text-gray-200/90 leading-none select-none text-right group-hover:text-brand-primary/30 transition-colors duration-300">
         {step.num}
       </span>
     </motion.div>
@@ -156,9 +157,9 @@ function PhoneMockupStatic({ lang }: { lang: Language }) {
       <div
         className="relative bg-black rounded-[44px] shadow-2xl overflow-hidden"
         style={{
-          width: 270,
+          width: 320,
           border: "10px solid #1a1a1a",
-          boxShadow: "0 40px 80px -20px rgba(0,0,0,0.2)",
+          boxShadow: "0 48px 95px -24px rgba(0,0,0,0.22)",
         }}
       >
         {/* Notch */}

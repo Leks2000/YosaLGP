@@ -1,5 +1,4 @@
 import React from "react";
-import { motion } from "motion/react";
 import { Language } from "../types";
 import FadeInItem from "./FadeInItem";
 import LazyImage from "./LazyImage";
@@ -9,7 +8,6 @@ import adStreak from "../assets/images/ad_01_streak.webp";
 import adSettings from "../assets/images/ad_02_settings.webp";
 import adBadges from "../assets/images/ad_03_badges.webp";
 import adWidget from "../assets/images/ad_04_widget.webp";
-import adStreakBadges from "../assets/images/ad_05_streaks_badges.webp";
 import adGoals from "../assets/images/ad_06_goals.webp";
 import adStreakCalendar from "../assets/images/ad_07_streak_calendar.webp";
 
@@ -17,31 +15,126 @@ interface FeaturesGridProps {
   lang: Language;
 }
 
-const LOCALIZATION = {
+type FeatureCard = {
+  img: string;
+  title: string;
+  desc: string;
+  frameClass: string;
+  imageClass: string;
+  accent: string;
+};
+
+const LOCALIZATION: Record<Language, {
+  title: string;
+  subtitle: string;
+  features: FeatureCard[];
+}> = {
   ru: {
-    badge: "Simple, but powerful 💪",
     title: "Мощные функции для твоих целей",
-    subtitle: "Без лишней сложности",
+    subtitle: "Каждая карточка показывает отдельный сценарий в Йосе — без одинаковых заглушек.",
     features: [
-      { img: adGoals, label: "Отслеживание целей" },
-      { img: adWidget, label: "Виджеты на экране" },
-      { img: adSettings, label: "Простое редактирование" },
-      { img: adStreak, label: "Стрики и серии" },
-      { img: adBadges, label: "Коллекция бейджей" },
-      { img: adStreakCalendar, label: "Стрики, награды и календарь" },
+      {
+        img: adGoals,
+        title: "Персональные цели",
+        desc: "Калории, белки, жиры и углеводы подстраиваются под твой план.",
+        frameClass: "md:h-[360px] lg:h-[400px]",
+        imageClass: "w-[58%] max-w-[220px] aspect-[9/16]",
+        accent: "🔥 цели",
+      },
+      {
+        img: adWidget,
+        title: "Виджеты на экране",
+        desc: "Прогресс видно сразу: стрик, остаток калорий и быстрый контроль дня.",
+        frameClass: "md:h-[300px] lg:h-[340px]",
+        imageClass: "w-[66%] max-w-[250px] aspect-square",
+        accent: "⚡ виджет",
+      },
+      {
+        img: adSettings,
+        title: "Простое редактирование",
+        desc: "Меняй цели и настройки без тяжёлых меню и лишних экранов.",
+        frameClass: "md:h-[380px] lg:h-[430px]",
+        imageClass: "w-[52%] max-w-[210px] aspect-[9/16]",
+        accent: "⚙️ настройка",
+      },
+      {
+        img: adStreak,
+        title: "Не теряй огонь",
+        desc: "Серия дней превращает питание в понятную ежедневную привычку.",
+        frameClass: "md:h-[330px] lg:h-[370px]",
+        imageClass: "w-[62%] max-w-[240px] aspect-[9/16]",
+        accent: "🔥 стрик",
+      },
+      {
+        img: adBadges,
+        title: "Кошачьи награды",
+        desc: "Открывай бейджи за прогресс и собирай милую коллекцию Йоси.",
+        frameClass: "md:h-[350px] lg:h-[390px]",
+        imageClass: "w-[56%] max-w-[220px] aspect-[9/16]",
+        accent: "🐾 бейджи",
+      },
+      {
+        img: adStreakCalendar,
+        title: "Календарь прогресса",
+        desc: "Смотри активные дни, лучший стрик и награды в одном месте.",
+        frameClass: "md:h-[320px] lg:h-[360px]",
+        imageClass: "w-[54%] max-w-[215px] aspect-[9/16]",
+        accent: "📅 календарь",
+      },
     ],
   },
   en: {
-    badge: "Simple, but powerful 💪",
     title: "Powerful features to help you reach your goals",
-    subtitle: "Without the complexity",
+    subtitle: "Every card shows a different Yosa scenario — no repeated placeholders.",
     features: [
-      { img: adGoals, label: "Goals at a glance" },
-      { img: adWidget, label: "Home screen widgets" },
-      { img: adSettings, label: "Easy editing" },
-      { img: adStreak, label: "Streaks and badges" },
-      { img: adBadges, label: "Badge collection" },
-      { img: adStreakCalendar, label: "Streaks, rewards & calendar" },
+      {
+        img: adGoals,
+        title: "Personal goals",
+        desc: "Calories, protein, fats, and carbs adjust around your plan.",
+        frameClass: "md:h-[360px] lg:h-[400px]",
+        imageClass: "w-[58%] max-w-[220px] aspect-[9/16]",
+        accent: "🔥 goals",
+      },
+      {
+        img: adWidget,
+        title: "Home widgets",
+        desc: "See streaks, calories left, and day progress at a glance.",
+        frameClass: "md:h-[300px] lg:h-[340px]",
+        imageClass: "w-[66%] max-w-[250px] aspect-square",
+        accent: "⚡ widget",
+      },
+      {
+        img: adSettings,
+        title: "Easy editing",
+        desc: "Change targets and settings without heavy menus.",
+        frameClass: "md:h-[380px] lg:h-[430px]",
+        imageClass: "w-[52%] max-w-[210px] aspect-[9/16]",
+        accent: "⚙️ tune",
+      },
+      {
+        img: adStreak,
+        title: "Keep the fire",
+        desc: "Daily streaks turn nutrition into a simple habit loop.",
+        frameClass: "md:h-[330px] lg:h-[370px]",
+        imageClass: "w-[62%] max-w-[240px] aspect-[9/16]",
+        accent: "🔥 streak",
+      },
+      {
+        img: adBadges,
+        title: "Cat rewards",
+        desc: "Unlock badges for progress and build a cute Yosa collection.",
+        frameClass: "md:h-[350px] lg:h-[390px]",
+        imageClass: "w-[56%] max-w-[220px] aspect-[9/16]",
+        accent: "🐾 badges",
+      },
+      {
+        img: adStreakCalendar,
+        title: "Progress calendar",
+        desc: "Review active days, best streaks, and rewards in one place.",
+        frameClass: "md:h-[320px] lg:h-[360px]",
+        imageClass: "w-[54%] max-w-[215px] aspect-[9/16]",
+        accent: "📅 calendar",
+      },
     ],
   },
 };
@@ -50,9 +143,8 @@ export default function FeaturesGrid({ lang }: FeaturesGridProps) {
   const t = LOCALIZATION[lang];
 
   return (
-    <section id="feat-grid" className="scroll-mt-24 space-y-10">
-      {/* Header */}
-      <div className="text-center space-y-2">
+    <section id="feat-grid" className="scroll-mt-24 space-y-12">
+      <div className="text-center space-y-3 max-w-3xl mx-auto">
         <FadeInItem>
           <h2 className="text-3xl md:text-5xl font-display font-bold text-brand-charcoal tracking-tight">
             {t.title}
@@ -65,37 +157,37 @@ export default function FeaturesGrid({ lang }: FeaturesGridProps) {
         </FadeInItem>
       </div>
 
-      {/* Grid — стиль Amy Food Journal с тёплым фоном как на референсе изображение 10 */}
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-10 md:gap-12 xl:gap-14">
         {t.features.map((feat, idx) => (
           <FadeInItem key={idx} direction="up">
-            <motion.div
-              whileHover={{ y: -6, scale: 1.03 }}
-              transition={{ type: "spring", stiffness: 300, damping: 20 }}
-              className="group"
-            >
-              {/* Скриншот в рамке — увеличенный размер, тёплый градиентный фон */}
-              <div className="bg-gradient-to-br from-[#FFF5EE] via-[#FFF0E8] to-[#FFE8D6] rounded-[24px] p-4 md:p-5 flex items-center justify-center aspect-[3/4] overflow-hidden border border-orange-100/60 shadow-sm group-hover:shadow-xl group-hover:shadow-orange-100/40 transition-all duration-300 relative">
-                {/* Subtle decorative circles in background */}
-                <div className="absolute top-3 right-3 w-12 h-12 rounded-full bg-orange-200/20 blur-lg" />
-                <div className="absolute bottom-4 left-4 w-8 h-8 rounded-full bg-pink-200/20 blur-lg" />
-                <div className="relative w-full h-full flex items-center justify-center">
-                  <LazyImage
-                    src={feat.img}
-                    alt={feat.label}
-                    loading="lazy"
-                    width="300"
-                    height="520"
-                    wrapperClassName="w-[85%] max-w-[200px] aspect-[9/16] rounded-[18px] overflow-hidden shadow-2xl border-[3px] border-gray-800"
-                    className="w-full h-full object-cover object-top"
-                  />
-                </div>
+            <article className="group h-full">
+              <div
+                className={`bg-gradient-to-br from-[#FFF7F1] via-[#FFF1E8] to-[#FFE9D7] rounded-[28px] p-5 md:p-6 flex items-center justify-center overflow-hidden border border-orange-100/70 shadow-sm relative ${feat.frameClass}`}
+              >
+                <div className="absolute inset-x-8 top-8 h-20 rounded-full bg-white/35 blur-2xl" />
+                <div className="absolute bottom-8 right-8 w-14 h-14 rounded-full bg-orange-200/20 blur-xl" />
+                <span className="absolute left-5 top-5 rounded-full bg-white/70 px-3 py-1 text-[11px] font-bold text-brand-primary shadow-sm">
+                  {feat.accent}
+                </span>
+                <LazyImage
+                  src={feat.img}
+                  alt={feat.title}
+                  loading="lazy"
+                  width="300"
+                  height="520"
+                  wrapperClassName={`${feat.imageClass} rounded-[20px] overflow-hidden shadow-2xl border-[3px] border-gray-800 relative z-10 bg-white`}
+                  className="w-full h-full object-cover object-top"
+                />
               </div>
-              {/* Label */}
-              <p className="text-center text-xs md:text-sm font-semibold text-brand-charcoal mt-3 leading-tight">
-                {feat.label}
-              </p>
-            </motion.div>
+              <div className="pt-5 text-center max-w-xs mx-auto">
+                <h3 className="text-lg md:text-xl font-display font-bold text-brand-charcoal leading-tight">
+                  {feat.title}
+                </h3>
+                <p className="mt-2 text-sm text-gray-400 leading-relaxed">
+                  {feat.desc}
+                </p>
+              </div>
+            </article>
           </FadeInItem>
         ))}
       </div>

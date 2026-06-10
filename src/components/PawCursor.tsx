@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { motion, AnimatePresence } from "motion/react";
+import { motion, AnimatePresence, useMotionValue, useSpring } from "motion/react";
 
 interface PawCursorProps {
   enabled: boolean;
@@ -13,7 +13,10 @@ interface ClickTrail {
 }
 
 export default function PawCursor({ enabled }: PawCursorProps) {
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const cursorX = useMotionValue(-100);
+  const cursorY = useMotionValue(-100);
+  const smoothX = useSpring(cursorX, { stiffness: 520, damping: 38, mass: 0.35 });
+  const smoothY = useSpring(cursorY, { stiffness: 520, damping: 38, mass: 0.35 });
   const [isHovering, setIsHovering] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
   const [trails, setTrails] = useState<ClickTrail[]>([]);
@@ -27,7 +30,8 @@ export default function PawCursor({ enabled }: PawCursorProps) {
     }
 
     const updateMouse = (e: MouseEvent) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
+      cursorX.set(e.clientX - 14);
+      cursorY.set(e.clientY - 14);
     };
 
     const handleMouseDown = () => setIsClicked(true);
@@ -82,7 +86,7 @@ export default function PawCursor({ enabled }: PawCursorProps) {
       window.removeEventListener("click", handleClick);
       window.removeEventListener("mouseover", handleMouseOver);
     };
-  }, [enabled]);
+  }, [cursorX, cursorY, enabled]);
 
   if (!enabled) return null;
 
@@ -131,15 +135,14 @@ export default function PawCursor({ enabled }: PawCursorProps) {
         ))}
       </AnimatePresence>
 
-      {/* Main Cat Paw Cursor – мгновенное движение без сглаживания (smooth убран).
-          Позиция задаётся напрямую через style на внешнем контейнере (без инерции),
-          а scale/rotate анимируются на вложенном motion.div, чтобы transform не конфликтовал. */}
-      <div
+      {/* Main Cat Paw Cursor — premium smooth follow via Motion spring values. */}
+      <motion.div
         style={{
           position: "fixed",
           left: 0,
           top: 0,
-          transform: `translate(${mousePosition.x - 14}px, ${mousePosition.y - 14}px)`,
+          x: smoothX,
+          y: smoothY,
         }}
         className="w-8 h-8"
       >
@@ -167,7 +170,7 @@ export default function PawCursor({ enabled }: PawCursorProps) {
             <circle cx="18" cy="11" r="1.5" />
           </svg>
         </motion.div>
-      </div>
+      </motion.div>
     </div>
   );
 }

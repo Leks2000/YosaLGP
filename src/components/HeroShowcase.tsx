@@ -3,14 +3,16 @@ import { motion } from "motion/react";
 import { Language } from "../types";
 import appScreenshot from "../assets/images/yosa_app_screenshot.png";
 
+const HERO_VIDEO_SRC = "/videos/yosa-android-demo.mp4";
+
 interface HeroShowcaseProps {
   lang: Language;
 }
 
 /**
  * Hero-визуал в стиле Amy Food Journal:
- * Реалистичная рамка iPhone с реальным скриншотом приложения внутри.
- * Без видеозаглушки — чистый минималистичный стиль.
+ * Реалистичная телефонная рамка с автозапускаемым Android UI-видео внутри.
+ * Если видео ещё не положили в public/videos, браузер покажет poster-скриншот.
  */
 export default function HeroShowcase({ lang }: HeroShowcaseProps) {
   return (
@@ -37,30 +39,28 @@ export default function HeroShowcase({ lang }: HeroShowcaseProps) {
           {/* Notch / Dynamic Island */}
           <div className="absolute top-2 left-1/2 -translate-x-1/2 w-20 h-6 bg-black rounded-full z-40" />
 
-          {/* Screenshot image fills the screen */}
-          <img
-            src={appScreenshot}
-            alt={lang === "ru" ? "Скриншот приложения Йося" : "Yosa app screenshot"}
-            className="w-full h-auto block rounded-[34px]"
-            loading="eager"
-          />
+          {/* Android UI video fills the screen. Put the file into public/videos/yosa-android-demo.mp4 */}
+          <video
+            className="w-full aspect-[9/19.5] block rounded-[34px] bg-black object-cover"
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="metadata"
+            poster={appScreenshot}
+            aria-label={lang === "ru" ? "Видео интерфейса приложения Йося" : "Yosa app interface video"}
+          >
+            <source src={HERO_VIDEO_SRC} type="video/mp4" />
+            <img
+              src={appScreenshot}
+              alt={lang === "ru" ? "Скриншот приложения Йося" : "Yosa app screenshot"}
+            />
+          </video>
 
           {/* Home indicator */}
           <div className="absolute bottom-2 left-1/2 -translate-x-1/2 w-[100px] h-1 bg-white/30 rounded-full z-30" />
         </div>
 
-        {/* Floating streak badge — like Amy's */}
-        <motion.div
-          animate={{ y: [0, -8, 0] }}
-          transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute -right-8 top-12 bg-white rounded-2xl shadow-xl px-3 py-2 flex items-center gap-2 border border-gray-100"
-        >
-          <span className="text-lg">🔥</span>
-          <div>
-            <div className="text-[10px] text-gray-400 font-medium">{lang === "ru" ? "Стрик" : "Streak"}</div>
-            <div className="text-sm font-bold text-brand-charcoal">1 {lang === "ru" ? "день" : "day"}</div>
-          </div>
-        </motion.div>
       </motion.div>
     </div>
   );

@@ -99,8 +99,8 @@ const FAQ_ITEMS: FAQItem[] = [
 
 export default function App() {
   const [lang, setLang] = useState<Language>("ru");
-  const [customCursor, setCustomCursor] = useState(true);
-  const [activeFaq, setActiveFaq] = useState<string | null>(null);
+  const customCursor = true;
+  const [activeFaq, setActiveFaq] = useState<string>(FAQ_ITEMS[0].id);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   // A/B-тест главного CTA. Вариант стабилен между визитами одного юзера.
@@ -168,12 +168,13 @@ export default function App() {
   const handleScrollTo = (id: string) => {
     const el = document.getElementById(id);
     if (el) {
-      el.scrollIntoView({ behavior: "smooth" });
+      const top = el.getBoundingClientRect().top + window.scrollY - 18;
+      window.scrollTo({ top, behavior: "auto" });
     }
   };
 
   return (
-    <div className="min-h-screen bg-brand-cream/40 bg-grid text-brand-charcoal font-sans text-sm md:text-base leading-relaxed antialiased selection:bg-brand-primary/10 select-none custom-scrollbar relative scroll-smooth">
+    <div className="min-h-screen bg-brand-cream/40 bg-grid text-brand-charcoal font-sans text-sm md:text-base leading-relaxed antialiased selection:bg-brand-primary/10 select-none custom-scrollbar relative">
       {/* Animated Background Blobs for kind magical vibe */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none z-[-1]">
         <motion.div
@@ -196,34 +197,33 @@ export default function App() {
       {/* Playful Paw Mouse Trail overlay */}
       <PawCursor enabled={customCursor} />
 
-      {/* Header element conforming to standard nav setup */}
-      <header className="sticky top-0 z-50 bg-white/70 backdrop-blur-xl border-b border-purple-50/70 py-4 transition-all">
-        <div className="max-w-7xl mx-auto px-4 md:px-8 flex items-center justify-between">
-          {/* Logo — увеличено до 52px + текст крупнее */}
-          <div
-            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-            className="flex items-center gap-3 cursor-pointer group"
+      {/* Top info/nav bar — lightweight like the Amy reference, not a heavy app header */}
+      <header className="relative z-50 py-5 md:py-7">
+        <div className="max-w-7xl mx-auto px-4 md:px-8 flex items-center gap-6">
+          <button
+            onClick={() => window.scrollTo({ top: 0, behavior: "auto" })}
+            className="flex items-center gap-4 md:gap-5 cursor-pointer group shrink-0"
+            aria-label={lang === "ru" ? "Наверх" : "Back to top"}
           >
             <img
               src={yosaStretch}
               alt={lang === "ru" ? "Кот Йося" : "Yosa cat"}
-              width="52"
-              height="52"
-              className="w-[52px] h-[52px] object-contain group-hover:scale-110 transition-transform"
+              width="91"
+              height="91"
+              className="w-[72px] h-[72px] md:w-[91px] md:h-[91px] object-contain group-hover:scale-105 transition-transform duration-200"
               loading="eager"
             />
-            <div className="flex flex-col">
-              <span className="font-display font-bold text-xl leading-tight tracking-tight text-brand-charcoal">
+            <span className="flex flex-col items-start">
+              <span className="font-display font-black text-3xl md:text-[2.2rem] leading-none tracking-tight text-brand-charcoal">
                 {lang === "ru" ? "Йося" : "Yosa"}
               </span>
-              <span className="text-[10px] text-gray-400 font-medium leading-tight">
+              <span className="text-xs md:text-sm text-gray-400 font-semibold leading-tight mt-1">
                 {lang === "ru" ? "ИИ-счётчик калорий" : "AI calorie counter"}
               </span>
-            </div>
-          </div>
+            </span>
+          </button>
 
-          {/* Desktop Anchor Navigation */}
-          <nav className="hidden lg:flex items-center gap-5 text-xs font-semibold text-gray-500">
+          <nav className="hidden lg:flex items-center gap-8 text-[15px] font-bold text-gray-500 ml-auto">
             <button
               onClick={() => handleScrollTo("estimator-playground")}
               className="hover:text-brand-primary transition-colors cursor-pointer"
@@ -244,46 +244,29 @@ export default function App() {
             </button>
           </nav>
 
-          {/* Right side: language switcher + burger */}
-          <div className="flex items-center gap-3">
-            {/* Custom Mouse Paw trail toggle (desktop only) */}
-            <button
-              onClick={() => setCustomCursor(!customCursor)}
-              className={`p-2 rounded-xl transition-all shadow-sm items-center gap-1.5 cursor-pointer text-xs font-medium hidden md:flex ${
-                customCursor
-                  ? "bg-purple-100/90 text-brand-primary hover:bg-purple-200"
-                  : "bg-gray-100 text-gray-400 hover:bg-gray-200"
-              }`}
-              title="Toggle Custom Paw Cursor"
-            >
-              <span
-                className={`w-2.5 h-2.5 rounded-full shrink-0 transition-colors ${
-                  customCursor ? "bg-brand-primary" : "bg-gray-300"
-                }`}
-              />
-              <span className="hidden sm:inline">
-                {lang === "ru"
-                  ? customCursor
-                    ? "Курсор: Вкл"
-                    : "Курсор: Выкл"
-                  : customCursor
-                    ? "Cursor: ON"
-                    : "Cursor: OFF"}
-              </span>
-            </button>
-
-            {/* Fluent Language Switcher */}
+          <div className="ml-auto lg:ml-0 flex items-center gap-2 md:gap-3">
             <button
               onClick={toggleLanguage}
-              className="bg-brand-primary text-white font-semibold text-xs py-2 px-4 shadow rounded-xl hover:bg-brand-primary/95 transition-all shrink-0 cursor-pointer flex items-center gap-1.5"
+              className="bg-white/80 text-brand-primary border border-purple-100 font-bold text-xs md:text-sm py-3 px-4 shadow-sm rounded-full hover:bg-purple-50 transition-all shrink-0 cursor-pointer"
             >
               {lang === "ru" ? "EN" : "RU"}
             </button>
 
-            {/* Mobile Burger Menu Button */}
+            <motion.a
+              whileHover={{ scale: 1.04, y: -2 }}
+              whileTap={{ scale: 0.97 }}
+              href="https://www.rustore.ru/catalog/app/ru.puhlyash.yosa"
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => trackRuStoreClick("top_install")}
+              className="hidden sm:inline-flex items-center justify-center rounded-full bg-brand-primary px-5 md:px-7 py-3 text-sm md:text-base font-bold text-white shadow-lg shadow-purple-200/70 hover:bg-[#6D28D9] transition-colors cursor-pointer whitespace-nowrap"
+            >
+              {lang === "ru" ? "Установить Йосю" : "Install Yosa"}
+            </motion.a>
+
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="lg:hidden p-2 rounded-xl bg-gray-100 hover:bg-purple-100 transition-colors cursor-pointer"
+              className="lg:hidden p-3 rounded-full bg-white/80 border border-purple-100 hover:bg-purple-50 transition-colors cursor-pointer"
               aria-label="Menu"
             >
               <svg className="w-5 h-5 text-brand-charcoal" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
@@ -297,17 +280,16 @@ export default function App() {
           </div>
         </div>
 
-        {/* Mobile Navigation Drawer */}
         <AnimatePresence>
           {mobileMenuOpen && (
             <motion.nav
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: "auto" }}
-              exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.25, ease: "easeInOut" }}
-              className="lg:hidden overflow-hidden border-t border-purple-50 mt-4"
+              initial={{ opacity: 0, y: -12, scale: 0.98 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -12, scale: 0.98 }}
+              transition={{ duration: 0.18, ease: "easeOut" }}
+              className="lg:hidden mx-4 mt-4 rounded-[28px] bg-white/95 border border-purple-100 shadow-xl shadow-purple-100/60 overflow-hidden"
             >
-              <div className="max-w-7xl mx-auto px-4 py-4 flex flex-col gap-2">
+              <div className="px-4 py-4 flex flex-col gap-2">
                 {[
                   { id: "estimator-playground", label: currentText.navTry },
                   { id: "feat-grid", label: currentText.navFeatures },
@@ -316,11 +298,20 @@ export default function App() {
                   <button
                     key={item.id}
                     onClick={() => { handleScrollTo(item.id); setMobileMenuOpen(false); }}
-                    className="text-left py-2.5 px-4 rounded-xl text-sm font-semibold text-gray-600 hover:bg-purple-50 hover:text-brand-primary transition-all cursor-pointer"
+                    className="text-left py-3 px-4 rounded-2xl text-sm font-bold text-gray-600 hover:bg-purple-50 hover:text-brand-primary transition-all cursor-pointer"
                   >
                     {item.label}
                   </button>
                 ))}
+                <a
+                  href="https://www.rustore.ru/catalog/app/ru.puhlyash.yosa"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => trackRuStoreClick("mobile_top_install")}
+                  className="mt-2 text-center rounded-2xl bg-brand-primary px-5 py-3 text-sm font-bold text-white shadow-lg shadow-purple-200/70"
+                >
+                  {lang === "ru" ? "Установить Йосю" : "Install Yosa"}
+                </a>
               </div>
             </motion.nav>
           )}
@@ -464,89 +455,111 @@ export default function App() {
           <span className="w-1.5 h-1.5 rounded-full bg-brand-primary/20" />
         </div>
 
-        {/* FAQ — одна колонка, плавное раскрытие В ШИРЬ И В ВЫСОТУ, dim соседей */}
+        {/* FAQ — wide animated panel with reserved answer area so the footer does not jump */}
         <FadeIn direction="up" persistId="faq">
           <section
             id="faq-container"
-            className="scroll-mt-24 space-y-10 max-w-3xl mx-auto"
+            className="scroll-mt-24 max-w-6xl mx-auto"
           >
-            <div className="text-center space-y-3">
-              <h2 className="text-2xl md:text-4xl font-display font-semibold text-brand-charcoal tracking-tight">
+            <div className="text-center space-y-4 mb-10">
+              <h2 className="text-3xl md:text-5xl font-display font-bold text-brand-charcoal tracking-tight">
                 {currentText.faqHeading}
               </h2>
-              <p className="text-sm text-gray-400 max-w-lg mx-auto">
+              <p className="text-sm md:text-base text-gray-400 max-w-2xl mx-auto">
                 {currentText.faqSub}
               </p>
             </div>
 
-            <div className="space-y-3">
-              {FAQ_ITEMS.map((item, idx) => {
-                const isOpen = activeFaq === item.id;
-                const isDimmed = activeFaq !== null && !isOpen;
-                return (
-                  <motion.div
-                    key={item.id}
-                    animate={{
-                      opacity: isDimmed ? 0.4 : 1,
-                      scale: isDimmed ? 0.95 : isOpen ? 1.0 : 1,
-                      // Раскрытие в ширь при открытии — увеличиваем margin/padding
-                      marginLeft: isOpen ? -16 : 0,
-                      marginRight: isOpen ? -16 : 0,
-                    }}
-                    transition={{ duration: 0.4, ease: [0.21, 0.47, 0.32, 0.98] }}
-                    className={`bg-white/85 backdrop-blur-sm border-2 rounded-3xl overflow-hidden transition-colors ${
-                      isOpen
-                        ? "border-brand-primary shadow-xl shadow-purple-100/50"
-                        : "border-purple-100/60 hover:border-purple-200"
-                    }`}
-                  >
-                    <button
-                      onClick={() => setActiveFaq(isOpen ? null : item.id)}
-                      className="w-full text-left px-6 py-5 flex items-center justify-between gap-4 cursor-pointer outline-none group"
+            <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,0.95fr)_minmax(360px,1.05fr)] gap-6 lg:gap-8 items-stretch min-h-[520px]">
+              <div className="space-y-4">
+                {FAQ_ITEMS.map((item, idx) => {
+                  const isOpen = activeFaq === item.id;
+                  const isDimmed = !isOpen;
+                  return (
+                    <motion.button
+                      key={item.id}
+                      type="button"
+                      onClick={() => setActiveFaq(item.id)}
+                      animate={{
+                        opacity: isDimmed ? 0.54 : 1,
+                        x: isOpen ? 18 : 0,
+                        scale: isOpen ? 1.035 : 1,
+                      }}
+                      whileHover={{ x: isOpen ? 18 : 8 }}
+                      transition={{ type: "spring", stiffness: 420, damping: 30, mass: 0.55 }}
+                      className={`w-full text-left rounded-[28px] border-2 bg-white/88 backdrop-blur-sm px-5 md:px-6 py-5 shadow-sm cursor-pointer overflow-hidden relative ${
+                        isOpen
+                          ? "border-brand-primary shadow-xl shadow-purple-100/60"
+                          : "border-purple-100/70 hover:border-purple-200"
+                      }`}
                     >
-                      <div className="flex items-center gap-4">
-                        <span className="w-8 h-8 flex items-center justify-center bg-gradient-to-br from-brand-primary to-brand-secondary text-white rounded-xl shrink-0 text-xs font-bold shadow-sm">
-                          {idx + 1}
-                        </span>
-                        <span className="font-semibold text-sm md:text-base text-brand-charcoal leading-snug">
-                          {lang === "ru" ? item.questionRu : item.questionEn}
-                        </span>
-                      </div>
                       <motion.span
-                        animate={{ rotate: isOpen ? 180 : 0 }}
-                        transition={{ type: "spring", stiffness: 300, damping: 22 }}
-                        className={`w-8 h-8 rounded-xl shrink-0 flex items-center justify-center transition-colors ${
-                          isOpen ? "bg-brand-primary text-white" : "bg-purple-50 text-brand-primary"
-                        }`}
-                      >
-                        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
-                        </svg>
-                      </motion.span>
-                    </button>
-
-                    {/* Плавное раскрытие по высоте + по ширине (scaleX) */}
-                    <AnimatePresence initial={false}>
-                      {isOpen && (
-                        <motion.div
-                          key="answer"
-                          initial={{ opacity: 0, height: 0, scaleX: 0.92, scaleY: 0.95 }}
-                          animate={{ opacity: 1, height: "auto", scaleX: 1, scaleY: 1 }}
-                          exit={{ opacity: 0, height: 0, scaleX: 0.92, scaleY: 0.95 }}
-                          transition={{ duration: 0.4, ease: [0.21, 0.47, 0.32, 0.98] }}
-                          style={{ overflow: "hidden", transformOrigin: "top center" }}
+                        aria-hidden="true"
+                        initial={false}
+                        animate={{ width: isOpen ? "100%" : "0%" }}
+                        transition={{ duration: 0.34, ease: [0.21, 0.47, 0.32, 0.98] }}
+                        className="absolute inset-y-0 left-0 bg-gradient-to-r from-purple-50 via-purple-50/70 to-transparent"
+                      />
+                      <span className="relative z-10 flex items-center justify-between gap-5">
+                        <span className="flex items-center gap-4 min-w-0">
+                          <span className="w-10 h-10 flex items-center justify-center bg-gradient-to-br from-brand-primary to-brand-secondary text-white rounded-2xl shrink-0 text-sm font-black shadow-sm">
+                            {idx + 1}
+                          </span>
+                          <span className="font-bold text-base md:text-lg text-brand-charcoal leading-snug">
+                            {lang === "ru" ? item.questionRu : item.questionEn}
+                          </span>
+                        </span>
+                        <motion.span
+                          animate={{ rotate: isOpen ? 45 : 0, scale: isOpen ? 1.08 : 1 }}
+                          transition={{ type: "spring", stiffness: 460, damping: 24 }}
+                          className={`w-10 h-10 rounded-2xl shrink-0 flex items-center justify-center text-xl font-bold transition-colors ${
+                            isOpen ? "bg-brand-primary text-white" : "bg-purple-50 text-brand-primary"
+                          }`}
                         >
-                          <div className="px-6 pb-6 pt-4 text-sm md:text-base text-gray-500 leading-relaxed border-t border-purple-50">
-                            <div className="pl-12">
-                              {lang === "ru" ? item.answerRu : item.answerEn}
-                            </div>
-                          </div>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                  </motion.div>
-                );
-              })}
+                          +
+                        </motion.span>
+                      </span>
+                    </motion.button>
+                  );
+                })}
+              </div>
+
+              <div className="relative min-h-[360px] lg:min-h-full rounded-[36px] border border-purple-100/70 bg-white/82 backdrop-blur-md shadow-xl shadow-purple-100/50 overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-br from-purple-50/80 via-white to-orange-50/60" />
+                <div className="absolute -right-12 -top-12 w-44 h-44 rounded-full bg-brand-secondary/10 blur-3xl" />
+                <div className="absolute -left-10 bottom-0 w-40 h-40 rounded-full bg-brand-accent/10 blur-3xl" />
+                <AnimatePresence mode="wait" initial={false}>
+                  {(() => {
+                    const selected = FAQ_ITEMS.find((item) => item.id === activeFaq) ?? FAQ_ITEMS[0];
+                    const selectedIndex = FAQ_ITEMS.findIndex((item) => item.id === selected.id);
+                    return (
+                      <motion.div
+                        key={selected.id}
+                        initial={{ opacity: 0, x: 42, clipPath: "inset(0 0 0 18% round 36px)", filter: "blur(6px)" }}
+                        animate={{ opacity: 1, x: 0, clipPath: "inset(0 0 0 0% round 36px)", filter: "blur(0px)" }}
+                        exit={{ opacity: 0, x: -34, clipPath: "inset(0 18% 0 0 round 36px)", filter: "blur(5px)" }}
+                        transition={{ duration: 0.34, ease: [0.21, 0.47, 0.32, 0.98] }}
+                        className="relative z-10 h-full p-7 md:p-9 flex flex-col justify-center"
+                      >
+                        <div className="text-sm font-black text-brand-primary uppercase tracking-[0.22em] mb-5">
+                          FAQ {String(selectedIndex + 1).padStart(2, "0")}
+                        </div>
+                        <h3 className="text-2xl md:text-4xl font-display font-black text-brand-charcoal leading-tight mb-6">
+                          {lang === "ru" ? selected.questionRu : selected.questionEn}
+                        </h3>
+                        <motion.p
+                          initial={{ y: 16, opacity: 0 }}
+                          animate={{ y: 0, opacity: 1 }}
+                          transition={{ delay: 0.08, duration: 0.28 }}
+                          className="text-base md:text-lg text-gray-500 leading-relaxed"
+                        >
+                          {lang === "ru" ? selected.answerRu : selected.answerEn}
+                        </motion.p>
+                      </motion.div>
+                    );
+                  })()}
+                </AnimatePresence>
+              </div>
             </div>
           </section>
         </FadeIn>
@@ -563,25 +576,13 @@ export default function App() {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-10 pb-10 border-b border-purple-500/40">
             {/* Logo column */}
             <div className="md:col-span-1 flex flex-col gap-4">
-              <div className="flex items-center gap-3">
-                <div className="bg-white w-12 h-12 rounded-2xl flex items-center justify-center shadow-lg p-1.5 shrink-0">
-                  <img
-                    src={yosaStretch}
-                    alt={lang === "ru" ? "Кот Йося" : "Yosa cat"}
-                    width="36"
-                    height="36"
-                    className="w-full h-full object-contain"
-                    loading="lazy"
-                  />
-                </div>
-                <div>
-                  <span className="font-display font-bold text-xl tracking-tight block leading-none">
-                    {lang === "ru" ? "Йося" : "Yosa"}
-                  </span>
-                  <span className="text-purple-200/70 text-xs leading-tight block mt-0.5">
-                    {lang === "ru" ? "ИИ-счётчик калорий" : "AI calorie counter"}
-                  </span>
-                </div>
+              <div>
+                <span className="font-display font-bold text-2xl tracking-tight block leading-none">
+                  {lang === "ru" ? "Йося" : "Yosa"}
+                </span>
+                <span className="text-purple-200/70 text-xs leading-tight block mt-1">
+                  {lang === "ru" ? "ИИ-счётчик калорий" : "AI calorie counter"}
+                </span>
               </div>
               <p className="text-purple-200/70 text-sm leading-relaxed max-w-[200px]">
                 {lang === "ru"
@@ -645,7 +646,7 @@ export default function App() {
               ].map((item) => (
                 <button
                   key={item.id}
-                  onClick={() => { const el = document.getElementById(item.id); if (el) el.scrollIntoView({ behavior: "smooth" }); }}
+                  onClick={() => handleScrollTo(item.id)}
                   className="text-purple-200/80 hover:text-white text-sm transition-colors text-left cursor-pointer"
                 >
                   {item.label}

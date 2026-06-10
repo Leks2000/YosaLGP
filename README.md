@@ -17,10 +17,10 @@
 ## ✅ Completed Features (v1.0.4)
 
 ### UI / UX
-- **Hero section** — Amy-inspired layout: huge bold 3-line title left, phone showcase right
+- **Hero section** — Amy-inspired layout: huge bold 3-line title left, clean phone video showcase right
 - **HowItWorks block** — phone mockup left + numbered steps 01/02/03 right with large grey numbers (replaces bloated CalorieEstimator demo)
-- **Logo** — enlarged to 52px + subtitle "ИИ-счётчик калорий"
-- **FAQ** — single full-width accordion, smooth height animation, dim neighbours on open, no layout shift
+- **Top bar** — large 1.75x logo/text, right-aligned nav, and install CTA
+- **FAQ** — wide two-panel animated layout with reserved answer space so the footer does not jump
 - **Footer** — 4-column Amy-style grid: logo+social, App links, Sections nav, About
 - **Bidirectional scroll animation** — FadeIn blocks appear from bottom on scroll-down and animate-out upward on scroll-up (with state memory: only exit-up if already played)
 
@@ -93,9 +93,9 @@ webapp/
 ## User Guide
 
 1. **Language toggle** — top-right "EN/RU" button switches all content
-2. **Paw cursor** — toggle the custom cat cursor via "Курсор: Вкл/Выкл" button
+2. **Paw cursor** — desktop custom cat cursor is enabled by default with smooth spring follow
 3. **Nav links** — anchor-scroll to any section
-4. **FAQ** — click any question to expand; others dim; click again to close
+4. **FAQ** — click any question to switch the animated answer panel; other questions dim without moving the footer
 5. **Goals Calculator** — input weight/height/age/activity for personalized TDEE
 6. **Download** — RuStore badge in hero is the primary CTA
 
@@ -122,6 +122,36 @@ pm2 logs yosa --nostream
 
 ---
 
+## Hero Video Asset
+
+Hero automatically looks for this video file:
+
+```text
+public/videos/yosa-android-demo.mp4
+```
+
+Put the Android screen recording at exactly that path and keep the same filename. Vite serves files from `public/` from the site root, so the page loads it as `/videos/yosa-android-demo.mp4`. Recommended format: vertical MP4, muted-friendly, about 9:19.5 aspect ratio.
+
+---
+
+## CI Template Activation
+
+The repository keeps a ready GitHub Actions template in `.ci-templates/ci.workflow.yml`. It is intentionally not active until copied into GitHub's workflow folder.
+
+To enable it:
+
+```bash
+mkdir -p .github/workflows
+cp .ci-templates/ci.workflow.yml .github/workflows/ci.yml
+git add .github/workflows/ci.yml
+git commit -m "Enable CI workflow"
+git push
+```
+
+After this, GitHub will run CI on every push to `main` and every pull request into `main`. The template installs dependencies with `npm ci`, runs TypeScript checks via `npm run lint`, runs Vitest via `npm test`, and verifies the production build via `npm run build`.
+
+---
+
 ## Deployment (Cloudflare Pages)
 
 ```bash
@@ -140,7 +170,7 @@ npx wrangler pages deploy dist --project-name yosa-landing
 | LazyImage lottie-react removal (-86KB gzip) | High | Replace with CSS animation |
 | Offline CalorieEstimator fallback | Medium | Show local estimate when AI API unavailable |
 | Scroll-parallax / contrast layout improvements | Medium | Additional depth for mid-page sections |
-| Video promo in Hero (HeroShowcase) | High | Replace placeholder with real Yosa promo reel |
+| Hero video asset | Medium | Add/replace `public/videos/yosa-android-demo.mp4` when a new Android promo recording is ready |
 | iOS landing page variant | Medium | Separate hero CTA when iOS released |
 | Dark mode support | Low | CSS variables prepared, just needs toggle |
 | PWA manifest | Low | For "Add to homescreen" on web |
@@ -149,12 +179,14 @@ npx wrangler pages deploy dist --project-name yosa-landing
 
 ## Recent Changes (v1.0.4 — 2026-06-09)
 
-- ✅ **Hero**: Amy-style layout, bigger title (5xl→7xl), short subtitle
+- ✅ **Hero**: Amy-style layout, bigger title (5xl→7xl), short subtitle, clean Android UI video slot without floating badge
 - ✅ **HowItWorks**: New component replacing CalorieEstimator (phone + 01/02/03 steps)
 - ✅ **Logo**: Enlarged 40px→52px, added subtitle line
-- ✅ **FAQ**: Single column, smooth height accordion, dim neighbours, no layout shift
-- ✅ **Footer**: 4-column grid with proper links, larger typography
+- ✅ **FAQ**: Wide two-panel animated FAQ, dimmed questions, stable footer position
+- ✅ **Footer**: 4-column grid with proper links, larger typography, text-only brand block
 - ✅ **FadeIn**: Bidirectional — exit-up animation on scroll-up, memory of played state
+- ✅ **Cursor**: Smooth spring-follow custom paw cursor for premium feel
+- ✅ **Top bar**: 1.75x logo/text, right-shifted nav, install CTA in the far-right area
 
 ---
 
