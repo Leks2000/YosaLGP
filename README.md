@@ -17,7 +17,7 @@
 ## ✅ Completed Features (v1.0.4)
 
 ### UI / UX
-- **Hero section** — Amy-inspired layout: huge bold 3-line title left, clean phone video showcase right
+- **Hero section** — Amy-inspired layout: huge bold 3-line title left, phone showcase right with autoplay Android UI video
 - **HowItWorks block** — phone mockup left + numbered steps 01/02/03 right with large grey numbers (replaces bloated CalorieEstimator demo)
 - **Top bar** — large 1.75x logo/text, right-aligned nav, and install CTA
 - **FAQ** — wide two-panel animated layout with reserved answer space so the footer does not jump
@@ -179,14 +179,13 @@ npx wrangler pages deploy dist --project-name yosa-landing
 
 ## Recent Changes (v1.0.4 — 2026-06-09)
 
-- ✅ **Hero**: Amy-style layout, bigger title (5xl→7xl), short subtitle, clean Android UI video slot without floating badge
+- ✅ **Hero**: Amy-style layout, bigger title (5xl→7xl), short subtitle, Android UI video slot
 - ✅ **HowItWorks**: New component replacing CalorieEstimator (phone + 01/02/03 steps)
 - ✅ **Logo**: Enlarged 40px→52px, added subtitle line
-- ✅ **FAQ**: Wide two-panel animated FAQ, dimmed questions, stable footer position
+- ✅ **FAQ**: Single column, smooth height accordion, dim neighbours, no layout shift
 - ✅ **Footer**: 4-column grid with proper links, larger typography, text-only brand block
 - ✅ **FadeIn**: Bidirectional — exit-up animation on scroll-up, memory of played state
 - ✅ **Cursor**: Smooth spring-follow custom paw cursor for premium feel
-- ✅ **Top bar**: 1.75x logo/text, right-shifted nav, install CTA in the far-right area
 
 ---
 
