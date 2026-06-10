@@ -321,9 +321,9 @@ export default function App() {
       <main className="max-w-7xl mx-auto px-4 md:px-8 pt-10 md:pt-16 space-y-32 md:space-y-44">
         {/* HERO SECTION — Amy style: крупный заголовок слева, телефон справа */}
         <FadeIn direction="up" delay={0.1} persistId="hero">
-          <section className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+          <section className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
            {/* Left: huge bold title + short desc + CTAs */}
-            <div className="space-y-6 md:space-y-8">  {/* ← убрал lg:col-span-7 */}
+            <div className="space-y-6 md:space-y-8 lg:pt-8">  {/* ← убрал lg:col-span-7 */}
               <h1 className="text-4xl md:text-6xl font-display font-bold text-brand-charcoal tracking-tighter leading-[1.05] mb-4">
                 <TextReveal text={currentText.heroTitle} delay={0.1} />
                 <span className="block text-transparent bg-clip-text bg-gradient-to-r from-brand-primary to-brand-secondary">
@@ -399,7 +399,7 @@ export default function App() {
             </div>
 
             {/* Right Display: Real app screenshot */}
-            <div className="lg:col-span-5 flex justify-center relative">
+            <div className="flex justify-end">
               <HeroShowcase lang={lang} />
             </div>
           </section>
