@@ -9,7 +9,11 @@ interface LazyImageProps {
   width?: string | number;
   height?: string | number;
   loading?: "eager" | "lazy";
+  decoding?: "async" | "auto" | "sync";
+  fetchPriority?: "high" | "low" | "auto";
   referrerPolicy?: React.HTMLAttributeReferrerPolicy;
+  srcSet?: string;
+  sizes?: string;
   onLoad?: React.ReactEventHandler<HTMLImageElement>;
   onError?: React.ReactEventHandler<HTMLImageElement>;
 }
@@ -22,6 +26,8 @@ export default function LazyImage({
   onError,
   src,
   alt,
+  loading = "lazy",
+  decoding = "async",
   ...props
 }: LazyImageProps) {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -43,6 +49,8 @@ export default function LazyImage({
         {...props}
         src={currentSrc}
         alt={alt}
+        loading={loading}
+        decoding={decoding}
         className={`${className} ${isLoaded ? "opacity-100" : "opacity-0"} transition-opacity duration-300`}
         onLoad={(event) => {
           setIsLoaded(true);

@@ -457,7 +457,7 @@ export default function App() {
         </FadeIn>
 
         {/* CORE FEATURES GRID SECTION — Amy Food Journal style */}
-        <LazySection>
+        <LazySection rootMargin="520px 0px">
           <Suspense fallback={<SectionLoader />}>
             <FadeIn direction="up" delay={0.1} staggerChildren={0.15} persistId="features-grid">
               <FeaturesGrid lang={lang} />
@@ -473,14 +473,14 @@ export default function App() {
         </div>
 
         {/* ART UNIVERSE GALLERY – арты Йоси с встроенным scroll-parallax */}
-        <LazySection>
+        <LazySection rootMargin="360px 0px">
           <Suspense fallback={<SectionLoader />}>
             <ArtGallery lang={lang} />
           </Suspense>
         </LazySection>
 
         {/* «ТЫ ЕЩЁ НЕ СКАЧАЛ?» – игривая секция с реальными фото кота */}
-        <LazySection>
+        <LazySection rootMargin="360px 0px">
           <Suspense fallback={<SectionLoader />}>
             <FadeIn direction="up" persistId="download-nudge">
               <DownloadNudge lang={lang} />
@@ -489,7 +489,7 @@ export default function App() {
         </LazySection>
 
         {/* MEET THE CREATOR STORY SECTION – реальные фото кота, картинки в разнобой */}
-        <LazySection>
+        <LazySection rootMargin="320px 0px">
           <Suspense fallback={<SectionLoader />}>
             <CreatorStory lang={lang} />
           </Suspense>
