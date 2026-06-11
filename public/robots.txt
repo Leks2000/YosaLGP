@@ -8,5 +8,5 @@ Allow: /
 User-agent: Googlebot
 Allow: /
 
-Sitemap: https://yosa.app/sitemap.xml
-Host: https://yosa.app
+Sitemap: https://yosa-the-cat.vercel.app/sitemap.xml
+Host: https://yosa-the-cat.vercel.app
