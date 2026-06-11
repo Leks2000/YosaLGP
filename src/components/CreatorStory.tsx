@@ -7,9 +7,25 @@ import LazyImage from "./LazyImage";
 
 // Реальные фото кота Йоси
 import catBag from "../assets/images/cat_photo_1_bag.webp";
+import catBag320 from "../assets/images/cat_photo_1_bag.webp?w=320&format=webp";
+import catBag640 from "../assets/images/cat_photo_1_bag.webp?w=640&format=webp";
+import catBag960 from "../assets/images/cat_photo_1_bag.webp?w=960&format=webp";
+import catBag1280 from "../assets/images/cat_photo_1_bag.webp?w=1280&format=webp";
 import catBox from "../assets/images/cat_photo_5_box.webp";
+import catBox320 from "../assets/images/cat_photo_5_box.webp?w=320&format=webp";
+import catBox640 from "../assets/images/cat_photo_5_box.webp?w=640&format=webp";
+import catBox960 from "../assets/images/cat_photo_5_box.webp?w=960&format=webp";
+import catBox1280 from "../assets/images/cat_photo_5_box.webp?w=1280&format=webp";
 import catBed from "../assets/images/cat_photo_bed.webp";
+import catBed320 from "../assets/images/cat_photo_bed.webp?w=320&format=webp";
+import catBed640 from "../assets/images/cat_photo_bed.webp?w=640&format=webp";
+import catBed960 from "../assets/images/cat_photo_bed.webp?w=960&format=webp";
+import catBed1280 from "../assets/images/cat_photo_bed.webp?w=1280&format=webp";
 import creatorPhoto from "../assets/images/creator_photo.webp";
+import creatorPhoto320 from "../assets/images/creator_photo.webp?w=320&format=webp";
+import creatorPhoto640 from "../assets/images/creator_photo.webp?w=640&format=webp";
+import creatorPhoto960 from "../assets/images/creator_photo.webp?w=960&format=webp";
+import creatorPhoto1280 from "../assets/images/creator_photo.webp?w=1280&format=webp";
 
 interface CreatorStoryProps {
   lang: Language;
@@ -18,6 +34,7 @@ interface CreatorStoryProps {
 interface StoryBlock {
   id: string;
   img: string;
+  srcSet: string;
   side: "left" | "right";
   titleRu: string;
   titleEn: string;
@@ -27,10 +44,24 @@ interface StoryBlock {
   altEn: string;
 }
 
+
+const responsiveSrcSet = (sources: Record<320 | 640 | 960 | 1280, string>) =>
+  `${sources[320]} 320w, ${sources[640]} 640w, ${sources[960]} 960w, ${sources[1280]} 1280w`;
+
+const STORY_IMAGE_SIZES = "(min-width: 768px) 360px, calc(100vw - 48px)";
+const CREATOR_IMAGE_SIZES = "(min-width: 768px) 176px, 144px";
+const CREATOR_PHOTO_SRC_SET = responsiveSrcSet({
+  320: creatorPhoto320,
+  640: creatorPhoto640,
+  960: creatorPhoto960,
+  1280: creatorPhoto1280,
+});
+
 const STORY: StoryBlock[] = [
   {
     id: "story-1",
     img: catBag,
+    srcSet: responsiveSrcSet({ 320: catBag320, 640: catBag640, 960: catBag960, 1280: catBag1280 }),
     side: "right",
     titleRu: "Знакомьтесь, настоящий Йося",
     titleEn: "Meet the real Yosa",
@@ -58,6 +89,7 @@ const STORY: StoryBlock[] = [
   {
     id: "story-2",
     img: catBox,
+    srcSet: responsiveSrcSet({ 320: catBox320, 640: catBox640, 960: catBox960, 1280: catBox1280 }),
     side: "left",
     titleRu: "Почему именно кот-нутрициолог?",
     titleEn: "Why a cat nutritionist?",
@@ -85,6 +117,7 @@ const STORY: StoryBlock[] = [
   {
     id: "story-3",
     img: catBed,
+    srcSet: responsiveSrcSet({ 320: catBed320, 640: catBed640, 960: catBed960, 1280: catBed1280 }),
     side: "right",
     titleRu: "Каждый день, маленький шаг",
     titleEn: "Every day is a small step",
@@ -185,6 +218,8 @@ export default function CreatorStory({ lang }: CreatorStoryProps) {
                       loading="lazy"
                       width="720"
                       height="540"
+                      srcSet={block.srcSet}
+                      sizes={STORY_IMAGE_SIZES}
                       wrapperClassName="w-full aspect-[4/3]"
                       className="w-full h-full object-cover object-[62%_center] transition-transform duration-700 group-hover:scale-105"
                     />
@@ -217,6 +252,8 @@ export default function CreatorStory({ lang }: CreatorStoryProps) {
                 width="180"
                 height="180"
                 loading="lazy"
+                srcSet={CREATOR_PHOTO_SRC_SET}
+                sizes={CREATOR_IMAGE_SIZES}
                 wrapperClassName="w-36 h-36 md:w-44 md:h-44 rounded-3xl border-4 border-white shadow-xl overflow-hidden"
                 className="w-full h-full object-cover"
               />

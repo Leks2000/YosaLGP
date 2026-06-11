@@ -35,3 +35,23 @@ declare module "*.svg" {
   const value: string;
   export default value;
 }
+
+declare module "*.webp?w=320&format=webp" {
+  const value: string;
+  export default value;
+}
+
+declare module "*.webp?w=640&format=webp" {
+  const value: string;
+  export default value;
+}
+
+declare module "*.webp?w=960&format=webp" {
+  const value: string;
+  export default value;
+}
+
+declare module "*.webp?w=1280&format=webp" {
+  const value: string;
+  export default value;
+}
