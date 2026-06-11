@@ -168,7 +168,22 @@ async function setupServer() {
     console.log("Vite dev middleware mounted.");
   } else {
     const distPath = path.join(process.cwd(), "dist");
-    app.use(express.static(distPath));
+    app.use(
+      express.static(distPath, {
+        etag: true,
+        maxAge: "7d",
+        setHeaders: (res, filePath) => {
+          if (filePath.endsWith(".html")) {
+            res.setHeader("Cache-Control", "no-cache");
+            return;
+          }
+
+          if (filePath.includes(`${path.sep}assets${path.sep}`)) {
+            res.setHeader("Cache-Control", "public, max-age=31536000, immutable");
+          }
+        },
+      }),
+    );
     // Express v4 wildcard routing for SPA
     app.get("*", (req, res) => {
       res.sendFile(path.join(distPath, "index.html"));

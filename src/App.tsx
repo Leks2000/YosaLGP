@@ -1,4 +1,4 @@
-import React, { useState, lazy, Suspense } from "react";
+import React, { useEffect, useRef, useState, lazy, Suspense } from "react";
 import { motion, AnimatePresence } from "motion/react";
 
 import { trackRuStoreClick } from "./lib/analytics";
@@ -10,6 +10,7 @@ import { Language, FAQItem } from "./types";
 import PawCursor from "./components/PawCursor";
 import HeroShowcase from "./components/HeroShowcase";
 import HowItWorks from "./components/HowItWorks";
+import yosaStretch from "./assets/images/yosa_stretch.webp";
 
 // Lazy-loaded sections below the fold (code splitting)
 const FeaturesGrid = lazy(() => import("./components/FeaturesGrid"));
@@ -26,7 +27,45 @@ const SectionLoader = () => (
     </div>
   </div>
 );
-import yosaStretch from "./assets/images/yosa_stretch.webp";
+
+interface LazySectionProps {
+  children: React.ReactNode;
+  rootMargin?: string;
+}
+
+const LazySection = ({ children, rootMargin = "700px 0px" }: LazySectionProps) => {
+  const sectionRef = useRef<HTMLDivElement | null>(null);
+  const [shouldRender, setShouldRender] = useState(false);
+
+  useEffect(() => {
+    const currentSection = sectionRef.current;
+
+    if (shouldRender || !currentSection) {
+      return;
+    }
+
+    if (!("IntersectionObserver" in window)) {
+      setShouldRender(true);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setShouldRender(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin },
+    );
+
+    observer.observe(currentSection);
+
+    return () => observer.disconnect();
+  }, [rootMargin, shouldRender]);
+
+  return <div ref={sectionRef}>{shouldRender ? children : <SectionLoader />}</div>;
+};
 
 // Interactive FAQ Content derived from the user request
 const FAQ_ITEMS: FAQItem[] = [
@@ -418,11 +457,13 @@ export default function App() {
         </FadeIn>
 
         {/* CORE FEATURES GRID SECTION — Amy Food Journal style */}
-        <Suspense fallback={<SectionLoader />}>
-          <FadeIn direction="up" delay={0.1} staggerChildren={0.15} persistId="features-grid">
-            <FeaturesGrid lang={lang} />
-          </FadeIn>
-        </Suspense>
+        <LazySection>
+          <Suspense fallback={<SectionLoader />}>
+            <FadeIn direction="up" delay={0.1} staggerChildren={0.15} persistId="features-grid">
+              <FeaturesGrid lang={lang} />
+            </FadeIn>
+          </Suspense>
+        </LazySection>
 
         {/* Section divider */}
         <div className="flex items-center justify-center gap-3 py-2">
@@ -432,21 +473,27 @@ export default function App() {
         </div>
 
         {/* ART UNIVERSE GALLERY – арты Йоси с встроенным scroll-parallax */}
-        <Suspense fallback={<SectionLoader />}>
-          <ArtGallery lang={lang} />
-        </Suspense>
+        <LazySection>
+          <Suspense fallback={<SectionLoader />}>
+            <ArtGallery lang={lang} />
+          </Suspense>
+        </LazySection>
 
         {/* «ТЫ ЕЩЁ НЕ СКАЧАЛ?» – игривая секция с реальными фото кота */}
-        <Suspense fallback={<SectionLoader />}>
-          <FadeIn direction="up" persistId="download-nudge">
-            <DownloadNudge lang={lang} />
-          </FadeIn>
-        </Suspense>
+        <LazySection>
+          <Suspense fallback={<SectionLoader />}>
+            <FadeIn direction="up" persistId="download-nudge">
+              <DownloadNudge lang={lang} />
+            </FadeIn>
+          </Suspense>
+        </LazySection>
 
         {/* MEET THE CREATOR STORY SECTION – реальные фото кота, картинки в разнобой */}
-        <Suspense fallback={<SectionLoader />}>
-          <CreatorStory lang={lang} />
-        </Suspense>
+        <LazySection>
+          <Suspense fallback={<SectionLoader />}>
+            <CreatorStory lang={lang} />
+          </Suspense>
+        </LazySection>
 
         {/* Section divider */}
         <div className="flex items-center justify-center gap-3 py-2">
