@@ -1,4 +1,5 @@
 import React from "react";
+import { motion } from "motion/react";
 import { Language } from "../types";
 import FadeInItem from "./FadeInItem";
 import LazyImage from "./LazyImage";
@@ -118,9 +119,25 @@ export default function FeaturesGrid({ lang }: FeaturesGridProps) {
         </FadeInItem>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-10 md:gap-12 xl:gap-14">
+      <motion.div
+        variants={{ visible: { transition: { staggerChildren: 0.1 } } }}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.15 }}
+        className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-10 md:gap-12 xl:gap-14"
+      >
         {t.features.map((feat, idx) => (
-          <FadeInItem key={idx} direction="up">
+          <motion.div
+            key={idx}
+            variants={{
+              hidden: { opacity: 0, y: 30 },
+              visible: {
+                opacity: 1,
+                y: 0,
+                transition: { duration: 0.42, ease: [0.21, 0.47, 0.32, 0.98] },
+              },
+            }}
+          >
             <article className="group h-full">
               <div
                 className={`bg-gradient-to-br from-[#FFF7F1] via-[#FFF1E8] to-[#FFE9D7] rounded-[28px] p-5 md:p-6 flex items-center justify-center overflow-hidden border border-orange-100/70 shadow-sm relative ${feat.frameClass}`}
@@ -138,9 +155,9 @@ export default function FeaturesGrid({ lang }: FeaturesGridProps) {
                 />
               </div>
             </article>
-          </FadeInItem>
+          </motion.div>
         ))}
-      </div>
+      </motion.div>
     </section>
   );
 }

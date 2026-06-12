@@ -161,7 +161,7 @@ export default function App() {
       navTry: "Как устроен ИИ",
       navFeatures: "Что умеет Йося",
       navFaq: "Частые вопросы",
-      developersSec: "Создатели проекта",
+      developersSec: "История Йоси",
       creatorHeading:
         "Привет, я Александр! Меня вдохновила идея упростить скучные подсчёты калорий и сделать приложение, в которое хочется заходить каждый день ради пушистого друга.",
       creatorDesc:
@@ -185,7 +185,7 @@ export default function App() {
       navTry: "How AI works",
       navFeatures: "Core Features",
       navFaq: "FAQ",
-      developersSec: "Meet Yosa's Creator",
+      developersSec: "Behind the Paw",
       creatorHeading:
         "Hi, I'm Alexander! I wanted to turn boring diet planning into an exciting, gamified experience with a friendly virtual pet always by your side.",
       creatorDesc:
