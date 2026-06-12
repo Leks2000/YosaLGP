@@ -17,11 +17,8 @@ interface FeaturesGridProps {
 
 type FeatureCard = {
   img: string;
-  title: string;
-  desc: string;
   frameClass: string;
   imageClass: string;
-  accent: string;
 };
 
 const LOCALIZATION: Record<Language, {
@@ -35,51 +32,33 @@ const LOCALIZATION: Record<Language, {
     features: [
       {
         img: adGoals,
-        title: "Персональные цели",
-        desc: "Калории, белки, жиры и углеводы подстраиваются под твой план.",
-        frameClass: "md:h-[360px] lg:h-[400px]",
-        imageClass: "w-[58%] max-w-[220px] aspect-[9/16]",
-        accent: "🔥 цели",
+        frameClass: "md:h-[300px] lg:h-[340px]",
+        imageClass: "w-[42%] max-w-[160px] aspect-[9/16]",
       },
       {
         img: adWidget,
-        title: "Виджеты на экране",
-        desc: "Прогресс видно сразу: стрик, остаток калорий и быстрый контроль дня.",
-        frameClass: "md:h-[300px] lg:h-[340px]",
-        imageClass: "w-[66%] max-w-[250px] aspect-square",
-        accent: "⚡ виджет",
+        frameClass: "md:h-[260px] lg:h-[300px]",
+        imageClass: "w-[50%] max-w-[190px] aspect-square",
       },
       {
         img: adSettings,
-        title: "Простое редактирование",
-        desc: "Меняй цели и настройки без тяжёлых меню и лишних экранов.",
-        frameClass: "md:h-[380px] lg:h-[430px]",
-        imageClass: "w-[52%] max-w-[210px] aspect-[9/16]",
-        accent: "⚙️ настройка",
+        frameClass: "md:h-[300px] lg:h-[340px]",
+        imageClass: "w-[40%] max-w-[155px] aspect-[9/16]",
       },
       {
         img: adStreak,
-        title: "Не теряй огонь",
-        desc: "Серия дней превращает питание в понятную ежедневную привычку.",
-        frameClass: "md:h-[330px] lg:h-[370px]",
-        imageClass: "w-[62%] max-w-[240px] aspect-[9/16]",
-        accent: "🔥 стрик",
+        frameClass: "md:h-[280px] lg:h-[320px]",
+        imageClass: "w-[44%] max-w-[170px] aspect-[9/16]",
       },
       {
         img: adBadges,
-        title: "Кошачьи награды",
-        desc: "Открывай бейджи за прогресс и собирай милую коллекцию Йоси.",
-        frameClass: "md:h-[350px] lg:h-[390px]",
-        imageClass: "w-[56%] max-w-[220px] aspect-[9/16]",
-        accent: "🐾 бейджи",
+        frameClass: "md:h-[300px] lg:h-[340px]",
+        imageClass: "w-[42%] max-w-[160px] aspect-[9/16]",
       },
       {
         img: adStreakCalendar,
-        title: "Календарь прогресса",
-        desc: "Смотри активные дни, лучший стрик и награды в одном месте.",
-        frameClass: "md:h-[320px] lg:h-[360px]",
-        imageClass: "w-[54%] max-w-[215px] aspect-[9/16]",
-        accent: "📅 календарь",
+        frameClass: "md:h-[280px] lg:h-[320px]",
+        imageClass: "w-[40%] max-w-[155px] aspect-[9/16]",
       },
     ],
   },
@@ -89,51 +68,33 @@ const LOCALIZATION: Record<Language, {
     features: [
       {
         img: adGoals,
-        title: "Personal goals",
-        desc: "Calories, protein, fats, and carbs adjust around your plan.",
-        frameClass: "md:h-[360px] lg:h-[400px]",
-        imageClass: "w-[58%] max-w-[220px] aspect-[9/16]",
-        accent: "🔥 goals",
+        frameClass: "md:h-[300px] lg:h-[340px]",
+        imageClass: "w-[42%] max-w-[160px] aspect-[9/16]",
       },
       {
         img: adWidget,
-        title: "Home widgets",
-        desc: "See streaks, calories left, and day progress at a glance.",
-        frameClass: "md:h-[300px] lg:h-[340px]",
-        imageClass: "w-[66%] max-w-[250px] aspect-square",
-        accent: "⚡ widget",
+        frameClass: "md:h-[260px] lg:h-[300px]",
+        imageClass: "w-[50%] max-w-[190px] aspect-square",
       },
       {
         img: adSettings,
-        title: "Easy editing",
-        desc: "Change targets and settings without heavy menus.",
-        frameClass: "md:h-[380px] lg:h-[430px]",
-        imageClass: "w-[52%] max-w-[210px] aspect-[9/16]",
-        accent: "⚙️ tune",
+        frameClass: "md:h-[300px] lg:h-[340px]",
+        imageClass: "w-[40%] max-w-[155px] aspect-[9/16]",
       },
       {
         img: adStreak,
-        title: "Keep the fire",
-        desc: "Daily streaks turn nutrition into a simple habit loop.",
-        frameClass: "md:h-[330px] lg:h-[370px]",
-        imageClass: "w-[62%] max-w-[240px] aspect-[9/16]",
-        accent: "🔥 streak",
+        frameClass: "md:h-[280px] lg:h-[320px]",
+        imageClass: "w-[44%] max-w-[170px] aspect-[9/16]",
       },
       {
         img: adBadges,
-        title: "Cat rewards",
-        desc: "Unlock badges for progress and build a cute Yosa collection.",
-        frameClass: "md:h-[350px] lg:h-[390px]",
-        imageClass: "w-[56%] max-w-[220px] aspect-[9/16]",
-        accent: "🐾 badges",
+        frameClass: "md:h-[300px] lg:h-[340px]",
+        imageClass: "w-[42%] max-w-[160px] aspect-[9/16]",
       },
       {
         img: adStreakCalendar,
-        title: "Progress calendar",
-        desc: "Review active days, best streaks, and rewards in one place.",
-        frameClass: "md:h-[320px] lg:h-[360px]",
-        imageClass: "w-[54%] max-w-[215px] aspect-[9/16]",
-        accent: "📅 calendar",
+        frameClass: "md:h-[280px] lg:h-[320px]",
+        imageClass: "w-[40%] max-w-[155px] aspect-[9/16]",
       },
     ],
   },
@@ -166,26 +127,15 @@ export default function FeaturesGrid({ lang }: FeaturesGridProps) {
               >
                 <div className="absolute inset-x-8 top-8 h-20 rounded-full bg-white/35 blur-2xl" />
                 <div className="absolute bottom-8 right-8 w-14 h-14 rounded-full bg-orange-200/20 blur-xl" />
-                <span className="absolute left-5 top-5 rounded-full bg-white/70 px-3 py-1 text-[11px] font-bold text-brand-primary shadow-sm">
-                  {feat.accent}
-                </span>
                 <LazyImage
                   src={feat.img}
-                  alt={feat.title}
+                  alt=""
                   loading="lazy"
                   width="300"
                   height="520"
                   wrapperClassName={`${feat.imageClass} rounded-[20px] overflow-hidden shadow-2xl border-[3px] border-gray-800 relative z-10 bg-white`}
                   className="w-full h-full object-cover object-top"
                 />
-              </div>
-              <div className="pt-5 text-center max-w-xs mx-auto">
-                <h3 className="text-lg md:text-xl font-display font-bold text-brand-charcoal leading-tight">
-                  {feat.title}
-                </h3>
-                <p className="mt-2 text-sm text-gray-400 leading-relaxed">
-                  {feat.desc}
-                </p>
               </div>
             </article>
           </FadeInItem>
