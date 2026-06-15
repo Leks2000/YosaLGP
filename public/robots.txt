@@ -1,12 +1,20 @@
 User-agent: *
 Allow: /
 
+# Explicitly allow Google to fetch static assets that are required for video indexing.
+User-agent: Googlebot
+Allow: /
+Allow: /videos/
+Allow: /watch/yosa-android-demo/
+
+User-agent: Googlebot-Video
+Allow: /
+Allow: /videos/
+Allow: /watch/yosa-android-demo/
+
 # Основные поисковики
 User-agent: Yandex
 Allow: /
 
-User-agent: Googlebot
-Allow: /
-
 Sitemap: https://yosa-the-cat.vercel.app/sitemap.xml
-Host: https://yosa-the-cat.vercel.app
+Host: yosa-the-cat.vercel.app
