@@ -1,5 +1,7 @@
 User-agent: *
 Allow: /
+Allow: /llms.txt
+Allow: /site.webmanifest
 
 # Explicitly allow Google to fetch static assets that are required for video indexing.
 User-agent: Googlebot
@@ -15,6 +17,8 @@ Allow: /watch/yosa-android-demo/
 # Основные поисковики
 User-agent: Yandex
 Allow: /
+Allow: /llms.txt
+Allow: /site.webmanifest
 
 Sitemap: https://yosa-the-cat.vercel.app/sitemap.xml
 Host: yosa-the-cat.vercel.app

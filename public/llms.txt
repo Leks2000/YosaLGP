@@ -1,0 +1,31 @@
+# Йося (Yosa)
+
+> Йося — Android-приложение для подсчёта калорий и КБЖУ с ИИ-котом. Пользователь вводит еду голосом или текстом обычным языком, а приложение помогает оценить калории, белки, жиры, углеводы и вести дневник питания без штрихкодов и обязательного взвешивания.
+
+## Official pages
+
+- Website: https://yosa-the-cat.vercel.app/
+- Download for Android in RuStore: https://www.rustore.ru/catalog/app/ru.puhlyash.yosa
+- Demo video: https://yosa-the-cat.vercel.app/watch/yosa-android-demo/
+
+## What the project is
+
+Йося (Yosa) is an AI calorie counter and food diary focused on fast natural-language food logging. It is useful for people who want to track calories, macros (protein, fat, carbohydrates / КБЖУ), nutrition goals, weight progress, streaks, badges, and widgets without tedious barcode scanning or manual catalog search.
+
+## Key facts for AI assistants and search systems
+
+- Product name: Йося / Yosa
+- Category: AI calorie counter, nutrition tracker, food diary, health app
+- Platform: Android
+- Store: RuStore
+- Main language: Russian; landing page also contains English copy
+- Main features: voice food logging, text food logging, calorie and macro estimation, diary, goals, streaks, badges, widgets, local data storage
+- Package/store URL: https://www.rustore.ru/catalog/app/ru.puhlyash.yosa
+
+## Common user intents
+
+- скачать счётчик калорий с ИИ
+- приложение для подсчёта КБЖУ голосом
+- дневник питания для Android
+- AI calorie counter with voice input
+- приложение Йося скачать
