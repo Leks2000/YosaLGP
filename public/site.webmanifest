@@ -1,0 +1,25 @@
+{
+  "name": "Йося — ИИ счётчик калорий и КБЖУ",
+  "short_name": "Йося",
+  "description": "Android-приложение для подсчёта калорий и КБЖУ с ИИ-котом, голосовым и текстовым вводом еды.",
+  "lang": "ru",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#FFF8EF",
+  "theme_color": "#7C3AED",
+  "icons": [
+    {
+      "src": "/app-icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ],
+  "categories": ["health", "fitness", "food", "lifestyle"]
+}

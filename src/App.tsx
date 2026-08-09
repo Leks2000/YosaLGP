@@ -150,6 +150,14 @@ export default function App() {
   const staticText = {
     ru: {
       tag: "Йося – Умный счётчик калорий с ИИ-котом",
+      seoHeading: "ИИ-счётчик калорий, который понимает еду по-человечески",
+      seoText:
+        "Йося — дневник питания и трекер КБЖУ для Android: вводите блюда голосом или текстом, а ИИ-кот помогает оценить калории, белки, жиры, углеводы и типичную порцию без штрихкодов, таблиц и обязательных кухонных весов.",
+      seoBullets: [
+        "подходит для похудения, набора массы и контроля рациона",
+        "помогает вести цели по калориям, стрики, бейджи и виджеты",
+        "ключевые данные о питании и прогрессе остаются на устройстве",
+      ],
       heroTitle: "Следи за питанием просто,",
       heroTitleAccent: "на одном языке с ИИ",
       heroDesc:
@@ -174,6 +182,14 @@ export default function App() {
     },
     en: {
       tag: "Yosa – AI Calorie Counter with Cat Companion",
+      seoHeading: "An AI calorie counter that understands meals naturally",
+      seoText:
+        "Yosa is an Android food diary and macro tracker: type or speak your meal, and the AI cat helps estimate calories, protein, fat, carbs, and typical portions without barcode scanning, database hunting, or mandatory kitchen scales.",
+      seoBullets: [
+        "useful for weight loss, muscle gain, and everyday nutrition control",
+        "supports calorie goals, streaks, badges, and widgets",
+        "core nutrition and progress data stays on your device",
+      ],
       heroTitle: "Track your calories cleanly,",
       heroTitleAccent: "with the speed of AI",
       heroDesc:
@@ -450,6 +466,35 @@ export default function App() {
           <span className="w-2 h-2 rounded-full bg-brand-primary/30" />
           <span className="w-1.5 h-1.5 rounded-full bg-brand-primary/20" />
         </div>
+
+        <FadeIn direction="up" persistId="seo-overview">
+          <section
+            aria-labelledby="seo-overview-title"
+            className="rounded-[36px] border border-purple-100/80 bg-white/80 backdrop-blur-sm p-6 md:p-8 shadow-sm shadow-purple-100/50"
+          >
+            <div className="grid grid-cols-1 lg:grid-cols-[1.05fr_0.95fr] gap-6 lg:gap-10 items-start">
+              <div className="space-y-4">
+                <p className="text-xs font-black uppercase tracking-[0.22em] text-brand-primary">
+                  {lang === "ru" ? "Для людей и поисковых систем" : "For humans and search engines"}
+                </p>
+                <h2 id="seo-overview-title" className="text-2xl md:text-4xl font-display font-black text-brand-charcoal tracking-tight leading-tight">
+                  {currentText.seoHeading}
+                </h2>
+                <p className="text-gray-500 text-base md:text-lg leading-relaxed">
+                  {currentText.seoText}
+                </p>
+              </div>
+              <ul className="grid gap-3 text-sm md:text-base text-gray-500" aria-label={lang === "ru" ? "Преимущества Йоси" : "Yosa benefits"}>
+                {currentText.seoBullets.map((item) => (
+                  <li key={item} className="flex gap-3 rounded-2xl bg-purple-50/70 border border-purple-100/70 px-4 py-3">
+                    <span className="mt-2 h-2 w-2 rounded-full bg-brand-primary shrink-0" />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </section>
+        </FadeIn>
 
         {/* HOW IT WORKS — Amy-style phone + 01/02/03 steps */}
         <FadeIn direction="up" persistId="how-it-works">
